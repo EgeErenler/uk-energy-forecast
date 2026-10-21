@@ -242,7 +242,7 @@ chart('monthlyChart', {
     grid:{left:55, right:15, top:40, bottom:40},
     legend:{top:0, textStyle:{color:C.muted}},
     tooltip:{trigger:'axis', valueFormatter:v => fmt(v) + ' MW'},
-    xAxis:{type:'time', ...axis, splitLine:{show:false}, axisLabel:{color:C.muted, formatter:{day:'{ee} {d}', hour:'{HH}:{mm}'}}},
+    xAxis:{type:'time', ...axis, splitLine:{show:false}, axisLabel:{color:C.muted, formatter:{day:'{ee} {d} {MMM}', hour:'{HH}:{mm}'}, hideOverlap:true}},
     yAxis:{type:'value', scale:true, ...axis, axisLabel:{color:C.muted, formatter:v => (v/1000).toFixed(0) + ' GW'}},
     series:[
       {name:'Actual', type:'line', data:w.map(r => [r.t, r.actual]), symbol:'none', lineStyle:{width:2.5, color:C.ink}, itemStyle:{color:C.ink}},

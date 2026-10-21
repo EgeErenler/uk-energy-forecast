@@ -8,6 +8,7 @@ from datetime import UTC, datetime
 from importlib.resources import files
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 from jinja2 import Template
 
@@ -74,11 +75,19 @@ def collect(clean_dir: Path, artifact_dir: Path, history_dir: Path) -> dict:
     hist = pipeline.score_history(history_dir, clean_dir)
     track = []
     if len(hist):
-        scored = hist.dropna(subset=[config.TARGET])
+        # Both forecasts are scored against the same actual demand: NESO's published
+        # outturn when it exists, otherwise the newest National Demand figure.
+        if "neso_outturn" not in hist:
+            hist["neso_outturn"] = np.nan
+            hist["neso_forecast"] = np.nan
+        hist["actual"] = hist["neso_outturn"].fillna(hist[config.TARGET])
+        scored = hist.dropna(subset=["actual"])
         for day, g in scored.groupby("settlement_date"):
-            row = {"date": str(day.date()), "model": model.mape(g[config.TARGET], g["p50"])}
-            if "neso_forecast" in g and g["neso_forecast"].notna().any():
-                row["neso"] = model.mape(g["neso_outturn"], g["neso_forecast"])
+            if len(g) < 40:  # wait until the whole day is in
+                continue
+            row = {"date": str(day.date()), "model": model.mape(g["actual"], g["p50"])}
+            if g["neso_forecast"].notna().sum() >= 40:
+                row["neso"] = model.mape(g["actual"], g["neso_forecast"])
             track.append(row)
 
     return {
