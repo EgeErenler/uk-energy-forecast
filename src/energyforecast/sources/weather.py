@@ -20,6 +20,8 @@ from energyforecast.config import (
     FIRST_YEAR,
     METEO_ARCHIVE_URL,
     METEO_FORECAST_URL,
+    SOLAR_SITES,
+    SOLAR_VARIABLES,
     WEATHER_VARIABLES,
 )
 
@@ -27,16 +29,21 @@ log = logging.getLogger(__name__)
 ARCHIVE_LAG_DAYS = 6
 
 
-def _params(**extra) -> dict:
-    lats = ",".join(str(c[0]) for c in CITIES.values())
-    lons = ",".join(str(c[1]) for c in CITIES.values())
+def _params(sites: dict = CITIES, variables=WEATHER_VARIABLES, **extra) -> dict:
     return {
-        "latitude": lats,
-        "longitude": lons,
-        "hourly": ",".join(WEATHER_VARIABLES),
+        "latitude": ",".join(str(c[0]) for c in sites.values()),
+        "longitude": ",".join(str(c[1]) for c in sites.values()),
+        "hourly": ",".join(variables),
         "timezone": "UTC",
         **extra,
     }
+
+
+SETS = {
+    # name: (sites, variables)
+    "archive": (CITIES, WEATHER_VARIABLES),
+    "solar": (SOLAR_SITES, SOLAR_VARIABLES),
+}
 
 
 def months(start: date, end: date) -> list[tuple[date, date]]:
@@ -57,53 +64,70 @@ def fetch(raw_dir: Path, today: date | None = None) -> list[Path]:
     folder.mkdir(parents=True, exist_ok=True)
     paths = []
     archive_end = today - timedelta(days=ARCHIVE_LAG_DAYS)
-    for first, last in months(date(FIRST_YEAR, 1, 1), archive_end):
-        target = folder / f"archive_{first:%Y-%m}.json"
-        finished = last.month != archive_end.month or last.year != archive_end.year
-        if not (target.exists() and finished):
-            data = http.get_json(
-                METEO_ARCHIVE_URL,
-                _params(start_date=first.isoformat(), end_date=last.isoformat()),
-                timeout=300,
-            )
-            target.write_text(json.dumps(data))
-        paths.append(target)
-    recent = folder / "forecast.json"
-    data = http.get_json(METEO_FORECAST_URL, _params(past_days=14, forecast_days=3))
-    recent.write_text(json.dumps(data))
-    paths.append(recent)
+    for prefix, (sites, variables) in SETS.items():
+        for first, last in months(date(FIRST_YEAR, 1, 1), archive_end):
+            target = folder / f"{prefix}_{first:%Y-%m}.json"
+            finished = last.month != archive_end.month or last.year != archive_end.year
+            if not (target.exists() and finished):
+                params = _params(
+                    sites, variables, start_date=first.isoformat(), end_date=last.isoformat()
+                )
+                target.write_text(json.dumps(http.get_json(METEO_ARCHIVE_URL, params, timeout=300)))
+            paths.append(target)
+    for prefix, (sites, variables) in SETS.items():
+        recent = folder / f"{prefix}_forecast.json"
+        params = _params(sites, variables, past_days=14, forecast_days=3)
+        recent.write_text(json.dumps(http.get_json(METEO_FORECAST_URL, params)))
+        paths.append(recent)
     return paths
 
 
-def national(data: list[dict] | dict) -> pd.DataFrame:
-    """Weighted average across cities, one row per hour."""
+def national(data: list[dict] | dict, variables=WEATHER_VARIABLES, weights=None) -> pd.DataFrame:
+    """Weighted average across places, one row per hour. By default the cities,
+    weighted by population."""
     locations = data if isinstance(data, list) else [data]
-    weights = np.array([c[2] for c in CITIES.values()], dtype=float)
+    if weights is None:
+        weights = [c[2] for c in CITIES.values()]
+    weights = np.array(weights, dtype=float)
+    variables = list(variables)
     frames = []
     for loc in locations:
         h = loc["hourly"]
-        frames.append(pd.DataFrame({v: h[v] for v in WEATHER_VARIABLES}, index=h["time"]))
-    stacked = np.stack([f[list(WEATHER_VARIABLES)].to_numpy(dtype=float) for f in frames])
+        frames.append(pd.DataFrame({v: h[v] for v in variables}, index=h["time"]))
+    stacked = np.stack([f[variables].to_numpy(dtype=float) for f in frames])
     w = weights[: len(frames), None, None]
     mask = ~np.isnan(stacked)
     avg = np.nansum(stacked * w, axis=0) / np.where(mask, w, 0).sum(axis=0)
-    out = pd.DataFrame(avg, columns=list(WEATHER_VARIABLES))
+    out = pd.DataFrame(avg, columns=variables)
     out.insert(0, "time_utc", pd.to_datetime(frames[0].index).tz_localize("UTC"))
-    return out.dropna(subset=["temperature_2m"])
+    return out.dropna(subset=[variables[0]])
 
 
-def clean(paths: list[Path], clean_dir: Path) -> Path:
-    parts = []
-    for p in paths:
-        df = national(json.loads(p.read_text()))
-        df["source"] = "forecast" if p.name == "forecast.json" else "archive"
-        parts.append(df)
+def _combine(parts: list[pd.DataFrame]) -> pd.DataFrame:
     df = pd.concat(parts, ignore_index=True)
     # Prefer the archive (measured) over the forecast where both exist.
     df["rank"] = (df["source"] == "forecast").astype(int)
-    df = df.sort_values(["time_utc", "rank"]).drop_duplicates("time_utc").drop(columns="rank")
+    df = df.sort_values(["time_utc", "rank"]).drop_duplicates("time_utc")
+    return df.drop(columns="rank").reset_index(drop=True)
+
+
+def clean(paths: list[Path], clean_dir: Path) -> Path:
+    people, solar = [], []
+    for p in paths:
+        data = json.loads(p.read_text())
+        source = "forecast" if p.name.endswith("_forecast.json") else "archive"
+        if p.name.startswith("solar_"):
+            df = national(data, SOLAR_VARIABLES, weights=[1.0] * len(SOLAR_SITES))
+            solar.append(df.assign(source=source))
+        else:
+            people.append(national(data).assign(source=source))
+    df = _combine(people)
+    sun = _combine(solar).rename(
+        columns={"shortwave_radiation": "solar_radiation", "cloud_cover": "solar_cloud"}
+    )
+    df = df.merge(sun.drop(columns="source"), on="time_utc", how="left")
     clean_dir.mkdir(parents=True, exist_ok=True)
     target = clean_dir / "weather.parquet"
-    df.reset_index(drop=True).to_parquet(target, index=False)
+    df.to_parquet(target, index=False)
     log.info("weather: %s hours up to %s", f"{len(df):,}", df["time_utc"].max())
     return target

@@ -35,7 +35,7 @@ def train(clean_dir: Path, artifact_dir: Path) -> dict:
     bt = model.backtest(frame, data["neso_forecast"])
     log.info("backtest: %s", json.dumps({k: v for k, v in bt.metrics.items()}, default=str))
 
-    final = model.fit(model.training_rows(frame))
+    final, width = model.fit(model.training_rows(frame))
     meta = {
         "trained_at": datetime.now(UTC).isoformat(timespec="minutes"),
         "trained_until": str(
@@ -44,6 +44,7 @@ def train(clean_dir: Path, artifact_dir: Path) -> dict:
         "features": features.FEATURES,
         "params": model.PARAMS,
         "trees": {str(q): m.num_trees() for q, m in final.items()},
+        "interval_width": width,
         "backtest": bt.metrics,
     }
     model.save(final, meta, artifact_dir)
@@ -86,7 +87,7 @@ def forecast_day(day: date, clean_dir: Path, artifact_dir: Path) -> pd.DataFrame
         raise ValueError(f"No weather forecast available for {day}")
     if rows["lag_2d"].isna().all():
         raise ValueError(f"Demand data is too old to forecast {day}")
-    pred = model.predict(models, rows)
+    pred = model.predict(models, rows, meta.get("interval_width", 0.0))
     pred["temperature"] = rows["temperature"].to_numpy()
     pred["issued_at"] = datetime.now(UTC).isoformat(timespec="minutes")
     pred["model_trained_until"] = meta["trained_until"]

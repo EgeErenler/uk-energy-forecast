@@ -10,7 +10,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from energyforecast.config import MIN_LAG_DAYS, TARGET
+from energyforecast.config import MIN_LAG_DAYS, NIGHT_PERIODS, TARGET
 from energyforecast.timeutil import periods_for_day
 
 FEATURES = [
@@ -26,7 +26,12 @@ FEATURES = [
     "temperature_24h",
     "heating_degrees",
     "radiation",
+    "solar_radiation",
     "solar_potential",
+    "solar_change_2d",
+    "solar_change_7d",
+    "temperature_change_2d",
+    "temperature_change_7d",
     "wind_speed",
     "cloud_cover",
     "level_7d",
@@ -35,6 +40,8 @@ FEATURES = [
     "lag_14d_ratio",
     "daily_mean_2d_ratio",
     "daily_peak_2d_ratio",
+    "night_1d_ratio",
+    "night_1d_vs_2d",
 ]
 
 # The model predicts demand as a multiple of the recent level (the average of the
@@ -50,6 +57,7 @@ def half_hourly_weather(weather: pd.DataFrame) -> pd.DataFrame:
     )
     w = w.set_index("time_utc").sort_index()
     cols = ["temperature_2m", "shortwave_radiation", "wind_speed_10m", "cloud_cover"]
+    cols += [c for c in ("solar_radiation", "solar_cloud") if c in w]
     idx = pd.date_range(w.index.min(), w.index.max(), freq="30min")
     w = w[cols].reindex(w.index.union(idx)).interpolate(method="time").reindex(idx)
     w = w.rename(
@@ -111,7 +119,21 @@ def build(
     # Embedded solar is not metered, so sunshine lowers the demand the grid sees.
     # Capacity grows every year; the latest known value is carried forward.
     cap = df["solar_cap"].ffill() if "solar_cap" in df else pd.Series(np.nan, index=df.index)
-    df["solar_potential"] = cap * df["radiation"] / 1000
+    sun = df["solar_radiation"] if "solar_radiation" in df else df["radiation"]
+    if "solar_radiation" not in df:
+        df["solar_radiation"] = df["radiation"]
+    df["solar_potential"] = cap * sun / 1000
+
+    # How the weather differs from the days the lags come from.
+    keys = ["settlement_date", "settlement_period"]
+    for days in (MIN_LAG_DAYS, 7):
+        past = df[[*keys, "solar_potential", "temperature"]].copy()
+        past["settlement_date"] = past["settlement_date"] + pd.Timedelta(days=days)
+        past = past.rename(columns={"solar_potential": "sp_past", "temperature": "t_past"})
+        df = df.merge(past, on=keys, how="left")
+        df[f"solar_change_{days}d"] = df["solar_potential"] - df["sp_past"]
+        df[f"temperature_change_{days}d"] = df["temperature"] - df["t_past"]
+        df = df.drop(columns=["sp_past", "t_past"])
 
     # Demand lags, at least MIN_LAG_DAYS old
     keys = ["settlement_date", "settlement_period"]
@@ -133,5 +155,11 @@ def build(
     df["level_7d"] = df["settlement_date"].map(level)
     for col in ("lag_2d", "lag_7d", "lag_14d", "daily_mean_2d", "daily_peak_2d"):
         df[f"{col}_ratio"] = df[col] / df["level_7d"]
+    # The night of D-1 is already known when the forecast is made.
+    night = df[df["settlement_period"] <= NIGHT_PERIODS].groupby("settlement_date")[TARGET].mean()
+    df["night_1d"] = df["settlement_date"].map(night.set_axis(night.index + pd.Timedelta(days=1)))
+    night_2d = df["settlement_date"].map(night.set_axis(night.index + pd.Timedelta(days=2)))
+    df["night_1d_ratio"] = df["night_1d"] / df["level_7d"]
+    df["night_1d_vs_2d"] = df["night_1d"] / night_2d
     df[RATIO_TARGET] = df[TARGET] / df["level_7d"]
     return df

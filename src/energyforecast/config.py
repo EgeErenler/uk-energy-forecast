@@ -44,6 +44,24 @@ CITIES = {
     "Cardiff": (51.481, -3.179, 0.5),
 }
 
+# Embedded solar sits mostly in the south and west, not where people live, so sunshine
+# is measured at a second set of places spread over the main solar regions.
+SOLAR_SITES = {
+    "Truro": (50.263, -5.051),
+    "Exeter": (50.718, -3.534),
+    "Taunton": (51.015, -3.106),
+    "Swindon": (51.558, -1.782),
+    "Southampton": (50.909, -1.404),
+    "Brighton": (50.822, -0.137),
+    "Ashford": (51.146, 0.875),
+    "Cambridge": (52.205, 0.122),
+    "Norwich": (52.630, 1.297),
+    "Peterborough": (52.573, -0.241),
+    "Lincoln": (53.230, -0.540),
+    "Hereford": (52.056, -2.716),
+}
+SOLAR_VARIABLES = ("shortwave_radiation", "cloud_cover")
+
 TARGET = "nd"  # National Demand, in MW
 
 # Training and testing. The test year is never seen during training.
@@ -52,7 +70,10 @@ TEST_START = os.getenv("EF_TEST_START", "2025-01-01")
 EXCLUDE_FROM_TRAINING = (("2020-03-16", "2020-07-31"),)
 
 # The forecast for day D is made on the morning of D-1, when the newest full day of
-# demand data is D-2. Every demand feature is therefore at least two days old.
+# demand data is D-2. Full-day demand features are therefore at least two days old.
+# The only newer demand used is the night of D-1 (00:00 to 06:00), which is published
+# before the forecast runs.
 MIN_LAG_DAYS = 2
+NIGHT_PERIODS = 12
 
 QUANTILES = (0.1, 0.5, 0.9)

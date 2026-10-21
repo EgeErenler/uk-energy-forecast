@@ -49,12 +49,13 @@ def training_rows(df: pd.DataFrame, until: str | None = None) -> pd.DataFrame:
     return rows
 
 
-def fit(train: pd.DataFrame, quantiles=config.QUANTILES) -> dict[float, lgb.Booster]:
-    """One model per quantile. The last 10% of the training period picks the number of trees."""
+def fit(train: pd.DataFrame, quantiles=config.QUANTILES) -> tuple[dict[float, lgb.Booster], float]:
+    """One model per quantile. The last 10% of the training period picks the number of trees
+    and calibrates the range (see `conformal_width`). Returns the models and that width."""
     train = train.sort_values("start_utc")
     cut = int(len(train) * 0.9)
     fit_part, val_part = train.iloc[:cut], train.iloc[cut:]
-    models = {}
+    models, first_pass = {}, {}
     for q in quantiles:
         params = {**PARAMS, "objective": "quantile", "alpha": q}
         dtrain = lgb.Dataset(fit_part[FEATURES], fit_part[RATIO_TARGET])
@@ -66,14 +67,37 @@ def fit(train: pd.DataFrame, quantiles=config.QUANTILES) -> dict[float, lgb.Boos
             valid_sets=[dval],
             callbacks=[lgb.early_stopping(EARLY_STOP, verbose=False)],
         )
+        first_pass[q] = booster
         # Refit on all training data with the chosen number of trees.
         full = lgb.Dataset(train[FEATURES], train[RATIO_TARGET])
         models[q] = lgb.train(params, full, num_boost_round=booster.best_iteration or ROUNDS)
         log.info("quantile %.1f: %d trees", q, models[q].num_trees())
-    return models
+    width = conformal_width(first_pass, val_part)
+    log.info("80%% range widened by %.4f of the level", width)
+    return models, width
 
 
-def predict(models: dict[float, lgb.Booster], rows: pd.DataFrame) -> pd.DataFrame:
+def conformal_width(
+    models: dict[float, lgb.Booster], val: pd.DataFrame, level: float = 0.8
+) -> float:
+    """Conformalised quantile regression: how much to widen the 10-90 range so that it
+    really holds about 80% of outcomes on data the trees did not see."""
+    lo = models[min(models)].predict(
+        val[FEATURES], num_iteration=models[min(models)].best_iteration
+    )
+    hi = models[max(models)].predict(
+        val[FEATURES], num_iteration=models[max(models)].best_iteration
+    )
+    y = val[RATIO_TARGET].to_numpy()
+    scores = np.maximum(lo - y, y - hi)
+    n = len(scores)
+    k = min(1.0, np.ceil((n + 1) * level) / n)
+    return float(max(0.0, np.quantile(scores, k)))
+
+
+def predict(
+    models: dict[float, lgb.Booster], rows: pd.DataFrame, width: float = 0.0
+) -> pd.DataFrame:
     out = rows[["settlement_date", "settlement_period", "start_utc"]].copy()
     level = rows["level_7d"].to_numpy()
     for q, m in models.items():
@@ -81,6 +105,8 @@ def predict(models: dict[float, lgb.Booster], rows: pd.DataFrame) -> pd.DataFram
     # Quantile models are trained separately, so keep them in order.
     cols = [f"p{int(q * 100)}" for q in sorted(models)]
     out[cols] = np.sort(out[cols].to_numpy(), axis=1)
+    out[cols[0]] -= width * level
+    out[cols[-1]] += width * level
     return out
 
 
@@ -107,8 +133,8 @@ def backtest(df: pd.DataFrame, neso: pd.DataFrame | None) -> Backtest:
     train = training_rows(df, until=config.TEST_START)
     test = training_rows(df)
     test = test[test["settlement_date"] >= config.TEST_START]
-    models = fit(train)
-    pred = predict(models, test)
+    models, width = fit(train)
+    pred = predict(models, test, width)
     pred["actual"] = test[config.TARGET].to_numpy()
     pred["seasonal_naive"] = test["lag_7d"].to_numpy()
     if neso is not None and len(neso):
