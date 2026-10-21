@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  MLFLOW_DISABLE_AGENT_HINT: "1"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - name: Lint
+        run: ruff check . && ruff format --check .
+      - name: Test
+        run: pytest -q
+
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the image
+        run: docker build -t energyforecast .
+      - name: Train on sample data inside the image, then serve it
+        run: |
+          docker run --rm -v "$PWD/ci:/app/data-out" energyforecast \
+            sh -c "energyforecast sample && EF_TEST_START=2025-06-01 energyforecast train && energyforecast forecast && cp -r artifacts data/clean /app/data-out/"
+          docker run -d --name api -p 8000:8000 \
+            -v "$PWD/ci/artifacts:/app/artifacts" -v "$PWD/ci/clean:/app/data/clean" energyforecast
+          for i in $(seq 1 30); do curl -sf localhost:8000/health && break; sleep 1; done
+          curl -sf localhost:8000/health | grep '"model_ready":true'
+          curl -sf localhost:8000/forecast/latest | python -c "import json,sys; d=json.load(sys.stdin); assert len(d['half_hours']) in (46, 48, 50); print('latest forecast OK')"
+          curl -sf localhost:8000/model | python -c "import json,sys; d=json.load(sys.stdin); print('backtest MAPE', round(d['backtest']['model_mape'], 2))"
+          docker logs api | tail -5

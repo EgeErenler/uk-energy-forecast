@@ -1,0 +1,119 @@
+name: Daily forecast
+
+# Every morning: fetch the newest data, retrain, forecast tomorrow, publish the page.
+# NESO publishes its own day-ahead forecast in the morning too, so this is a fair race.
+on:
+  schedule:
+    - cron: "23 7 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - ".github/workflows/daily.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: daily
+  cancel-in-progress: false
+
+env:
+  MLFLOW_DISABLE_AGENT_HINT: "1"
+
+jobs:
+  forecast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash -o pipefail -e {0}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install .
+
+      - name: Month
+        id: month
+        run: echo "month=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+
+      # Old years of demand and weather never change, so they are cached.
+      - name: Cache downloads
+        uses: actions/cache@v4
+        with:
+          path: data/raw
+          key: raw-${{ steps.month.outputs.month }}-${{ github.run_id }}
+          restore-keys: |
+            raw-${{ steps.month.outputs.month }}-
+            raw-
+
+      # Every published forecast is kept on the `history` branch, so it can be scored later.
+      - name: Get the forecast history
+        run: |
+          mkdir -p history
+          git fetch -q origin history || true
+          if git rev-parse --verify -q origin/history >/dev/null; then
+            git show origin/history:forecasts.csv > history/forecasts.csv
+          fi
+
+      - name: Fetch, train, forecast and build
+        run: energyforecast daily 2>&1 | tee /tmp/run.log
+
+      - name: Save the forecast history
+        run: |
+          rm -rf /tmp/hist
+          url="https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}"
+          if git rev-parse --verify -q origin/history >/dev/null; then
+            git clone -q --branch history --single-branch "$url" /tmp/hist
+          else
+            mkdir /tmp/hist && git -C /tmp/hist init -q -b history
+          fi
+          cp history/forecasts.csv /tmp/hist/
+          cd /tmp/hist
+          printf '# Forecast history\n\nEvery forecast published by the daily job, before the day happened.\n' > README.md
+          git add forecasts.csv README.md
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Forecast issued $(date -u +%Y-%m-%dT%H:%MZ)" || echo "nothing new"
+          git push -q "$url" HEAD:history
+
+      - name: Save model results
+        run: |
+          rm -rf /tmp/res && mkdir /tmp/res
+          cp artifacts/model.json artifacts/importance.csv artifacts/latest_forecast.json /tmp/res/
+          cp site/data.json /tmp/res/site-data.json
+          cd /tmp/res
+          git init -q -b results
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "Results $(date -u +%Y-%m-%d)"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" results
+
+      - name: Save the log
+        if: always()
+        run: |
+          test -f /tmp/run.log || echo "no log" > /tmp/run.log
+          rm -rf /tmp/logrepo && mkdir /tmp/logrepo && cd /tmp/logrepo
+          git init -q -b logs && cp /tmp/run.log . && git add run.log
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "Log of run ${{ github.run_id }}"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" logs
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: forecast
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
