@@ -40,12 +40,11 @@ def train(clean_dir: Path, artifact_dir: Path) -> dict:
 
     gen_models = embedded.fit(base)
     frame = features.demand_features(embedded.apply(base, gen_models))
-    final, width = model.fit(model.training_rows(frame))
+    train_rows = model.training_rows(frame)
+    final, width = model.fit(train_rows)
     meta = {
         "trained_at": datetime.now(UTC).isoformat(timespec="minutes"),
-        "trained_until": str(
-            frame.loc[frame[config.TARGET].notna(), "settlement_date"].max().date()
-        ),
+        "trained_until": str(train_rows["settlement_date"].max().date()),
         "features": features.FEATURES,
         "params": model.PARAMS,
         "trees": {str(q): m.num_trees() for q, m in final.items()},

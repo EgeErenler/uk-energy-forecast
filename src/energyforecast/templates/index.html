@@ -195,6 +195,10 @@ document.getElementById('built').textContent = `Updated ${new Date(D.built_at).t
   document.getElementById('verdict').innerHTML = better
     ? `<div>From <b>${bt.test_start}</b> to <b>${bt.test_end}</b>, the model's average error was <b>${pct(bt.model_mape_vs_outturn)}</b>, against <b>${pct(bt.neso_mape)}</b> for NESO's official forecast: <b>${gap} points lower</b>. A naive forecast (last week's value) scores ${pct(bt.naive_mape)}.</div>`
     : `<div>From <b>${bt.test_start}</b> to <b>${bt.test_end}</b>, the model's average error was <b>${pct(bt.model_mape_vs_outturn)}</b>, against <b>${pct(bt.neso_mape)}</b> for NESO's official forecast, which uses far more data. The model is <b>${gap} points behind NESO</b> and far ahead of a naive forecast (${pct(bt.naive_mape)}).</div>`;
+  const fair = bt.test_weather === 'day-ahead'
+    ? ' As in real life, the model only saw weather forecasts made the day before, never the weather that actually happened.'
+    : ' Note: this test used observed weather, which flatters the model a little.';
+  document.getElementById('verdict').firstElementChild.insertAdjacentText('beforeend', fair);
 })();
 
 // Tomorrow
