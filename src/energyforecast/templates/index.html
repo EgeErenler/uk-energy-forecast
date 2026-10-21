@@ -1,1 +1,278 @@
-<html><body><script>const DATA={{ data_json }};</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UK Energy Demand Forecast | Ege Erenler</title>
+<meta name="description" content="A machine learning forecast of Great Britain's electricity demand for tomorrow, every half hour, compared with the official NESO forecast. Rebuilt every day by Ege Erenler.">
+<meta name="author" content="Ege Erenler">
+<link rel="canonical" href="https://egeerenler.com/uk-energy-forecast/">
+<meta name="theme-color" content="#0f1b2d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f1b2d'/%3E%3Cpath d='M18 4L8 18h7l-2 10 11-15h-7z' fill='%23f5b301'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f9; --surface:#fff; --ink:#0f1b2d; --ink-2:#3a4659; --muted:#6a7486; --line:#e3e6ec;
+  --amber:#f5b301; --amber-ink:#8a5a00; --amber-soft:#fff4d1;
+  --model:#0f766e; --neso:#6366f1; --naive:#9aa3b2; --actual:#0f1b2d;
+  --good:#0f766e; --bad:#c2410c;
+  --font:"Manrope",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--model)}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+header.top{background:var(--ink);color:#fff}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.01em}
+.brand svg{width:28px;height:28px}
+.meta{font-family:var(--mono);font-size:12.5px;color:#aab4c5}
+.hero{background:var(--ink);color:#fff;padding:28px 0 56px}
+.hero h1{font-size:clamp(32px,5vw,54px);line-height:1.04;letter-spacing:-.035em;margin:0 0 12px;font-weight:800;max-width:20ch}
+.hero h1 span{color:var(--amber)}
+.hero p{color:#c3cbd8;font-size:18px;max-width:64ch;margin:0}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:-34px}
+@media (max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(15,27,45,.06);min-width:0}
+.kpi .label{font-size:13px;color:var(--muted);font-weight:600}
+.kpi .value{font-size:30px;font-weight:800;letter-spacing:-.03em;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.kpi .sub{font-size:13.5px;color:var(--muted)}
+.kpi .value small{font-size:16px;color:var(--muted);font-weight:600}
+section.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;margin:22px 0;min-width:0}
+.card h2{font-size:23px;letter-spacing:-.02em;margin:0 0 4px}
+.card .hint{color:var(--muted);margin:0 0 14px;font-size:15px;max-width:80ch}
+.chart{width:100%;height:360px}
+.chart.short{height:300px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+.grid2 section.card{margin:0}
+.verdict{display:flex;gap:12px;align-items:flex-start;background:var(--amber-soft);border-radius:12px;padding:12px 14px;margin:0 0 14px;color:#5b3d00;font-size:15px}
+.verdict b{color:#3d2900}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;background:#eef1f5;color:var(--ink-2)}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:30px 1fr;gap:10px}
+.steps li::before{content:counter(s);width:28px;height:28px;border-radius:8px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+.steps b{display:block}
+.steps span{color:var(--ink-2)}
+pre{background:#0f1b2d;color:#e6ecf8;border-radius:12px;padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:13px;margin:8px 0 0}
+table.small{width:100%;border-collapse:collapse;font-size:14px}
+table.small th,table.small td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right}
+table.small th:first-child,table.small td:first-child{text-align:left}
+table.small th{color:var(--muted);font-size:12.5px;font-weight:700}
+.empty{color:var(--muted);background:var(--bg);border-radius:12px;padding:16px}
+footer{color:var(--muted);font-size:13.5px;padding:24px 0 48px}
+footer .row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#1d2c44"/><path d="M18 4L8 18h7l-2 10 11-15h-7z" fill="#f5b301"/></svg>UK Energy Demand Forecast</div>
+    <div class="meta" id="built"></div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>How much electricity will Great Britain use <span id="heroDay">tomorrow</span>?</h1>
+    <p>A machine learning model forecasts national demand for every half hour of the next day, the same task as the official forecast from NESO, the system operator. It retrains every morning and is scored against what really happened.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="kpis" id="kpis"></div>
+
+  <section class="card">
+    <h2 id="fcTitle">Tomorrow's forecast</h2>
+    <p class="hint">National demand in MW, by half hour (UK time). The shaded band is the 80% range: on 8 days out of 10, demand should fall inside it.</p>
+    <div class="chart" id="forecastChart" role="img" aria-label="Forecast of tomorrow's demand by half hour with an 80% range"></div>
+  </section>
+
+  <section class="card">
+    <h2>How good is it? The model against NESO</h2>
+    <p class="hint">Average error (MAPE) by month on data the model never saw in training. Lower is better. Both forecasts are scored against NESO's own published outturn, half hour by half hour.</p>
+    <div class="verdict" id="verdict"></div>
+    <div class="chart" id="monthlyChart" role="img" aria-label="Monthly forecast error for the model, NESO and a naive baseline"></div>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <h2>One week, half hour by half hour</h2>
+      <p class="hint">The last week of the test period: what happened, the model, and NESO.</p>
+      <div class="chart short" id="weekChart" role="img" aria-label="Actual demand against both forecasts for one week"></div>
+    </section>
+    <section class="card">
+      <h2>What drives the forecast</h2>
+      <p class="hint">Share of the model's learning that each input explains.</p>
+      <div class="chart short" id="importanceChart" role="img" aria-label="Feature importance"></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Live track record</h2>
+    <p class="hint">Every forecast published by this page is saved before the day starts and scored when the actual demand comes in. No backtest, no hindsight.</p>
+    <div id="track"></div>
+  </section>
+
+  <section class="card">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li><div><b>Collect</b><span>Half-hourly national demand since 2018 and NESO's day-ahead forecast (NESO open data), hourly weather for eight large cities weighted by population (Open-Meteo), and bank holidays (GOV.UK).</span></div></li>
+      <li><div><b>Build features</b><span>Time of day, day of week, holidays, season, temperature and the last 24 hours of it, sunshine (embedded solar lowers the demand the grid sees), wind, and demand from 2, 7 and 14 days before. Nothing newer than two days is used, because the forecast is made the morning before.</span></div></li>
+      <li><div><b>Train</b><span>Three LightGBM models with a quantile loss give the 10th, 50th and 90th percentiles. Early stopping on the most recent part of the training data picks the number of trees. Every run is logged with MLflow.</span></div></li>
+      <li><div><b>Test honestly</b><span>The backtest trains only on data before the test period and is compared with a seasonal naive forecast (same half hour last week) and with NESO's real forecast.</span></div></li>
+      <li><div><b>Serve</b><span>A daily GitHub Actions job fetches the new data, retrains, forecasts tomorrow, saves the forecast to a history branch and publishes this page. A FastAPI service in Docker serves the same forecasts.</span></div></li>
+    </ol>
+    <pre>docker build -t energyforecast .
+docker run -p 8000:8000 -v "$PWD/artifacts:/app/artifacts" -v "$PWD/data/clean:/app/data/clean" energyforecast
+curl localhost:8000/forecast/latest</pre>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="row">
+    <div>Built by <a href="https://egeerenler.com">Ege Erenler</a>. Code, tests and model on <a href="https://github.com/EgeErenler/uk-energy-forecast">GitHub</a>.</div>
+    <div>Data: NESO Open Data Licence · Weather by <a href="https://open-meteo.com/">Open-Meteo.com</a> (CC BY 4.0) · Bank holidays from GOV.UK (OGL)</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<script>
+const D = {{ data_json }};
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const C = {ink:css('--ink'), muted:css('--muted'), line:css('--line'), model:css('--model'), neso:css('--neso'),
+  naive:css('--naive'), amber:css('--amber'), good:css('--good'), bad:css('--bad')};
+const fmt = n => n == null ? '–' : Math.round(n).toLocaleString('en-GB');
+const pct = (v, d=2) => v == null || isNaN(v) ? '–' : v.toFixed(d) + '%';
+const ukTime = iso => new Date(iso).toLocaleTimeString('en-GB', {timeZone:'Europe/London', hour:'2-digit', minute:'2-digit'});
+const ukDay = iso => new Date(iso + 'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', timeZone:'Europe/London'});
+const FEATURE_NAMES = {settlement_period:'Time of day', day_of_week:'Day of week', is_weekend:'Weekend', is_holiday:'Bank holiday',
+  is_christmas:'Christmas period', doy_sin:'Season (sine)', doy_cos:'Season (cosine)', years_since_2018:'Long-term trend',
+  temperature:'Temperature', temperature_24h:'Temperature, last 24h', heating_degrees:'Heating need', radiation:'Sunshine',
+  solar_potential:'Solar potential', wind_speed:'Wind speed', cloud_cover:'Cloud cover', lag_2d:'Demand 2 days before',
+  lag_7d:'Demand a week before', lag_14d:'Demand 2 weeks before', daily_mean_2d:'Average demand 2 days before',
+  daily_peak_2d:'Peak demand 2 days before'};
+
+const charts = [];
+function chart(id, option) {
+  const c = echarts.init(document.getElementById(id), null, {renderer:'svg'});
+  c.setOption(Object.assign({textStyle:{fontFamily:'Manrope, sans-serif', color:C.ink}, animationDuration:500}, option));
+  charts.push(c);
+}
+window.addEventListener('resize', () => charts.forEach(c => c.resize()));
+const axis = {axisLine:{lineStyle:{color:C.line}}, axisLabel:{color:C.muted}, splitLine:{lineStyle:{color:C.line}}};
+
+document.getElementById('built').textContent = `Updated ${new Date(D.built_at).toLocaleString('en-GB', {timeZone:'Europe/London', day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})} UK time`;
+
+// Headline numbers
+(function () {
+  const bt = D.meta.backtest, L = D.latest;
+  let peak = null;
+  if (L) {
+    const top = L.half_hours.reduce((a, b) => b.p50 > a.p50 ? b : a);
+    peak = {value: top.p50, at: ukTime(top.start_utc)};
+    document.getElementById('heroDay').textContent = 'on ' + ukDay(L.date);
+    document.getElementById('fcTitle').textContent = `Forecast for ${ukDay(L.date)}`;
+  }
+  const total = L ? L.half_hours.reduce((s, h) => s + h.p50, 0) / 2 / 1000 : null;
+  const better = bt.model_mape_vs_outturn < bt.neso_mape;
+  const cards = [
+    {label:'Forecast peak', value: peak ? `${fmt(peak.value)} <small>MW</small>` : '–', sub: peak ? `at ${peak.at}` : ''},
+    {label:'Forecast total', value: total ? `${total.toFixed(0)} <small>GWh</small>` : '–', sub:'for the whole day'},
+    {label:'Model error (MAPE)', value: pct(bt.model_mape_vs_outturn), sub:`NESO: ${pct(bt.neso_mape)} on the same half hours`},
+    {label:'Days the model beat NESO', value: `${D.days_model_better} <small>of ${D.days_compared}</small>`,
+     sub: `${pct(100 * D.days_model_better / Math.max(1, D.days_compared), 0)} of test days`},
+  ];
+  document.getElementById('kpis').innerHTML = cards.map(c =>
+    `<div class="kpi"><div class="label">${c.label}</div><div class="value">${c.value}</div><div class="sub">${c.sub}</div></div>`).join('');
+  const gap = Math.abs(bt.model_mape_vs_outturn - bt.neso_mape).toFixed(2);
+  document.getElementById('verdict').innerHTML = better
+    ? `<div>From <b>${bt.test_start}</b> to <b>${bt.test_end}</b>, the model's average error was <b>${pct(bt.model_mape_vs_outturn)}</b>, against <b>${pct(bt.neso_mape)}</b> for NESO's official forecast: <b>${gap} points lower</b>. A naive forecast (last week's value) scores ${pct(bt.naive_mape)}.</div>`
+    : `<div>From <b>${bt.test_start}</b> to <b>${bt.test_end}</b>, the model's average error was <b>${pct(bt.model_mape_vs_outturn)}</b>, against <b>${pct(bt.neso_mape)}</b> for NESO's official forecast, which uses far more data. The model is <b>${gap} points behind NESO</b> and far ahead of a naive forecast (${pct(bt.naive_mape)}).</div>`;
+})();
+
+// Tomorrow
+if (D.latest) {
+  const h = D.latest.half_hours, x = h.map(r => ukTime(r.start_utc));
+  chart('forecastChart', {
+    grid:{left:60, right:20, top:30, bottom:40},
+    tooltip:{trigger:'axis', formatter: ps => {
+      const r = h[ps[0].dataIndex];
+      return `<b>${x[ps[0].dataIndex]}</b><br>Forecast ${fmt(r.p50)} MW<br>80% range ${fmt(r.p10)} to ${fmt(r.p90)} MW`; }},
+    xAxis:{type:'category', data:x, boundaryGap:false, ...axis, splitLine:{show:false}, axisLabel:{color:C.muted, interval:5}},
+    yAxis:{type:'value', ...axis, scale:true, axisLabel:{color:C.muted, formatter:v => (v/1000).toFixed(0) + ' GW'}},
+    series:[
+      {type:'line', data:h.map(r => r.p10), lineStyle:{opacity:0}, stack:'band', symbol:'none'},
+      {type:'line', data:h.map(r => r.p90 - r.p10), lineStyle:{opacity:0}, stack:'band', symbol:'none', areaStyle:{color:'rgba(245,179,1,.22)'}},
+      {name:'Forecast', type:'line', data:h.map(r => r.p50), symbol:'none', smooth:true, lineStyle:{width:3, color:C.amber}, itemStyle:{color:C.amber}},
+    ],
+  });
+} else {
+  document.getElementById('forecastChart').outerHTML = '<p class="empty">The first forecast will appear after the next daily run.</p>';
+}
+
+// Monthly error
+chart('monthlyChart', {
+  grid:{left:50, right:20, top:40, bottom:40},
+  legend:{top:0, textStyle:{color:C.muted}},
+  tooltip:{trigger:'axis', valueFormatter:v => pct(v)},
+  xAxis:{type:'category', data:D.monthly.map(m => m.month), ...axis, splitLine:{show:false}},
+  yAxis:{type:'value', min:0, ...axis, axisLabel:{color:C.muted, formatter:v => v + '%'}},
+  series:[
+    {name:'This model', type:'bar', data:D.monthly.map(m => m.model), itemStyle:{color:C.model, borderRadius:[4,4,0,0]}, barGap:'15%'},
+    {name:'NESO official', type:'bar', data:D.monthly.map(m => m.neso), itemStyle:{color:C.neso, borderRadius:[4,4,0,0]}},
+    {name:'Naive (last week)', type:'line', data:D.monthly.map(m => m.naive), symbol:'circle', lineStyle:{color:C.naive, type:'dashed'}, itemStyle:{color:C.naive}},
+  ],
+});
+
+// One week
+(function () {
+  const w = D.week, x = w.map(r => r.t);
+  chart('weekChart', {
+    grid:{left:55, right:15, top:40, bottom:40},
+    legend:{top:0, textStyle:{color:C.muted}},
+    tooltip:{trigger:'axis', valueFormatter:v => fmt(v) + ' MW'},
+    xAxis:{type:'time', ...axis, splitLine:{show:false}, axisLabel:{color:C.muted, formatter:{day:'{ee} {d}', hour:'{HH}:{mm}'}}},
+    yAxis:{type:'value', scale:true, ...axis, axisLabel:{color:C.muted, formatter:v => (v/1000).toFixed(0) + ' GW'}},
+    series:[
+      {name:'Actual', type:'line', data:w.map(r => [r.t, r.actual]), symbol:'none', lineStyle:{width:2.5, color:C.ink}, itemStyle:{color:C.ink}},
+      {name:'This model', type:'line', data:w.map(r => [r.t, r.p50]), symbol:'none', lineStyle:{width:1.8, color:C.model}, itemStyle:{color:C.model}},
+      {name:'NESO', type:'line', data:w.map(r => [r.t, r.neso]), symbol:'none', lineStyle:{width:1.8, color:C.neso, type:'dashed'}, itemStyle:{color:C.neso}},
+    ],
+  });
+})();
+
+// Importance
+(function () {
+  const rows = D.importance.slice().reverse();
+  chart('importanceChart', {
+    grid:{left:10, right:50, top:10, bottom:20, containLabel:true},
+    xAxis:{type:'value', ...axis, axisLabel:{color:C.muted, formatter:v => Math.round(v * 100) + '%'}},
+    yAxis:{type:'category', data:rows.map(r => FEATURE_NAMES[r.feature] || r.feature), ...axis, splitLine:{show:false}},
+    tooltip:{trigger:'axis', axisPointer:{type:'shadow'}, valueFormatter:v => (v * 100).toFixed(1) + '%'},
+    series:[{type:'bar', data:rows.map(r => r.share), itemStyle:{color:C.model, borderRadius:[0,4,4,0]},
+      label:{show:true, position:'right', color:C.muted, formatter:p => (p.value * 100).toFixed(1) + '%'}}],
+  });
+})();
+
+// Live track record
+(function () {
+  const el = document.getElementById('track');
+  const t = D.track.slice(-30).reverse();
+  if (!t.length) {
+    const first = D.latest ? ukDay(D.latest.date) : 'the first forecast day';
+    el.innerHTML = `<p class="empty">The live record started with the forecast for ${first}. Each day is scored once NESO publishes the actual demand, usually a day or two later.</p>`;
+    return;
+  }
+  const avg = k => { const v = t.filter(r => r[k] != null).map(r => r[k]); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+  el.innerHTML = `<p class="hint">Last ${t.length} scored days: model ${pct(avg('model'))}, NESO ${pct(avg('neso'))}.</p>
+    <table class="small"><thead><tr><th>Day</th><th>Model error</th><th>NESO error</th><th></th></tr></thead><tbody>
+    ${t.map(r => `<tr><td>${ukDay(r.date)}</td><td>${pct(r.model)}</td><td>${pct(r.neso)}</td>
+      <td>${r.neso == null ? '' : r.model < r.neso ? '<span class="pill" style="background:#ddf3ee;color:#0f766e">Model better</span>' : '<span class="pill">NESO better</span>'}</td></tr>`).join('')}
+    </tbody></table>`;
+})();
+</script>
+</body>
+</html>

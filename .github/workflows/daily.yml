@@ -69,6 +69,7 @@ jobs:
 
       - name: Save the forecast history
         run: |
+          test -f history/forecasts.csv || { echo "no forecast to save"; exit 0; }
           rm -rf /tmp/hist
           url="https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}"
           if git rev-parse --verify -q origin/history >/dev/null; then
@@ -87,8 +88,8 @@ jobs:
       - name: Save model results
         run: |
           rm -rf /tmp/res && mkdir /tmp/res
-          cp artifacts/model.json artifacts/importance.csv artifacts/latest_forecast.json /tmp/res/
-          cp site/data.json /tmp/res/site-data.json
+          cp artifacts/model.json artifacts/importance.csv /tmp/res/
+          cp artifacts/latest_forecast.json site/data.json /tmp/res/ 2>/dev/null || true
           cd /tmp/res
           git init -q -b results
           git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" add -A

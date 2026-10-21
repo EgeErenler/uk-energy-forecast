@@ -40,6 +40,11 @@ def test_demand_files_with_both_date_formats(tmp_path):
     assert df["solar_cap"].tolist() == [12663, 22000]
 
 
+def test_iso_dates_are_never_read_day_first():
+    parsed = demand.parse_dates(pd.Series(['"2025-12-09"', "09-DEC-2025", "2026-01-02"]))
+    assert parsed.dt.strftime("%Y-%m-%d").tolist() == ["2025-12-09", "2025-12-09", "2026-01-02"]
+
+
 def test_yearly_files_are_found_by_name():
     resources = [
         {"name": "Historic Demand Data 2025", "url": "https://x/demanddata_2025.csv"},

@@ -55,15 +55,23 @@ def fetch(raw_dir: Path, today: date | None = None) -> list[Path]:
     return paths
 
 
+def parse_dates(values: pd.Series) -> pd.Series:
+    """Older files write dates as 01-JAN-2019, newer ones as 2025-12-09.
+    Each format is parsed explicitly: guessing would read 2025-12-09 as 12 September."""
+    text = values.astype(str).str.strip().str.strip('"')
+    iso = text.str.match(r"^\d{4}-\d{2}-\d{2}")
+    out = pd.Series(pd.NaT, index=values.index, dtype="datetime64[ns]")
+    out[iso] = pd.to_datetime(text[iso].str[:10], format="%Y-%m-%d")
+    out[~iso] = pd.to_datetime(text[~iso].str.title(), format="%d-%b-%Y")
+    return out
+
+
 def read_file(path: Path) -> pd.DataFrame:
     df = pd.read_csv(path, low_memory=False)
     df.columns = [c.strip().lower() for c in df.columns]
     if "forecast_actual_indicator" in df:
         df = df[df["forecast_actual_indicator"].astype(str).str.upper().eq("A")]
-    # Older files write dates as 01-JAN-2019, newer ones as 2025-12-31.
-    df["settlement_date"] = pd.to_datetime(
-        df["settlement_date"].astype(str).str.strip('"'), format="mixed", dayfirst=True
-    ).dt.normalize()
+    df["settlement_date"] = parse_dates(df["settlement_date"])
     cols = [c for c in KEEP if c in df]
     return df[cols].rename(columns=KEEP)
 
