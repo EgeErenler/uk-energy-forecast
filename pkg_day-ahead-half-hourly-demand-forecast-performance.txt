@@ -1,0 +1,1 @@
+Day Ahead Half Hourly Demand Forecast Performance | https://api.neso.energy/dataset/5281b494-5566-42dd-bf1a-9ce38642fabf/resource/08e41551-80f8-4e28-a416-ea473a695db9/download/1b-incentive.csv | 2026-10-20T09:15:07.491036 | 08e41551-80f8-4e28-a416-ea473a695db9

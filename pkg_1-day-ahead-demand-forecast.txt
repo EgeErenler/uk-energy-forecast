@@ -1,0 +1,3 @@
+Day Ahead National Demand Forecast | https://api.neso.energy/dataset/8fbc8a09-06af-4c90-886f-d3025d38a349/resource/aec5601a-7f3e-4c4c-bf56-d8e4184d3c5b/download/ng_demand_1da_20261021.csv | 2026-10-20T11:00:00.226311 | aec5601a-7f3e-4c4c-bf56-d8e4184d3c5b
+Demand Curve - Sample | https://api.neso.energy/dataset/8fbc8a09-06af-4c90-886f-d3025d38a349/resource/bcc91aed-76fd-4114-86b8-7c83de23b35c/download/cardinal-points.png | 2019-12-12T15:01:08.405123 | bcc91aed-76fd-4114-86b8-7c83de23b35c
+Historic Day Ahead Demand Forecasts | https://api.neso.energy/dataset/8fbc8a09-06af-4c90-886f-d3025d38a349/resource/9847e7bb-986e-49be-8138-717b25933fbb/download/archive_1dayahead.csv | 2026-10-20T11:00:18.037951 | 9847e7bb-986e-49be-8138-717b25933fbb
