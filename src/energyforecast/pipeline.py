@@ -10,15 +10,17 @@ from pathlib import Path
 import pandas as pd
 
 from energyforecast import config, features, model
+from energyforecast.sources import elexon
 
 log = logging.getLogger(__name__)
 
 
 def load_clean(clean_dir: Path) -> dict[str, pd.DataFrame]:
     out = {}
-    for name in ("demand", "weather", "holidays", "neso_forecast"):
+    for name in ("demand", "weather", "holidays", "neso_forecast", "elexon"):
         path = clean_dir / f"{name}.parquet"
         out[name] = pd.read_parquet(path) if path.exists() else None
+    out["demand"] = elexon.fill_recent(out["demand"], out["elexon"])
     return out
 
 

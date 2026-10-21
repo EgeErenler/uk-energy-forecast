@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 
 from energyforecast import config
-from energyforecast.features import FEATURES
+from energyforecast.features import FEATURES, RATIO_TARGET
 
 log = logging.getLogger(__name__)
 
@@ -39,7 +39,9 @@ EARLY_STOP = 100
 
 
 def training_rows(df: pd.DataFrame, until: str | None = None) -> pd.DataFrame:
-    rows = df[df[config.TARGET].notna() & df["lag_2d"].notna()]
+    rows = df[df[RATIO_TARGET].notna() & df["lag_2d"].notna()]
+    if "source" in rows:
+        rows = rows[rows["source"].fillna("neso") == "neso"]  # Elexon rows are history only
     for start, end in config.EXCLUDE_FROM_TRAINING:
         rows = rows[~rows["settlement_date"].between(start, end)]
     if until:
@@ -55,8 +57,8 @@ def fit(train: pd.DataFrame, quantiles=config.QUANTILES) -> dict[float, lgb.Boos
     models = {}
     for q in quantiles:
         params = {**PARAMS, "objective": "quantile", "alpha": q}
-        dtrain = lgb.Dataset(fit_part[FEATURES], fit_part[config.TARGET])
-        dval = lgb.Dataset(val_part[FEATURES], val_part[config.TARGET], reference=dtrain)
+        dtrain = lgb.Dataset(fit_part[FEATURES], fit_part[RATIO_TARGET])
+        dval = lgb.Dataset(val_part[FEATURES], val_part[RATIO_TARGET], reference=dtrain)
         booster = lgb.train(
             params,
             dtrain,
@@ -65,7 +67,7 @@ def fit(train: pd.DataFrame, quantiles=config.QUANTILES) -> dict[float, lgb.Boos
             callbacks=[lgb.early_stopping(EARLY_STOP, verbose=False)],
         )
         # Refit on all training data with the chosen number of trees.
-        full = lgb.Dataset(train[FEATURES], train[config.TARGET])
+        full = lgb.Dataset(train[FEATURES], train[RATIO_TARGET])
         models[q] = lgb.train(params, full, num_boost_round=booster.best_iteration or ROUNDS)
         log.info("quantile %.1f: %d trees", q, models[q].num_trees())
     return models
@@ -73,8 +75,9 @@ def fit(train: pd.DataFrame, quantiles=config.QUANTILES) -> dict[float, lgb.Boos
 
 def predict(models: dict[float, lgb.Booster], rows: pd.DataFrame) -> pd.DataFrame:
     out = rows[["settlement_date", "settlement_period", "start_utc"]].copy()
+    level = rows["level_7d"].to_numpy()
     for q, m in models.items():
-        out[f"p{int(q * 100)}"] = m.predict(rows[FEATURES])
+        out[f"p{int(q * 100)}"] = m.predict(rows[FEATURES]) * level
     # Quantile models are trained separately, so keep them in order.
     cols = [f"p{int(q * 100)}" for q in sorted(models)]
     out[cols] = np.sort(out[cols].to_numpy(), axis=1)
@@ -102,8 +105,8 @@ class Backtest:
 def backtest(df: pd.DataFrame, neso: pd.DataFrame | None) -> Backtest:
     """Train before TEST_START, forecast every half hour after it, compare with baselines."""
     train = training_rows(df, until=config.TEST_START)
-    test = df[(df["settlement_date"] >= config.TEST_START) & df[config.TARGET].notna()]
-    test = test[test["lag_2d"].notna()]
+    test = training_rows(df)
+    test = test[test["settlement_date"] >= config.TEST_START]
     models = fit(train)
     pred = predict(models, test)
     pred["actual"] = test[config.TARGET].to_numpy()

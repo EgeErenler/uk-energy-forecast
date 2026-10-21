@@ -29,17 +29,26 @@ FEATURES = [
     "solar_potential",
     "wind_speed",
     "cloud_cover",
-    "lag_2d",
-    "lag_7d",
-    "lag_14d",
-    "daily_mean_2d",
-    "daily_peak_2d",
+    "level_7d",
+    "lag_2d_ratio",
+    "lag_7d_ratio",
+    "lag_14d_ratio",
+    "daily_mean_2d_ratio",
+    "daily_peak_2d_ratio",
 ]
+
+# The model predicts demand as a multiple of the recent level (the average of the
+# 7 newest known days). Demand in GB has been falling for years, and tree models cannot
+# extrapolate a trend; predicting the shape around a known level avoids that problem.
+RATIO_TARGET = "target_ratio"
 
 
 def half_hourly_weather(weather: pd.DataFrame) -> pd.DataFrame:
     """Hourly weather interpolated to the start of each half hour."""
-    w = weather.set_index("time_utc").sort_index()
+    w = weather.assign(
+        time_utc=pd.to_datetime(weather["time_utc"], utc=True).astype("datetime64[ns, UTC]")
+    )
+    w = w.set_index("time_utc").sort_index()
     cols = ["temperature_2m", "shortwave_radiation", "wind_speed_10m", "cloud_cover"]
     idx = pd.date_range(w.index.min(), w.index.max(), freq="30min")
     w = w[cols].reindex(w.index.union(idx)).interpolate(method="time").reindex(idx)
@@ -78,6 +87,8 @@ def build(
 ) -> pd.DataFrame:
     df = with_future_days(demand.copy(), forecast_days or [])
     df["settlement_date"] = pd.to_datetime(df["settlement_date"]).dt.normalize()
+    # Parquet files and pandas can label UTC with different time zone objects; unify them.
+    df["start_utc"] = pd.to_datetime(df["start_utc"], utc=True).astype("datetime64[ns, UTC]")
     df = df.sort_values(["settlement_date", "settlement_period"]).reset_index(drop=True)
 
     # Calendar
@@ -114,4 +125,13 @@ def build(
     daily.index = daily.index + pd.Timedelta(days=MIN_LAG_DAYS)
     df["daily_mean_2d"] = df["settlement_date"].map(daily["mean"])
     df["daily_peak_2d"] = df["settlement_date"].map(daily["max"])
+
+    # Recent level: mean of the 7 newest known days (D-8 to D-2).
+    day_mean = df.groupby("settlement_date")[TARGET].mean()
+    full = day_mean.reindex(pd.date_range(day_mean.index.min(), df["settlement_date"].max()))
+    level = full.rolling(7, min_periods=5).mean().shift(MIN_LAG_DAYS)
+    df["level_7d"] = df["settlement_date"].map(level)
+    for col in ("lag_2d", "lag_7d", "lag_14d", "daily_mean_2d", "daily_peak_2d"):
+        df[f"{col}_ratio"] = df[col] / df["level_7d"]
+    df[RATIO_TARGET] = df[TARGET] / df["level_7d"]
     return df

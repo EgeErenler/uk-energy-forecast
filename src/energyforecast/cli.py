@@ -8,15 +8,16 @@ import sys
 
 from energyforecast import config
 
-SOURCES = ("demand", "neso", "holidays", "weather")
+SOURCES = ("demand", "elexon", "neso", "holidays", "weather")
 
 
 def fetch(names) -> None:
-    from energyforecast.sources import demand, holidays, neso_forecast, weather
+    from energyforecast.sources import demand, elexon, holidays, neso_forecast, weather
 
     raw, clean = config.RAW_DIR, config.CLEAN_DIR
     steps = {
         "demand": lambda: demand.clean(demand.fetch(raw), clean),
+        "elexon": lambda: elexon.clean(elexon.fetch(raw), clean),
         "neso": lambda: neso_forecast.clean(neso_forecast.fetch(raw), clean),
         "holidays": lambda: holidays.clean(holidays.fetch(raw), clean),
         "weather": lambda: weather.clean(weather.fetch(raw), clean),

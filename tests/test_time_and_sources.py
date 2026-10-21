@@ -84,3 +84,26 @@ def test_weather_is_population_weighted():
 def test_holidays_include_2018():
     df = holidays.parse({"england-and-wales": {"events": [{"date": "2026-12-25"}]}})
     assert pd.Timestamp("2018-12-25") in set(df["date"])
+
+
+def test_elexon_fills_only_the_missing_days():
+    from energyforecast.sources import elexon
+
+    days = pd.date_range("2026-09-01", "2026-09-10")
+    rows = [(d, p) for d in days for p in range(1, 49)]
+    demand_df = pd.DataFrame(rows, columns=["settlement_date", "settlement_period"])
+    demand_df["nd"] = 25000.0
+    demand_df["start_utc"] = period_start_utc(
+        demand_df["settlement_date"], demand_df["settlement_period"]
+    )
+    more = pd.date_range("2026-09-01", "2026-09-12")
+    indo = pd.DataFrame(
+        [(d, p) for d in more for p in range(1, 49)],
+        columns=["settlement_date", "settlement_period"],
+    )
+    indo["indo"] = 24000.0 + indo["settlement_period"]  # a steady offset from ND
+    demand_df["nd"] = 25000.0 + demand_df["settlement_period"]
+    out = elexon.fill_recent(demand_df, indo)
+    added = out[out["source"] == "elexon"]
+    assert set(added["settlement_date"].dt.day) == {11, 12}
+    assert added["nd"].sub(25000 + added["settlement_period"]).abs().max() < 1

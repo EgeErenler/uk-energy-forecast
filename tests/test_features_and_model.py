@@ -56,7 +56,7 @@ def test_quantiles_are_kept_in_order():
             "settlement_date": [1],
             "settlement_period": [1],
             "start_utc": [1],
-            **{f: [0] for f in features.FEATURES},
+            **{f: [1] for f in features.FEATURES},
         }
     )
     out = model.predict({0.1: Fixed(5), 0.5: Fixed(3), 0.9: Fixed(4)}, rows)

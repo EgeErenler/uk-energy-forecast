@@ -90,6 +90,7 @@ jobs:
           rm -rf /tmp/res && mkdir /tmp/res
           cp artifacts/model.json artifacts/importance.csv /tmp/res/
           cp artifacts/latest_forecast.json site/data.json /tmp/res/ 2>/dev/null || true
+          mkdir -p /tmp/res/clean && cp data/clean/*.parquet /tmp/res/clean/
           cd /tmp/res
           git init -q -b results
           git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" add -A
