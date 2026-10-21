@@ -30,6 +30,9 @@ BANK_HOLIDAYS_URL = "https://www.gov.uk/bank-holidays.json"
 # Weather from Open-Meteo: ERA5 history for training, the forecast for tomorrow.
 METEO_ARCHIVE_URL = "https://archive-api.open-meteo.com/v1/archive"
 METEO_FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
+# Forecasts as they were issued one day earlier. The backtest uses these for the test
+# period, so the model sees the same kind of weather information it gets when live.
+METEO_PREVIOUS_RUNS_URL = "https://previous-runs-api.open-meteo.com/v1/forecast"
 WEATHER_VARIABLES = ("temperature_2m", "shortwave_radiation", "wind_speed_10m", "cloud_cover")
 
 # Large cities, weighted by population, stand in for "the weather where people use power".

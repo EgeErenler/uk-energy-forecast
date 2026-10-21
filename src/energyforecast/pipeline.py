@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
 
 def load_clean(clean_dir: Path) -> dict[str, pd.DataFrame]:
     out = {}
-    for name in ("demand", "weather", "holidays", "neso_forecast", "elexon"):
+    for name in ("demand", "weather", "holidays", "neso_forecast", "elexon", "weather_dayahead"):
         path = clean_dir / f"{name}.parquet"
         out[name] = pd.read_parquet(path) if path.exists() else None
     out["demand"] = elexon.fill_recent(out["demand"], out["elexon"])
@@ -32,7 +32,10 @@ def train(clean_dir: Path, artifact_dir: Path) -> dict:
     """Backtest, then train the final models on everything and save them."""
     data = load_clean(clean_dir)
     base = features.base(data["demand"], data["weather"], data["holidays"])
-    bt = model.backtest(base, data["neso_forecast"])
+    test_weather, weather_note = backtest_weather(data["weather"], data["weather_dayahead"])
+    base_bt = features.base(data["demand"], test_weather, data["holidays"])
+    bt = model.backtest(base_bt, data["neso_forecast"])
+    bt.metrics["test_weather"] = weather_note
     log.info("backtest: %s", json.dumps({k: v for k, v in bt.metrics.items()}, default=str))
 
     gen_models = embedded.fit(base)
@@ -55,6 +58,23 @@ def train(clean_dir: Path, artifact_dir: Path) -> dict:
     model.importance(final).to_csv(artifact_dir / "importance.csv", index=False)
     log_to_mlflow(meta, artifact_dir)
     return meta
+
+
+def backtest_weather(observed: pd.DataFrame, day_ahead: pd.DataFrame | None):
+    """Observed weather before the test period; inside it, the forecast issued the day
+    before wherever it exists. This is the information the model would really have had."""
+    if day_ahead is None or day_ahead.empty:
+        return observed, "observed"
+    start = pd.Timestamp(config.TEST_START, tz="UTC")
+    obs = observed.assign(time_utc=pd.to_datetime(observed["time_utc"], utc=True))
+    ahead = day_ahead.assign(time_utc=pd.to_datetime(day_ahead["time_utc"], utc=True))
+    ahead = ahead[ahead["time_utc"] >= start].dropna(subset=["temperature_2m"])
+    merged = pd.concat([obs[~obs["time_utc"].isin(ahead["time_utc"])], ahead])
+    merged = merged.sort_values("time_utc").reset_index(drop=True)
+    test_hours = (obs["time_utc"] >= start).sum()
+    share = len(ahead) / max(1, test_hours)
+    log.info("backtest weather: day-ahead forecasts for %.0f%% of test hours", share * 100)
+    return merged, "day-ahead" if share > 0.95 else f"day-ahead for {share:.0%} of hours"
 
 
 def log_to_mlflow(meta: dict, artifact_dir: Path) -> None:

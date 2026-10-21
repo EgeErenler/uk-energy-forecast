@@ -86,7 +86,7 @@ footer .row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
   <section class="card">
     <h2 id="fcTitle">Tomorrow's forecast</h2>
-    <p class="hint">National demand in MW, by half hour (UK time). The shaded band is the 80% range: on 8 days out of 10, demand should fall inside it.</p>
+    <p class="hint" id="fcHint">National demand in MW, by half hour (UK time). The shaded band is the model's 80% range.</p>
     <div class="chart" id="forecastChart" role="img" aria-label="Forecast of tomorrow's demand by half hour with an 80% range"></div>
   </section>
 
@@ -119,9 +119,10 @@ footer .row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <section class="card">
     <h2>How it works</h2>
     <ol class="steps">
-      <li><div><b>Collect</b><span>Half-hourly national demand since 2018 and NESO's day-ahead forecast (NESO open data), hourly weather for eight large cities weighted by population (Open-Meteo), and bank holidays (GOV.UK).</span></div></li>
-      <li><div><b>Build features</b><span>Time of day, day of week, holidays, season, temperature and the last 24 hours of it, sunshine (embedded solar lowers the demand the grid sees), wind, and demand from 2, 7 and 14 days before. Nothing newer than two days is used, because the forecast is made the morning before.</span></div></li>
-      <li><div><b>Train</b><span>Three LightGBM models with a quantile loss give the 10th, 50th and 90th percentiles. Early stopping on the most recent part of the training data picks the number of trees. Every run is logged with MLflow.</span></div></li>
+      <li><div><b>Collect</b><span>Half-hourly national demand since 2018 and NESO's day-ahead forecast (NESO open data), the newest days from Elexon, hourly weather from Open-Meteo for 32 places (cities weighted by population, solar regions and wind regions), and bank holidays (GOV.UK).</span></div></li>
+      <li><div><b>Estimate hidden generation</b><span>Rooftop solar and small wind farms lower the demand the grid sees. Two models learn their output from sunshine over the solar regions and wind at turbine height, so the main model can work with the smoother underlying demand.</span></div></li>
+      <li><div><b>Build features</b><span>Time of day, day of week, holidays, season, temperature and how it compares with recent days, and underlying demand from 2, 7 and 14 days before, all relative to its recent level. Full days are at least two days old, because the forecast is made the morning before. Only last night's demand is newer.</span></div></li>
+      <li><div><b>Train</b><span>Three LightGBM models with a quantile loss give the 10th, 50th and 90th percentiles. Early stopping on the newest part of the training data picks the number of trees, and conformal calibration widens the range. Every run is logged with MLflow.</span></div></li>
       <li><div><b>Test honestly</b><span>The backtest trains only on data before the test period and is compared with a seasonal naive forecast (same half hour last week) and with NESO's real forecast.</span></div></li>
       <li><div><b>Serve</b><span>A daily GitHub Actions job fetches the new data, retrains, forecasts tomorrow, saves the forecast to a history branch and publishes this page. A FastAPI service in Docker serves the same forecasts.</span></div></li>
     </ol>
@@ -134,7 +135,7 @@ curl localhost:8000/forecast/latest</pre>
 <footer class="wrap">
   <div class="row">
     <div>Built by <a href="https://egeerenler.com">Ege Erenler</a>. Code, tests and model on <a href="https://github.com/EgeErenler/uk-energy-forecast">GitHub</a>.</div>
-    <div>Data: NESO Open Data Licence · Weather by <a href="https://open-meteo.com/">Open-Meteo.com</a> (CC BY 4.0) · Bank holidays from GOV.UK (OGL)</div>
+    <div>Data: NESO Open Data Licence · Elexon BMRS (BSC Open Data Licence) · Weather by <a href="https://open-meteo.com/">Open-Meteo.com</a> (CC BY 4.0) · Bank holidays from GOV.UK (OGL)</div>
   </div>
 </footer>
 
@@ -151,9 +152,11 @@ const ukDay = iso => new Date(iso + 'T12:00:00Z').toLocaleDateString('en-GB', {w
 const FEATURE_NAMES = {settlement_period:'Time of day', day_of_week:'Day of week', is_weekend:'Weekend', is_holiday:'Bank holiday',
   is_christmas:'Christmas period', doy_sin:'Season (sine)', doy_cos:'Season (cosine)', years_since_2018:'Long-term trend',
   temperature:'Temperature', temperature_24h:'Temperature, last 24h', heating_degrees:'Heating need', radiation:'Sunshine',
-  solar_potential:'Solar potential', wind_speed:'Wind speed', cloud_cover:'Cloud cover', lag_2d:'Demand 2 days before',
-  lag_7d:'Demand a week before', lag_14d:'Demand 2 weeks before', daily_mean_2d:'Average demand 2 days before',
-  daily_peak_2d:'Peak demand 2 days before'};
+  wind_speed:'Wind speed', cloud_cover:'Cloud cover', temperature_change_2d:'Temperature vs 2 days before',
+  temperature_change_7d:'Temperature vs a week before', solar_est:'Embedded solar estimate', wind_est:'Embedded wind estimate',
+  level_7d:'Recent level', lag_2d_ratio:'Demand 2 days before', lag_7d_ratio:'Demand a week before',
+  lag_14d_ratio:'Demand 2 weeks before', daily_mean_2d_ratio:'Average demand 2 days before',
+  daily_peak_2d_ratio:'Peak demand 2 days before', night_1d_ratio:'Last night\'s demand', night_1d_vs_2d:'Last night vs the night before'};
 
 const charts = [];
 function chart(id, option) {
@@ -188,6 +191,7 @@ document.getElementById('built').textContent = `Updated ${new Date(D.built_at).t
   document.getElementById('kpis').innerHTML = cards.map(c =>
     `<div class="kpi"><div class="label">${c.label}</div><div class="value">${c.value}</div><div class="sub">${c.sub}</div></div>`).join('');
   const gap = Math.abs(bt.model_mape_vs_outturn - bt.neso_mape).toFixed(2);
+  document.getElementById('fcHint').textContent += ` In the test period, actual demand fell inside it ${pct(bt.interval_coverage, 0)} of the time.`;
   document.getElementById('verdict').innerHTML = better
     ? `<div>From <b>${bt.test_start}</b> to <b>${bt.test_end}</b>, the model's average error was <b>${pct(bt.model_mape_vs_outturn)}</b>, against <b>${pct(bt.neso_mape)}</b> for NESO's official forecast: <b>${gap} points lower</b>. A naive forecast (last week's value) scores ${pct(bt.naive_mape)}.</div>`
     : `<div>From <b>${bt.test_start}</b> to <b>${bt.test_end}</b>, the model's average error was <b>${pct(bt.model_mape_vs_outturn)}</b>, against <b>${pct(bt.neso_mape)}</b> for NESO's official forecast, which uses far more data. The model is <b>${gap} points behind NESO</b> and far ahead of a naive forecast (${pct(bt.naive_mape)}).</div>`;

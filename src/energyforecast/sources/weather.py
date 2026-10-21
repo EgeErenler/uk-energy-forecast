@@ -20,8 +20,10 @@ from energyforecast.config import (
     FIRST_YEAR,
     METEO_ARCHIVE_URL,
     METEO_FORECAST_URL,
+    METEO_PREVIOUS_RUNS_URL,
     SOLAR_SITES,
     SOLAR_VARIABLES,
+    TEST_START,
     WEATHER_VARIABLES,
     WIND_SITES,
     WIND_VARIABLES,
@@ -77,11 +79,37 @@ def fetch(raw_dir: Path, today: date | None = None) -> list[Path]:
                 )
                 target.write_text(json.dumps(http.get_json(METEO_ARCHIVE_URL, params, timeout=300)))
             paths.append(target)
+    paths += fetch_day_ahead(folder, today)
     for prefix, (sites, variables) in SETS.items():
         recent = folder / f"{prefix}_forecast.json"
         params = _params(sites, variables, past_days=14, forecast_days=3)
         recent.write_text(json.dumps(http.get_json(METEO_FORECAST_URL, params)))
         paths.append(recent)
+    return paths
+
+
+def fetch_day_ahead(folder: Path, today: date) -> list[Path]:
+    """Weather forecasts issued the day before, for the test period. Optional: if the
+    service is unavailable, the backtest falls back to observed weather and says so."""
+    paths = []
+    start = date.fromisoformat(TEST_START)
+    try:
+        for prefix, (sites, variables) in SETS.items():
+            names = [f"{v}_previous_day1" for v in variables]
+            for first, last in months(start, today - timedelta(days=1)):
+                target = folder / f"dayahead_{prefix}_{first:%Y-%m}.json"
+                finished = (last.year, last.month) != (today.year, today.month)
+                if not (target.exists() and finished):
+                    params = _params(
+                        sites, names, start_date=first.isoformat(), end_date=last.isoformat()
+                    )
+                    data = http.get_json(METEO_PREVIOUS_RUNS_URL, params, timeout=300)
+                    target.write_text(json.dumps(data))
+                paths.append(target)
+    except Exception as exc:  # noqa: BLE001
+        log.warning(
+            "day-ahead weather unavailable (%s); the backtest will use observed weather", exc
+        )
     return paths
 
 
@@ -116,8 +144,18 @@ def _combine(parts: list[pd.DataFrame]) -> pd.DataFrame:
 
 def clean(paths: list[Path], clean_dir: Path) -> Path:
     people, solar, wind = [], [], []
+    ahead: dict[str, list] = {"archive": [], "solar": [], "wind": []}
     for p in paths:
         data = json.loads(p.read_text())
+        if p.name.startswith("dayahead_"):
+            prefix = p.name.split("_")[1]
+            sites, variables = SETS[prefix]
+            names = [f"{v}_previous_day1" for v in variables]
+            weights = None if prefix == "archive" else [1.0] * len(sites)
+            df = national(data, names, weights=weights)
+            df.columns = [c.replace("_previous_day1", "") for c in df.columns]
+            ahead[prefix].append(df.assign(source="dayahead"))
+            continue
         source = "forecast" if p.name.endswith("_forecast.json") else "archive"
         if p.name.startswith("wind_"):
             df = national(data, WIND_VARIABLES, weights=[1.0] * len(WIND_SITES))
@@ -139,4 +177,23 @@ def clean(paths: list[Path], clean_dir: Path) -> Path:
     target = clean_dir / "weather.parquet"
     df.to_parquet(target, index=False)
     log.info("weather: %s hours up to %s", f"{len(df):,}", df["time_utc"].max())
+    if all(ahead.values()):
+        da = _combine(ahead["archive"])
+        da = da.merge(
+            _combine(ahead["solar"])
+            .rename(
+                columns={"shortwave_radiation": "solar_radiation", "cloud_cover": "solar_cloud"}
+            )
+            .drop(columns="source"),
+            on="time_utc",
+            how="left",
+        ).merge(
+            _combine(ahead["wind"])
+            .rename(columns={"wind_speed_100m": "wind_100m"})
+            .drop(columns="source"),
+            on="time_utc",
+            how="left",
+        )
+        da.to_parquet(clean_dir / "weather_dayahead.parquet", index=False)
+        log.info("day-ahead weather: %s hours from %s", f"{len(da):,}", da["time_utc"].min())
     return target
