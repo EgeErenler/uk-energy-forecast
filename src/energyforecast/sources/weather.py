@@ -23,6 +23,8 @@ from energyforecast.config import (
     SOLAR_SITES,
     SOLAR_VARIABLES,
     WEATHER_VARIABLES,
+    WIND_SITES,
+    WIND_VARIABLES,
 )
 
 log = logging.getLogger(__name__)
@@ -43,6 +45,7 @@ SETS = {
     # name: (sites, variables)
     "archive": (CITIES, WEATHER_VARIABLES),
     "solar": (SOLAR_SITES, SOLAR_VARIABLES),
+    "wind": (WIND_SITES, WIND_VARIABLES),
 }
 
 
@@ -112,11 +115,14 @@ def _combine(parts: list[pd.DataFrame]) -> pd.DataFrame:
 
 
 def clean(paths: list[Path], clean_dir: Path) -> Path:
-    people, solar = [], []
+    people, solar, wind = [], [], []
     for p in paths:
         data = json.loads(p.read_text())
         source = "forecast" if p.name.endswith("_forecast.json") else "archive"
-        if p.name.startswith("solar_"):
+        if p.name.startswith("wind_"):
+            df = national(data, WIND_VARIABLES, weights=[1.0] * len(WIND_SITES))
+            wind.append(df.assign(source=source))
+        elif p.name.startswith("solar_"):
             df = national(data, SOLAR_VARIABLES, weights=[1.0] * len(SOLAR_SITES))
             solar.append(df.assign(source=source))
         else:
@@ -126,6 +132,9 @@ def clean(paths: list[Path], clean_dir: Path) -> Path:
         columns={"shortwave_radiation": "solar_radiation", "cloud_cover": "solar_cloud"}
     )
     df = df.merge(sun.drop(columns="source"), on="time_utc", how="left")
+    if wind:
+        breeze = _combine(wind).rename(columns={"wind_speed_100m": "wind_100m"})
+        df = df.merge(breeze.drop(columns="source"), on="time_utc", how="left")
     clean_dir.mkdir(parents=True, exist_ok=True)
     target = clean_dir / "weather.parquet"
     df.to_parquet(target, index=False)

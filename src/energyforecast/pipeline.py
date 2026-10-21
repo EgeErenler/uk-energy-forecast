@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from energyforecast import config, features, model
+from energyforecast import config, embedded, features, model
 from energyforecast.sources import elexon
 
 log = logging.getLogger(__name__)
@@ -31,10 +31,12 @@ def tomorrow() -> date:
 def train(clean_dir: Path, artifact_dir: Path) -> dict:
     """Backtest, then train the final models on everything and save them."""
     data = load_clean(clean_dir)
-    frame = features.build(data["demand"], data["weather"], data["holidays"])
-    bt = model.backtest(frame, data["neso_forecast"])
+    base = features.base(data["demand"], data["weather"], data["holidays"])
+    bt = model.backtest(base, data["neso_forecast"])
     log.info("backtest: %s", json.dumps({k: v for k, v in bt.metrics.items()}, default=str))
 
+    gen_models = embedded.fit(base)
+    frame = features.demand_features(embedded.apply(base, gen_models))
     final, width = model.fit(model.training_rows(frame))
     meta = {
         "trained_at": datetime.now(UTC).isoformat(timespec="minutes"),
@@ -48,6 +50,7 @@ def train(clean_dir: Path, artifact_dir: Path) -> dict:
         "backtest": bt.metrics,
     }
     model.save(final, meta, artifact_dir)
+    embedded.save(gen_models, artifact_dir)
     bt.predictions.to_parquet(artifact_dir / "backtest.parquet", index=False)
     model.importance(final).to_csv(artifact_dir / "importance.csv", index=False)
     log_to_mlflow(meta, artifact_dir)
@@ -81,7 +84,9 @@ def forecast_day(day: date, clean_dir: Path, artifact_dir: Path) -> pd.DataFrame
     """Forecast every half hour of one day with the saved models."""
     data = load_clean(clean_dir)
     models, meta = model.load(artifact_dir)
-    frame = features.build(data["demand"], data["weather"], data["holidays"], forecast_days=[day])
+    frame = features.build(
+        data["demand"], data["weather"], data["holidays"], embedded.load(artifact_dir), [day]
+    )
     rows = frame[frame["settlement_date"] == pd.Timestamp(day)]
     if rows.empty or rows["temperature"].isna().all():
         raise ValueError(f"No weather forecast available for {day}")

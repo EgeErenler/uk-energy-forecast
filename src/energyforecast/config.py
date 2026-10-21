@@ -62,6 +62,24 @@ SOLAR_SITES = {
 }
 SOLAR_VARIABLES = ("shortwave_radiation", "cloud_cover")
 
+# Embedded wind farms are mostly in windy, rural places: Scotland, Wales, the South West
+# and the east coast. Wind at 100 m is close to turbine height.
+WIND_SITES = {
+    "Aberdeenshire": (57.30, -2.40),
+    "Highlands": (57.50, -4.30),
+    "Borders": (55.50, -2.80),
+    "Dumfries": (55.10, -3.70),
+    "Cumbria": (54.60, -3.10),
+    "North Wales": (53.00, -3.60),
+    "Mid Wales": (52.40, -3.60),
+    "Cornwall": (50.40, -4.90),
+    "Devon": (50.80, -3.90),
+    "Lincolnshire": (53.20, -0.20),
+    "Norfolk": (52.75, 1.10),
+    "Yorkshire": (53.90, -1.20),
+}
+WIND_VARIABLES = ("wind_speed_100m",)
+
 TARGET = "nd"  # National Demand, in MW
 
 # Training and testing. The test year is never seen during training.

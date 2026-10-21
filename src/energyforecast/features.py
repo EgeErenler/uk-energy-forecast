@@ -1,8 +1,14 @@
 """Turn demand, weather and holidays into one row of features per half hour.
 
-Every feature must be known on the morning before the target day. Demand is only used
-from two days back or more (see MIN_LAG_DAYS), and weather for the target day is the
+Every feature must be known on the morning before the target day. Full days of demand are
+only used from two days back (see MIN_LAG_DAYS), and the weather for the target day is the
 forecast when the model runs live.
+
+The work happens in two steps, because the embedded solar and wind estimates (see
+`embedded.py`) sit between them:
+
+1. `base`: calendar and weather for every half hour.
+2. `demand_features`: recent levels and lags of underlying demand.
 """
 
 from __future__ import annotations
@@ -25,15 +31,13 @@ FEATURES = [
     "temperature",
     "temperature_24h",
     "heating_degrees",
-    "radiation",
-    "solar_radiation",
-    "solar_potential",
-    "solar_change_2d",
-    "solar_change_7d",
     "temperature_change_2d",
     "temperature_change_7d",
-    "wind_speed",
+    "radiation",
     "cloud_cover",
+    "wind_speed",
+    "solar_est",
+    "wind_est",
     "level_7d",
     "lag_2d_ratio",
     "lag_7d_ratio",
@@ -44,10 +48,14 @@ FEATURES = [
     "night_1d_vs_2d",
 ]
 
-# The model predicts demand as a multiple of the recent level (the average of the
-# 7 newest known days). Demand in GB has been falling for years, and tree models cannot
-# extrapolate a trend; predicting the shape around a known level avoids that problem.
+# Grid demand (National Demand) is what people use minus what small solar panels and wind
+# farms produce out of sight of the grid. The model forecasts the smoother underlying demand
+# as a multiple of its recent level, then takes the embedded generation estimate away.
+# Predicting around a known level also avoids a weakness of tree models: they cannot
+# extrapolate the long fall in GB demand.
+UNDERLYING = "underlying"
 RATIO_TARGET = "target_ratio"
+KEYS = ["settlement_date", "settlement_period"]
 
 
 def half_hourly_weather(weather: pd.DataFrame) -> pd.DataFrame:
@@ -56,18 +64,26 @@ def half_hourly_weather(weather: pd.DataFrame) -> pd.DataFrame:
         time_utc=pd.to_datetime(weather["time_utc"], utc=True).astype("datetime64[ns, UTC]")
     )
     w = w.set_index("time_utc").sort_index()
-    cols = ["temperature_2m", "shortwave_radiation", "wind_speed_10m", "cloud_cover"]
-    cols += [c for c in ("solar_radiation", "solar_cloud") if c in w]
+    names = {
+        "temperature_2m": "temperature",
+        "shortwave_radiation": "radiation",
+        "wind_speed_10m": "wind_speed",
+        "cloud_cover": "cloud_cover",
+        "solar_radiation": "solar_radiation",
+        "solar_cloud": "solar_cloud",
+        "wind_100m": "wind_100m",
+    }
+    cols = [c for c in names if c in w]
     idx = pd.date_range(w.index.min(), w.index.max(), freq="30min")
     w = w[cols].reindex(w.index.union(idx)).interpolate(method="time").reindex(idx)
-    w = w.rename(
-        columns={
-            "temperature_2m": "temperature",
-            "shortwave_radiation": "radiation",
-            "wind_speed_10m": "wind_speed",
-            "cloud_cover": "cloud_cover",
-        }
-    )
+    w = w.rename(columns=names)
+    for col, fallback in (
+        ("solar_radiation", "radiation"),
+        ("solar_cloud", "cloud_cover"),
+        ("wind_100m", "wind_speed"),
+    ):
+        if col not in w:
+            w[col] = w[fallback]
     # Buildings react to the last day of weather, not just the current half hour.
     w["temperature_24h"] = w["temperature"].rolling(48, min_periods=12).mean()
     return w.rename_axis("start_utc").reset_index()
@@ -79,27 +95,24 @@ def with_future_days(demand: pd.DataFrame, days: list) -> pd.DataFrame:
     if not extra:
         return demand
     future = pd.concat(extra, ignore_index=True)
-    future = future[
-        ~future.set_index(["settlement_date", "settlement_period"]).index.isin(
-            demand.set_index(["settlement_date", "settlement_period"]).index
-        )
-    ]
+    known = demand.set_index(KEYS).index
+    future = future[~future.set_index(KEYS).index.isin(known)]
     return pd.concat([demand, future], ignore_index=True)
 
 
-def build(
+def base(
     demand: pd.DataFrame,
     weather: pd.DataFrame,
     holidays: pd.DataFrame,
     forecast_days: list | None = None,
 ) -> pd.DataFrame:
+    """Calendar and weather for every half hour, plus empty rows for forecast days."""
     df = with_future_days(demand.copy(), forecast_days or [])
     df["settlement_date"] = pd.to_datetime(df["settlement_date"]).dt.normalize()
     # Parquet files and pandas can label UTC with different time zone objects; unify them.
     df["start_utc"] = pd.to_datetime(df["start_utc"], utc=True).astype("datetime64[ns, UTC]")
-    df = df.sort_values(["settlement_date", "settlement_period"]).reset_index(drop=True)
+    df = df.sort_values(KEYS).reset_index(drop=True)
 
-    # Calendar
     d = df["settlement_date"]
     df["day_of_week"] = d.dt.dayofweek
     df["is_weekend"] = (df["day_of_week"] >= 5).astype(int)
@@ -112,54 +125,64 @@ def build(
     df["doy_cos"] = np.cos(2 * np.pi * doy / 365.25)
     df["years_since_2018"] = (d - pd.Timestamp("2018-01-01")).dt.days / 365.25
 
-    # Weather
     df = df.merge(half_hourly_weather(weather), on="start_utc", how="left")
     df["heating_degrees"] = (15.5 - df["temperature"]).clip(lower=0)
+    # Installed capacity is published with the demand data; carry the latest value forward.
+    for cap in ("solar_cap", "wind_cap"):
+        if cap not in df:
+            df[cap] = np.nan
+        df[cap] = df[cap].ffill().bfill()
 
-    # Embedded solar is not metered, so sunshine lowers the demand the grid sees.
-    # Capacity grows every year; the latest known value is carried forward.
-    cap = df["solar_cap"].ffill() if "solar_cap" in df else pd.Series(np.nan, index=df.index)
-    sun = df["solar_radiation"] if "solar_radiation" in df else df["radiation"]
-    if "solar_radiation" not in df:
-        df["solar_radiation"] = df["radiation"]
-    df["solar_potential"] = cap * sun / 1000
-
-    # How the weather differs from the days the lags come from.
-    keys = ["settlement_date", "settlement_period"]
     for days in (MIN_LAG_DAYS, 7):
-        past = df[[*keys, "solar_potential", "temperature"]].copy()
+        past = df[[*KEYS, "temperature"]].rename(columns={"temperature": "t_past"})
         past["settlement_date"] = past["settlement_date"] + pd.Timedelta(days=days)
-        past = past.rename(columns={"solar_potential": "sp_past", "temperature": "t_past"})
-        df = df.merge(past, on=keys, how="left")
-        df[f"solar_change_{days}d"] = df["solar_potential"] - df["sp_past"]
+        df = df.merge(past, on=KEYS, how="left")
         df[f"temperature_change_{days}d"] = df["temperature"] - df["t_past"]
-        df = df.drop(columns=["sp_past", "t_past"])
+        df = df.drop(columns="t_past")
+    return df
 
-    # Demand lags, at least MIN_LAG_DAYS old
-    keys = ["settlement_date", "settlement_period"]
+
+def _shift_days(df: pd.DataFrame, col: str, days: int, name: str) -> pd.DataFrame:
+    lag = df[[*KEYS, col]].dropna().rename(columns={col: name})
+    lag["settlement_date"] = lag["settlement_date"] + pd.Timedelta(days=days)
+    return df.merge(lag, on=KEYS, how="left")
+
+
+def demand_features(df: pd.DataFrame) -> pd.DataFrame:
+    """Recent level, lags and the known night, all for underlying demand."""
+    u = UNDERLYING
     for days in (MIN_LAG_DAYS, 7, 14):
-        name = "lag_2d" if days == MIN_LAG_DAYS else f"lag_{days}d"
-        lag = df[[*keys, TARGET]].dropna().rename(columns={TARGET: name})
-        lag["settlement_date"] = lag["settlement_date"] + pd.Timedelta(days=days)
-        df = df.merge(lag, on=keys, how="left")
+        df = _shift_days(df, u, days, f"lag_{days}d")
+    # Last week's grid demand, for the seasonal naive baseline.
+    df = _shift_days(df, TARGET, 7, "nd_lag_7d")
 
-    daily = df.groupby("settlement_date")[TARGET].agg(["mean", "max"])
+    daily = df.groupby("settlement_date")[u].agg(["mean", "max"])
     daily.index = daily.index + pd.Timedelta(days=MIN_LAG_DAYS)
     df["daily_mean_2d"] = df["settlement_date"].map(daily["mean"])
     df["daily_peak_2d"] = df["settlement_date"].map(daily["max"])
 
-    # Recent level: mean of the 7 newest known days (D-8 to D-2).
-    day_mean = df.groupby("settlement_date")[TARGET].mean()
+    # Recent level: mean of the 7 newest full days (D-8 to D-2).
+    day_mean = df.groupby("settlement_date")[u].mean()
     full = day_mean.reindex(pd.date_range(day_mean.index.min(), df["settlement_date"].max()))
     level = full.rolling(7, min_periods=5).mean().shift(MIN_LAG_DAYS)
     df["level_7d"] = df["settlement_date"].map(level)
     for col in ("lag_2d", "lag_7d", "lag_14d", "daily_mean_2d", "daily_peak_2d"):
         df[f"{col}_ratio"] = df[col] / df["level_7d"]
-    # The night of D-1 is already known when the forecast is made.
-    night = df[df["settlement_period"] <= NIGHT_PERIODS].groupby("settlement_date")[TARGET].mean()
-    df["night_1d"] = df["settlement_date"].map(night.set_axis(night.index + pd.Timedelta(days=1)))
+
+    # The night of D-1 (00:00 to 06:00) is published before the forecast runs.
+    night = df[df["settlement_period"] <= NIGHT_PERIODS].groupby("settlement_date")[u].mean()
+    night_1d = df["settlement_date"].map(night.set_axis(night.index + pd.Timedelta(days=1)))
     night_2d = df["settlement_date"].map(night.set_axis(night.index + pd.Timedelta(days=2)))
-    df["night_1d_ratio"] = df["night_1d"] / df["level_7d"]
-    df["night_1d_vs_2d"] = df["night_1d"] / night_2d
-    df[RATIO_TARGET] = df[TARGET] / df["level_7d"]
+    df["night_1d_ratio"] = night_1d / df["level_7d"]
+    df["night_1d_vs_2d"] = night_1d / night_2d
+    df[RATIO_TARGET] = df[u] / df["level_7d"]
     return df
+
+
+def build(demand, weather, holidays, embedded_models, forecast_days=None) -> pd.DataFrame:
+    """All features, given trained embedded generation models."""
+    from energyforecast import embedded
+
+    df = base(demand, weather, holidays, forecast_days)
+    df = embedded.apply(df, embedded_models)
+    return demand_features(df)

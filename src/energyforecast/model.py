@@ -19,7 +19,7 @@ import lightgbm as lgb
 import numpy as np
 import pandas as pd
 
-from energyforecast import config
+from energyforecast import config, embedded, features
 from energyforecast.features import FEATURES, RATIO_TARGET
 
 log = logging.getLogger(__name__)
@@ -36,6 +36,8 @@ PARAMS = {
 }
 ROUNDS = 2000
 EARLY_STOP = 100
+# The newest part of the training data picks the number of trees and calibrates the range.
+VALIDATION_SHARE = 0.1
 
 
 def training_rows(df: pd.DataFrame, until: str | None = None) -> pd.DataFrame:
@@ -53,7 +55,7 @@ def fit(train: pd.DataFrame, quantiles=config.QUANTILES) -> tuple[dict[float, lg
     """One model per quantile. The last 10% of the training period picks the number of trees
     and calibrates the range (see `conformal_width`). Returns the models and that width."""
     train = train.sort_values("start_utc")
-    cut = int(len(train) * 0.9)
+    cut = int(len(train) * (1 - VALIDATION_SHARE))
     fit_part, val_part = train.iloc[:cut], train.iloc[cut:]
     models, first_pass = {}, {}
     for q in quantiles:
@@ -88,7 +90,9 @@ def conformal_width(
     hi = models[max(models)].predict(
         val[FEATURES], num_iteration=models[max(models)].best_iteration
     )
-    y = val[RATIO_TARGET].to_numpy()
+    # Score against grid demand plus the *estimated* embedded generation, so the range
+    # also covers errors in the solar and wind estimates, not just in underlying demand.
+    y = ((val[config.TARGET] + val["solar_est"] + val["wind_est"]) / val["level_7d"]).to_numpy()
     scores = np.maximum(lo - y, y - hi)
     n = len(scores)
     k = min(1.0, np.ceil((n + 1) * level) / n)
@@ -100,13 +104,17 @@ def predict(
 ) -> pd.DataFrame:
     out = rows[["settlement_date", "settlement_period", "start_utc"]].copy()
     level = rows["level_7d"].to_numpy()
-    for q, m in models.items():
-        out[f"p{int(q * 100)}"] = m.predict(rows[FEATURES]) * level
-    # Quantile models are trained separately, so keep them in order.
+    hidden = (rows["solar_est"] + rows["wind_est"]).to_numpy()
     cols = [f"p{int(q * 100)}" for q in sorted(models)]
-    out[cols] = np.sort(out[cols].to_numpy(), axis=1)
-    out[cols[0]] -= width * level
-    out[cols[-1]] += width * level
+    ratio = np.column_stack([models[q].predict(rows[FEATURES]) for q in sorted(models)]).astype(
+        float
+    )
+    # Quantile models are trained separately, so keep them in order.
+    ratio = np.sort(ratio, axis=1)
+    ratio[:, 0] -= width
+    ratio[:, -1] += width
+    # Underlying demand, minus the embedded solar and wind the grid never sees.
+    out[cols] = ratio * level[:, None] - hidden[:, None]
     return out
 
 
@@ -128,15 +136,18 @@ class Backtest:
     metrics: dict
 
 
-def backtest(df: pd.DataFrame, neso: pd.DataFrame | None) -> Backtest:
-    """Train before TEST_START, forecast every half hour after it, compare with baselines."""
+def backtest(base: pd.DataFrame, neso: pd.DataFrame | None) -> Backtest:
+    """Train before TEST_START, forecast every half hour after it, compare with baselines.
+    The embedded generation models are also trained on the earlier period only."""
+    gen_models = embedded.fit(base, until=config.TEST_START)
+    df = features.demand_features(embedded.apply(base, gen_models))
     train = training_rows(df, until=config.TEST_START)
     test = training_rows(df)
     test = test[test["settlement_date"] >= config.TEST_START]
     models, width = fit(train)
     pred = predict(models, test, width)
     pred["actual"] = test[config.TARGET].to_numpy()
-    pred["seasonal_naive"] = test["lag_7d"].to_numpy()
+    pred["seasonal_naive"] = test["nd_lag_7d"].to_numpy()
     if neso is not None and len(neso):
         pred = pred.merge(neso, on=["settlement_date", "settlement_period"], how="left")
     else:
