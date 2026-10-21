@@ -107,3 +107,14 @@ def test_elexon_fills_only_the_missing_days():
     added = out[out["source"] == "elexon"]
     assert set(added["settlement_date"].dt.day) == {11, 12}
     assert added["nd"].sub(25000 + added["settlement_period"]).abs().max() < 1
+
+
+def test_weather_months_end_at_the_last_archive_day():
+    from datetime import date
+
+    m = weather.months(date(2025, 11, 1), date(2026, 1, 15))
+    assert m == [
+        (date(2025, 11, 1), date(2025, 11, 30)),
+        (date(2025, 12, 1), date(2025, 12, 31)),
+        (date(2026, 1, 1), date(2026, 1, 15)),
+    ]

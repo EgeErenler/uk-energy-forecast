@@ -22,8 +22,11 @@ def _retry(fn, attempts: int = 4):
         except requests.RequestException as exc:
             if attempt == attempts:
                 raise
-            log.warning("request failed (%s), retrying", exc)
-            time.sleep(5 * attempt)
+            limited = getattr(exc.response, "status_code", None) == 429
+            # A rate limit needs a real pause; other errors usually pass quickly.
+            wait = 65 * attempt if limited else 5 * attempt
+            log.warning("request failed (%s), retrying in %d s", exc, wait)
+            time.sleep(wait)
     raise AssertionError("unreachable")
 
 

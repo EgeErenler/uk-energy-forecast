@@ -39,25 +39,34 @@ def _params(**extra) -> dict:
     }
 
 
+def months(start: date, end: date) -> list[tuple[date, date]]:
+    """Calendar months from start to end, the last one cut at end."""
+    out, cur = [], date(start.year, start.month, 1)
+    while cur <= end:
+        nxt = date(cur.year + (cur.month == 12), cur.month % 12 + 1, 1)
+        out.append((cur, min(nxt - timedelta(days=1), end)))
+        cur = nxt
+    return out
+
+
 def fetch(raw_dir: Path, today: date | None = None) -> list[Path]:
+    """One file per month. Finished months never change and are kept; only the current
+    month is downloaded again. This keeps the daily run far below Open-Meteo's limits."""
     today = today or date.today()
     folder = raw_dir / "weather"
     folder.mkdir(parents=True, exist_ok=True)
     paths = []
     archive_end = today - timedelta(days=ARCHIVE_LAG_DAYS)
-    for year in range(FIRST_YEAR, archive_end.year + 1):
-        target = folder / f"archive_{year}.json"
-        final = year < archive_end.year
-        if target.exists() and final:
-            paths.append(target)
-            continue
-        end = date(year, 12, 31) if final else archive_end
-        data = http.get_json(
-            METEO_ARCHIVE_URL,
-            _params(start_date=f"{year}-01-01", end_date=end.isoformat()),
-            timeout=300,
-        )
-        target.write_text(json.dumps(data))
+    for first, last in months(date(FIRST_YEAR, 1, 1), archive_end):
+        target = folder / f"archive_{first:%Y-%m}.json"
+        finished = last.month != archive_end.month or last.year != archive_end.year
+        if not (target.exists() and finished):
+            data = http.get_json(
+                METEO_ARCHIVE_URL,
+                _params(start_date=first.isoformat(), end_date=last.isoformat()),
+                timeout=300,
+            )
+            target.write_text(json.dumps(data))
         paths.append(target)
     recent = folder / "forecast.json"
     data = http.get_json(METEO_FORECAST_URL, _params(past_days=14, forecast_days=3))
