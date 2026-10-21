@@ -56,13 +56,20 @@ def fetch(raw_dir: Path, today: date | None = None) -> list[Path]:
 
 
 def parse_dates(values: pd.Series) -> pd.Series:
-    """Older files write dates as 01-JAN-2019, newer ones as 2025-12-09.
+    """Files write dates as 01-JAN-2019, 01-Jan-23 or 2025-12-09.
     Each format is parsed explicitly: guessing would read 2025-12-09 as 12 September."""
     text = values.astype(str).str.strip().str.strip('"')
     iso = text.str.match(r"^\d{4}-\d{2}-\d{2}")
     out = pd.Series(pd.NaT, index=values.index, dtype="datetime64[ns]")
     out[iso] = pd.to_datetime(text[iso].str[:10], format="%Y-%m-%d")
-    out[~iso] = pd.to_datetime(text[~iso].str.title(), format="%d-%b-%Y")
+    rest = text[~iso].str.title()
+    for fmt in ("%d-%b-%Y", "%d-%b-%y", "%d/%m/%Y"):
+        todo = out.index[~iso & out.isna()]
+        if len(todo) == 0:
+            break
+        out[todo] = pd.to_datetime(rest[todo], format=fmt, errors="coerce")
+    if out.isna().any():
+        raise ValueError(f"Unknown date format, for example {text[out.isna()].iloc[0]!r}")
     return out
 
 

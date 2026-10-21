@@ -41,8 +41,10 @@ def test_demand_files_with_both_date_formats(tmp_path):
 
 
 def test_iso_dates_are_never_read_day_first():
-    parsed = demand.parse_dates(pd.Series(['"2025-12-09"', "09-DEC-2025", "2026-01-02"]))
-    assert parsed.dt.strftime("%Y-%m-%d").tolist() == ["2025-12-09", "2025-12-09", "2026-01-02"]
+    parsed = demand.parse_dates(pd.Series(['"2025-12-09"', "09-DEC-2025", "09-Dec-25"]))
+    assert parsed.dt.strftime("%Y-%m-%d").tolist() == ["2025-12-09"] * 3
+    with pytest.raises(ValueError):
+        demand.parse_dates(pd.Series(["December 9"]))
 
 
 def test_yearly_files_are_found_by_name():
