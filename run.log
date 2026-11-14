@@ -1,0 +1,31 @@
+2026-11-14 14:20:59,927 INFO fetching demand
+2026-11-14 14:21:05,269 INFO downloaded demand_2025.csv (1.9 MB)
+2026-11-14 14:21:07,508 INFO downloaded demand_2026.csv (1.5 MB)
+2026-11-14 14:21:07,751 INFO demand: 154,510 half hours, 2018-01-01 to 2026-10-24
+2026-11-14 14:21:07,752 INFO fetching elexon
+2026-11-14 14:21:10,232 INFO elexon: 4,350 half hours up to 2026-11-14
+2026-11-14 14:21:10,232 INFO fetching neso
+2026-11-14 14:21:13,528 INFO downloaded day_ahead_forecast.csv (9.7 MB)
+2026-11-14 14:21:13,571 INFO neso forecast: 98,557 half hours up to 2026-11-14
+2026-11-14 14:21:13,571 INFO fetching holidays
+2026-11-14 14:21:13,906 INFO downloaded bank-holidays.json (0.0 MB)
+2026-11-14 14:21:13,909 INFO holidays: 91 days
+2026-11-14 14:21:13,909 INFO fetching weather
+2026-11-14 14:21:22,316 INFO weather: 77,808 hours up to 2026-11-16 23:00:00+00:00
+2026-11-14 14:21:22,338 INFO day-ahead weather: 16,344 hours from 2025-01-01 00:00:00+00:00
+2026-11-14 14:21:22,373 INFO elexon calibration on 3360 half hours: ND = 0.9996 * INDO + 2 (0.10% error)
+2026-11-14 14:21:22,589 INFO backtest weather: day-ahead forecasts for 99% of test hours
+2026-11-14 14:21:38,274 INFO quantile 0.1: 758 trees
+2026-11-14 14:21:59,901 INFO quantile 0.5: 1605 trees
+2026-11-14 14:22:06,316 INFO quantile 0.9: 416 trees
+2026-11-14 14:22:06,540 INFO 80% range widened by 0.0085 of the level
+2026-11-14 14:22:08,009 INFO backtest: {"test_start": "2025-01-01", "test_end": "2026-10-24", "test_half_hours": 31768, "model_mape": 3.2082816585125955, "model_mae_mw": 793.1161821156973, "naive_mape": 8.508214223359198, "interval_coverage": 67.04230672374717, "compared_half_hours": 31768, "model_mape_vs_outturn": 3.1931016504833676, "neso_mape": 2.9244234063029304, "test_weather": "day-ahead"}
+2026-11-14 14:22:19,115 INFO quantile 0.1: 344 trees
+2026-11-14 14:22:33,237 INFO quantile 0.5: 848 trees
+2026-11-14 14:22:45,266 INFO quantile 0.9: 730 trees
+2026-11-14 14:22:45,500 INFO 80% range widened by 0.0116 of the level
+2026/11/14 14:22:46 INFO mlflow.tracking.fluent: Experiment with name 'day-ahead-demand' does not exist. Creating a new experiment.
+2026-11-14 14:22:46,368 INFO elexon calibration on 3360 half hours: ND = 0.9996 * INDO + 2 (0.10% error)
+2026-11-14 14:22:48,368 INFO forecast for 2026-11-15: peak 38496 MW, total 729.9 GWh
+2026-11-14 14:22:48,600 INFO elexon calibration on 3360 half hours: ND = 0.9996 * INDO + 2 (0.10% error)
+2026-11-14 14:22:48,714 INFO site written to site
