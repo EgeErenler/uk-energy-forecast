@@ -1,0 +1,6275 @@
+{
+ "built_at": "2026-11-21T08:25+00:00",
+ "meta": {
+  "trained_at": "2026-11-21T08:25+00:00",
+  "trained_until": "2026-10-01",
+  "features": [
+   "settlement_period",
+   "day_of_week",
+   "is_weekend",
+   "is_holiday",
+   "is_christmas",
+   "doy_sin",
+   "doy_cos",
+   "years_since_2018",
+   "temperature",
+   "temperature_24h",
+   "heating_degrees",
+   "temperature_change_2d",
+   "temperature_change_7d",
+   "radiation",
+   "cloud_cover",
+   "wind_speed",
+   "solar_est",
+   "wind_est",
+   "level_7d",
+   "lag_2d_ratio",
+   "lag_7d_ratio",
+   "lag_14d_ratio",
+   "daily_mean_2d_ratio",
+   "daily_peak_2d_ratio",
+   "night_1d_ratio",
+   "night_1d_vs_2d"
+  ],
+  "params": {
+   "learning_rate": 0.05,
+   "num_leaves": 63,
+   "min_data_in_leaf": 50,
+   "feature_fraction": 0.8,
+   "bagging_fraction": 0.8,
+   "bagging_freq": 1,
+   "lambda_l2": 1.0,
+   "verbose": -1
+  },
+  "trees": {
+   "0.1": 470,
+   "0.5": 1995,
+   "0.9": 1154
+  },
+  "interval_width": 0.012133548843721517,
+  "backtest": {
+   "test_start": "2025-01-01",
+   "test_end": "2026-10-01",
+   "test_half_hours": 30618,
+   "model_mape": 3.193751511839074,
+   "model_mae_mw": 789.4077567575279,
+   "naive_mape": 8.511632557616888,
+   "interval_coverage": 67.45705140766869,
+   "compared_half_hours": 30618,
+   "model_mape_vs_outturn": 3.1780247322905124,
+   "neso_mape": 2.92542442659425,
+   "test_weather": "day-ahead"
+  }
+ },
+ "latest": {
+  "date": "2026-11-22",
+  "issued_at": "2026-11-21T08:25+00:00",
+  "model_trained_until": "2026-10-01",
+  "half_hours": [
+   {
+    "period": 1,
+    "start_utc": "2026-11-22T00:00:00+00:00",
+    "p10": 26311,
+    "p50": 27483,
+    "p90": 28550
+   },
+   {
+    "period": 2,
+    "start_utc": "2026-11-22T00:30:00+00:00",
+    "p10": 26195,
+    "p50": 27610,
+    "p90": 28432
+   },
+   {
+    "period": 3,
+    "start_utc": "2026-11-22T01:00:00+00:00",
+    "p10": 25895,
+    "p50": 27117,
+    "p90": 28039
+   },
+   {
+    "period": 4,
+    "start_utc": "2026-11-22T01:30:00+00:00",
+    "p10": 25220,
+    "p50": 26429,
+    "p90": 27165
+   },
+   {
+    "period": 5,
+    "start_utc": "2026-11-22T02:00:00+00:00",
+    "p10": 24912,
+    "p50": 26086,
+    "p90": 26642
+   },
+   {
+    "period": 6,
+    "start_utc": "2026-11-22T02:30:00+00:00",
+    "p10": 24254,
+    "p50": 25374,
+    "p90": 25842
+   },
+   {
+    "period": 7,
+    "start_utc": "2026-11-22T03:00:00+00:00",
+    "p10": 23714,
+    "p50": 24684,
+    "p90": 25303
+   },
+   {
+    "period": 8,
+    "start_utc": "2026-11-22T03:30:00+00:00",
+    "p10": 23030,
+    "p50": 24093,
+    "p90": 24568
+   },
+   {
+    "period": 9,
+    "start_utc": "2026-11-22T04:00:00+00:00",
+    "p10": 22259,
+    "p50": 23600,
+    "p90": 24042
+   },
+   {
+    "period": 10,
+    "start_utc": "2026-11-22T04:30:00+00:00",
+    "p10": 22188,
+    "p50": 23334,
+    "p90": 23792
+   },
+   {
+    "period": 11,
+    "start_utc": "2026-11-22T05:00:00+00:00",
+    "p10": 22256,
+    "p50": 23213,
+    "p90": 23755
+   },
+   {
+    "period": 12,
+    "start_utc": "2026-11-22T05:30:00+00:00",
+    "p10": 22329,
+    "p50": 23454,
+    "p90": 23911
+   },
+   {
+    "period": 13,
+    "start_utc": "2026-11-22T06:00:00+00:00",
+    "p10": 22756,
+    "p50": 23941,
+    "p90": 24537
+   },
+   {
+    "period": 14,
+    "start_utc": "2026-11-22T06:30:00+00:00",
+    "p10": 23006,
+    "p50": 24427,
+    "p90": 24930
+   },
+   {
+    "period": 15,
+    "start_utc": "2026-11-22T07:00:00+00:00",
+    "p10": 24128,
+    "p50": 25337,
+    "p90": 26156
+   },
+   {
+    "period": 16,
+    "start_utc": "2026-11-22T07:30:00+00:00",
+    "p10": 24702,
+    "p50": 26190,
+    "p90": 27039
+   },
+   {
+    "period": 17,
+    "start_utc": "2026-11-22T08:00:00+00:00",
+    "p10": 25901,
+    "p50": 27589,
+    "p90": 28411
+   },
+   {
+    "period": 18,
+    "start_utc": "2026-11-22T08:30:00+00:00",
+    "p10": 26856,
+    "p50": 28753,
+    "p90": 29987
+   },
+   {
+    "period": 19,
+    "start_utc": "2026-11-22T09:00:00+00:00",
+    "p10": 28202,
+    "p50": 30520,
+    "p90": 31281
+   },
+   {
+    "period": 20,
+    "start_utc": "2026-11-22T09:30:00+00:00",
+    "p10": 29053,
+    "p50": 31197,
+    "p90": 31710
+   },
+   {
+    "period": 21,
+    "start_utc": "2026-11-22T10:00:00+00:00",
+    "p10": 29011,
+    "p50": 31270,
+    "p90": 31795
+   },
+   {
+    "period": 22,
+    "start_utc": "2026-11-22T10:30:00+00:00",
+    "p10": 29150,
+    "p50": 31278,
+    "p90": 31847
+   },
+   {
+    "period": 23,
+    "start_utc": "2026-11-22T11:00:00+00:00",
+    "p10": 28652,
+    "p50": 30724,
+    "p90": 31267
+   },
+   {
+    "period": 24,
+    "start_utc": "2026-11-22T11:30:00+00:00",
+    "p10": 29225,
+    "p50": 31150,
+    "p90": 31705
+   },
+   {
+    "period": 25,
+    "start_utc": "2026-11-22T12:00:00+00:00",
+    "p10": 29475,
+    "p50": 31450,
+    "p90": 31899
+   },
+   {
+    "period": 26,
+    "start_utc": "2026-11-22T12:30:00+00:00",
+    "p10": 29827,
+    "p50": 31894,
+    "p90": 32774
+   },
+   {
+    "period": 27,
+    "start_utc": "2026-11-22T13:00:00+00:00",
+    "p10": 30581,
+    "p50": 32334,
+    "p90": 33528
+   },
+   {
+    "period": 28,
+    "start_utc": "2026-11-22T13:30:00+00:00",
+    "p10": 30847,
+    "p50": 32540,
+    "p90": 33635
+   },
+   {
+    "period": 29,
+    "start_utc": "2026-11-22T14:00:00+00:00",
+    "p10": 32170,
+    "p50": 33818,
+    "p90": 34704
+   },
+   {
+    "period": 30,
+    "start_utc": "2026-11-22T14:30:00+00:00",
+    "p10": 32447,
+    "p50": 34064,
+    "p90": 34598
+   },
+   {
+    "period": 31,
+    "start_utc": "2026-11-22T15:00:00+00:00",
+    "p10": 33187,
+    "p50": 34925,
+    "p90": 35519
+   },
+   {
+    "period": 32,
+    "start_utc": "2026-11-22T15:30:00+00:00",
+    "p10": 33769,
+    "p50": 35982,
+    "p90": 36478
+   },
+   {
+    "period": 33,
+    "start_utc": "2026-11-22T16:00:00+00:00",
+    "p10": 35927,
+    "p50": 38038,
+    "p90": 38812
+   },
+   {
+    "period": 34,
+    "start_utc": "2026-11-22T16:30:00+00:00",
+    "p10": 37367,
+    "p50": 39475,
+    "p90": 40409
+   },
+   {
+    "period": 35,
+    "start_utc": "2026-11-22T17:00:00+00:00",
+    "p10": 38006,
+    "p50": 40059,
+    "p90": 40771
+   },
+   {
+    "period": 36,
+    "start_utc": "2026-11-22T17:30:00+00:00",
+    "p10": 38255,
+    "p50": 40183,
+    "p90": 40965
+   },
+   {
+    "period": 37,
+    "start_utc": "2026-11-22T18:00:00+00:00",
+    "p10": 37983,
+    "p50": 39606,
+    "p90": 40656
+   },
+   {
+    "period": 38,
+    "start_utc": "2026-11-22T18:30:00+00:00",
+    "p10": 36975,
+    "p50": 38738,
+    "p90": 39175
+   },
+   {
+    "period": 39,
+    "start_utc": "2026-11-22T19:00:00+00:00",
+    "p10": 35837,
+    "p50": 37610,
+    "p90": 38267
+   },
+   {
+    "period": 40,
+    "start_utc": "2026-11-22T19:30:00+00:00",
+    "p10": 34541,
+    "p50": 36051,
+    "p90": 36592
+   },
+   {
+    "period": 41,
+    "start_utc": "2026-11-22T20:00:00+00:00",
+    "p10": 33561,
+    "p50": 35196,
+    "p90": 35838
+   },
+   {
+    "period": 42,
+    "start_utc": "2026-11-22T20:30:00+00:00",
+    "p10": 32903,
+    "p50": 34315,
+    "p90": 35001
+   },
+   {
+    "period": 43,
+    "start_utc": "2026-11-22T21:00:00+00:00",
+    "p10": 31528,
+    "p50": 33335,
+    "p90": 34055
+   },
+   {
+    "period": 44,
+    "start_utc": "2026-11-22T21:30:00+00:00",
+    "p10": 30161,
+    "p50": 32209,
+    "p90": 32639
+   },
+   {
+    "period": 45,
+    "start_utc": "2026-11-22T22:00:00+00:00",
+    "p10": 28520,
+    "p50": 30477,
+    "p90": 31128
+   },
+   {
+    "period": 46,
+    "start_utc": "2026-11-22T22:30:00+00:00",
+    "p10": 26975,
+    "p50": 28901,
+    "p90": 29521
+   },
+   {
+    "period": 47,
+    "start_utc": "2026-11-22T23:00:00+00:00",
+    "p10": 25785,
+    "p50": 27359,
+    "p90": 27804
+   },
+   {
+    "period": 48,
+    "start_utc": "2026-11-22T23:30:00+00:00",
+    "p10": 25170,
+    "p50": 26718,
+    "p90": 27428
+   }
+  ]
+ },
+ "daily": [
+  {
+   "settlement_date": "2025-01-01",
+   "model": 3.144,
+   "neso": 1.703
+  },
+  {
+   "settlement_date": "2025-01-02",
+   "model": 3.06,
+   "neso": 3.612
+  },
+  {
+   "settlement_date": "2025-01-03",
+   "model": 2.594,
+   "neso": 2.883
+  },
+  {
+   "settlement_date": "2025-01-04",
+   "model": 1.578,
+   "neso": 2.38
+  },
+  {
+   "settlement_date": "2025-01-05",
+   "model": 3.059,
+   "neso": 2.498
+  },
+  {
+   "settlement_date": "2025-01-06",
+   "model": 3.418,
+   "neso": 1.484
+  },
+  {
+   "settlement_date": "2025-01-07",
+   "model": 5.283,
+   "neso": 3.942
+  },
+  {
+   "settlement_date": "2025-01-08",
+   "model": 5.168,
+   "neso": 1.611
+  },
+  {
+   "settlement_date": "2025-01-09",
+   "model": 2.483,
+   "neso": 1.554
+  },
+  {
+   "settlement_date": "2025-01-10",
+   "model": 1.539,
+   "neso": 1.019
+  },
+  {
+   "settlement_date": "2025-01-11",
+   "model": 2.229,
+   "neso": 1.106
+  },
+  {
+   "settlement_date": "2025-01-12",
+   "model": 2.08,
+   "neso": 2.113
+  },
+  {
+   "settlement_date": "2025-01-13",
+   "model": 2.143,
+   "neso": 1.388
+  },
+  {
+   "settlement_date": "2025-01-14",
+   "model": 3.345,
+   "neso": 2.723
+  },
+  {
+   "settlement_date": "2025-01-15",
+   "model": 3.941,
+   "neso": 4.804
+  },
+  {
+   "settlement_date": "2025-01-16",
+   "model": 1.395,
+   "neso": 2.405
+  },
+  {
+   "settlement_date": "2025-01-17",
+   "model": 1.502,
+   "neso": 1.129
+  },
+  {
+   "settlement_date": "2025-01-18",
+   "model": 2.284,
+   "neso": 2.207
+  },
+  {
+   "settlement_date": "2025-01-19",
+   "model": 1.695,
+   "neso": 1.843
+  },
+  {
+   "settlement_date": "2025-01-20",
+   "model": 2.306,
+   "neso": 2.259
+  },
+  {
+   "settlement_date": "2025-01-21",
+   "model": 2.322,
+   "neso": 3.399
+  },
+  {
+   "settlement_date": "2025-01-22",
+   "model": 1.127,
+   "neso": 1.549
+  },
+  {
+   "settlement_date": "2025-01-23",
+   "model": 1.701,
+   "neso": 1.045
+  },
+  {
+   "settlement_date": "2025-01-24",
+   "model": 1.854,
+   "neso": 2.277
+  },
+  {
+   "settlement_date": "2025-01-25",
+   "model": 1.888,
+   "neso": 2.562
+  },
+  {
+   "settlement_date": "2025-01-26",
+   "model": 1.787,
+   "neso": 2.041
+  },
+  {
+   "settlement_date": "2025-01-27",
+   "model": 1.394,
+   "neso": 1.536
+  },
+  {
+   "settlement_date": "2025-01-28",
+   "model": 1.223,
+   "neso": 3.013
+  },
+  {
+   "settlement_date": "2025-01-29",
+   "model": 3.654,
+   "neso": 1.206
+  },
+  {
+   "settlement_date": "2025-01-30",
+   "model": 2.759,
+   "neso": 2.631
+  },
+  {
+   "settlement_date": "2025-01-31",
+   "model": 1.206,
+   "neso": 2.001
+  },
+  {
+   "settlement_date": "2025-02-01",
+   "model": 2.737,
+   "neso": 3.641
+  },
+  {
+   "settlement_date": "2025-02-02",
+   "model": 1.69,
+   "neso": 2.582
+  },
+  {
+   "settlement_date": "2025-02-03",
+   "model": 2.088,
+   "neso": 2.801
+  },
+  {
+   "settlement_date": "2025-02-04",
+   "model": 1.907,
+   "neso": 1.738
+  },
+  {
+   "settlement_date": "2025-02-05",
+   "model": 1.775,
+   "neso": 0.925
+  },
+  {
+   "settlement_date": "2025-02-06",
+   "model": 2.008,
+   "neso": 1.914
+  },
+  {
+   "settlement_date": "2025-02-07",
+   "model": 2.336,
+   "neso": 2.549
+  },
+  {
+   "settlement_date": "2025-02-08",
+   "model": 2.353,
+   "neso": 1.828
+  },
+  {
+   "settlement_date": "2025-02-09",
+   "model": 1.639,
+   "neso": 2.316
+  },
+  {
+   "settlement_date": "2025-02-10",
+   "model": 2.016,
+   "neso": 1.714
+  },
+  {
+   "settlement_date": "2025-02-11",
+   "model": 2.08,
+   "neso": 1.974
+  },
+  {
+   "settlement_date": "2025-02-12",
+   "model": 2.672,
+   "neso": 2.019
+  },
+  {
+   "settlement_date": "2025-02-13",
+   "model": 2.182,
+   "neso": 2.391
+  },
+  {
+   "settlement_date": "2025-02-14",
+   "model": 2.357,
+   "neso": 2.322
+  },
+  {
+   "settlement_date": "2025-02-15",
+   "model": 1.884,
+   "neso": 1.604
+  },
+  {
+   "settlement_date": "2025-02-16",
+   "model": 1.003,
+   "neso": 1.208
+  },
+  {
+   "settlement_date": "2025-02-17",
+   "model": 1.16,
+   "neso": 1.386
+  },
+  {
+   "settlement_date": "2025-02-18",
+   "model": 2.575,
+   "neso": 2.028
+  },
+  {
+   "settlement_date": "2025-02-19",
+   "model": 2.183,
+   "neso": 2.519
+  },
+  {
+   "settlement_date": "2025-02-20",
+   "model": 2.792,
+   "neso": 2.43
+  },
+  {
+   "settlement_date": "2025-02-21",
+   "model": 3.887,
+   "neso": 2.33
+  },
+  {
+   "settlement_date": "2025-02-22",
+   "model": 4.587,
+   "neso": 3.009
+  },
+  {
+   "settlement_date": "2025-02-23",
+   "model": 4.053,
+   "neso": 3.144
+  },
+  {
+   "settlement_date": "2025-02-24",
+   "model": 2.549,
+   "neso": 3.565
+  },
+  {
+   "settlement_date": "2025-02-25",
+   "model": 4.037,
+   "neso": 6.86
+  },
+  {
+   "settlement_date": "2025-02-26",
+   "model": 2.36,
+   "neso": 2.254
+  },
+  {
+   "settlement_date": "2025-02-27",
+   "model": 2.097,
+   "neso": 1.854
+  },
+  {
+   "settlement_date": "2025-02-28",
+   "model": 2.304,
+   "neso": 2.452
+  },
+  {
+   "settlement_date": "2025-03-01",
+   "model": 1.766,
+   "neso": 3.798
+  },
+  {
+   "settlement_date": "2025-03-02",
+   "model": 2.786,
+   "neso": 3.18
+  },
+  {
+   "settlement_date": "2025-03-03",
+   "model": 2.692,
+   "neso": 2.313
+  },
+  {
+   "settlement_date": "2025-03-04",
+   "model": 2.155,
+   "neso": 2.307
+  },
+  {
+   "settlement_date": "2025-03-05",
+   "model": 1.781,
+   "neso": 2.156
+  },
+  {
+   "settlement_date": "2025-03-06",
+   "model": 1.203,
+   "neso": 2.901
+  },
+  {
+   "settlement_date": "2025-03-07",
+   "model": 2.141,
+   "neso": 5.358
+  },
+  {
+   "settlement_date": "2025-03-08",
+   "model": 2.211,
+   "neso": 4.058
+  },
+  {
+   "settlement_date": "2025-03-09",
+   "model": 2.452,
+   "neso": 5.87
+  },
+  {
+   "settlement_date": "2025-03-10",
+   "model": 1.392,
+   "neso": 2.215
+  },
+  {
+   "settlement_date": "2025-03-11",
+   "model": 2.691,
+   "neso": 1.853
+  },
+  {
+   "settlement_date": "2025-03-12",
+   "model": 1.372,
+   "neso": 1.299
+  },
+  {
+   "settlement_date": "2025-03-13",
+   "model": 1.776,
+   "neso": 1.694
+  },
+  {
+   "settlement_date": "2025-03-14",
+   "model": 2.161,
+   "neso": 2.824
+  },
+  {
+   "settlement_date": "2025-03-15",
+   "model": 1.881,
+   "neso": 2.957
+  },
+  {
+   "settlement_date": "2025-03-16",
+   "model": 6.735,
+   "neso": 1.672
+  },
+  {
+   "settlement_date": "2025-03-17",
+   "model": 5.166,
+   "neso": 3.9
+  },
+  {
+   "settlement_date": "2025-03-18",
+   "model": 3.479,
+   "neso": 4.386
+  },
+  {
+   "settlement_date": "2025-03-19",
+   "model": 1.342,
+   "neso": 2.794
+  },
+  {
+   "settlement_date": "2025-03-20",
+   "model": 2.341,
+   "neso": 4.468
+  },
+  {
+   "settlement_date": "2025-03-21",
+   "model": 3.329,
+   "neso": 3.87
+  },
+  {
+   "settlement_date": "2025-03-22",
+   "model": 3.476,
+   "neso": 3.78
+  },
+  {
+   "settlement_date": "2025-03-23",
+   "model": 3.803,
+   "neso": 4.581
+  },
+  {
+   "settlement_date": "2025-03-24",
+   "model": 3.001,
+   "neso": 3.074
+  },
+  {
+   "settlement_date": "2025-03-25",
+   "model": 1.378,
+   "neso": 1.439
+  },
+  {
+   "settlement_date": "2025-03-26",
+   "model": 2.209,
+   "neso": 2.508
+  },
+  {
+   "settlement_date": "2025-03-27",
+   "model": 1.835,
+   "neso": 1.654
+  },
+  {
+   "settlement_date": "2025-03-28",
+   "model": 3.105,
+   "neso": 4.144
+  },
+  {
+   "settlement_date": "2025-03-29",
+   "model": 3.213,
+   "neso": 3.092
+  },
+  {
+   "settlement_date": "2025-03-30",
+   "model": 4.254,
+   "neso": 7.005
+  },
+  {
+   "settlement_date": "2025-03-31",
+   "model": 2.494,
+   "neso": 3.908
+  },
+  {
+   "settlement_date": "2025-04-01",
+   "model": 3.189,
+   "neso": 7.07
+  },
+  {
+   "settlement_date": "2025-04-02",
+   "model": 2.705,
+   "neso": 4.97
+  },
+  {
+   "settlement_date": "2025-04-03",
+   "model": 2.52,
+   "neso": 2.784
+  },
+  {
+   "settlement_date": "2025-04-04",
+   "model": 4.557,
+   "neso": 2.624
+  },
+  {
+   "settlement_date": "2025-04-05",
+   "model": 4.753,
+   "neso": 3.747
+  },
+  {
+   "settlement_date": "2025-04-06",
+   "model": 4.215,
+   "neso": 2.431
+  },
+  {
+   "settlement_date": "2025-04-07",
+   "model": 1.883,
+   "neso": 3.621
+  },
+  {
+   "settlement_date": "2025-04-08",
+   "model": 2.225,
+   "neso": 2.689
+  },
+  {
+   "settlement_date": "2025-04-09",
+   "model": 2.599,
+   "neso": 1.114
+  },
+  {
+   "settlement_date": "2025-04-10",
+   "model": 4.13,
+   "neso": 3.022
+  },
+  {
+   "settlement_date": "2025-04-11",
+   "model": 1.523,
+   "neso": 2.511
+  },
+  {
+   "settlement_date": "2025-04-12",
+   "model": 3.728,
+   "neso": 2.289
+  },
+  {
+   "settlement_date": "2025-04-13",
+   "model": 1.867,
+   "neso": 2.905
+  },
+  {
+   "settlement_date": "2025-04-14",
+   "model": 3.139,
+   "neso": 1.981
+  },
+  {
+   "settlement_date": "2025-04-15",
+   "model": 3.558,
+   "neso": 2.066
+  },
+  {
+   "settlement_date": "2025-04-16",
+   "model": 2.824,
+   "neso": 2.953
+  },
+  {
+   "settlement_date": "2025-04-17",
+   "model": 2.474,
+   "neso": 4.495
+  },
+  {
+   "settlement_date": "2025-04-18",
+   "model": 2.631,
+   "neso": 3.923
+  },
+  {
+   "settlement_date": "2025-04-19",
+   "model": 3.435,
+   "neso": 4.164
+  },
+  {
+   "settlement_date": "2025-04-20",
+   "model": 2.864,
+   "neso": 3.107
+  },
+  {
+   "settlement_date": "2025-04-21",
+   "model": 2.055,
+   "neso": 1.458
+  },
+  {
+   "settlement_date": "2025-04-22",
+   "model": 2.783,
+   "neso": 4.875
+  },
+  {
+   "settlement_date": "2025-04-23",
+   "model": 2.846,
+   "neso": 1.099
+  },
+  {
+   "settlement_date": "2025-04-24",
+   "model": 3.29,
+   "neso": 2.606
+  },
+  {
+   "settlement_date": "2025-04-25",
+   "model": 2.002,
+   "neso": 1.766
+  },
+  {
+   "settlement_date": "2025-04-26",
+   "model": 2.721,
+   "neso": 3.431
+  },
+  {
+   "settlement_date": "2025-04-27",
+   "model": 4.048,
+   "neso": 2.478
+  },
+  {
+   "settlement_date": "2025-04-28",
+   "model": 3.944,
+   "neso": 2.114
+  },
+  {
+   "settlement_date": "2025-04-29",
+   "model": 1.949,
+   "neso": 3.287
+  },
+  {
+   "settlement_date": "2025-04-30",
+   "model": 1.929,
+   "neso": 1.959
+  },
+  {
+   "settlement_date": "2025-05-01",
+   "model": 2.486,
+   "neso": 1.657
+  },
+  {
+   "settlement_date": "2025-05-02",
+   "model": 2.469,
+   "neso": 2.846
+  },
+  {
+   "settlement_date": "2025-05-03",
+   "model": 5.138,
+   "neso": 2.348
+  },
+  {
+   "settlement_date": "2025-05-04",
+   "model": 6.272,
+   "neso": 4.496
+  },
+  {
+   "settlement_date": "2025-05-05",
+   "model": 4.887,
+   "neso": 4.634
+  },
+  {
+   "settlement_date": "2025-05-06",
+   "model": 3.542,
+   "neso": 2.561
+  },
+  {
+   "settlement_date": "2025-05-07",
+   "model": 2.848,
+   "neso": 3.538
+  },
+  {
+   "settlement_date": "2025-05-08",
+   "model": 4.509,
+   "neso": 3.278
+  },
+  {
+   "settlement_date": "2025-05-09",
+   "model": 4.367,
+   "neso": 3.28
+  },
+  {
+   "settlement_date": "2025-05-10",
+   "model": 4.893,
+   "neso": 4.562
+  },
+  {
+   "settlement_date": "2025-05-11",
+   "model": 4.631,
+   "neso": 2.927
+  },
+  {
+   "settlement_date": "2025-05-12",
+   "model": 2.587,
+   "neso": 3.702
+  },
+  {
+   "settlement_date": "2025-05-13",
+   "model": 2.496,
+   "neso": 2.704
+  },
+  {
+   "settlement_date": "2025-05-14",
+   "model": 1.89,
+   "neso": 1.627
+  },
+  {
+   "settlement_date": "2025-05-15",
+   "model": 8.52,
+   "neso": 4.249
+  },
+  {
+   "settlement_date": "2025-05-16",
+   "model": 4.486,
+   "neso": 1.929
+  },
+  {
+   "settlement_date": "2025-05-17",
+   "model": 6.565,
+   "neso": 2.877
+  },
+  {
+   "settlement_date": "2025-05-18",
+   "model": 7.021,
+   "neso": 3.239
+  },
+  {
+   "settlement_date": "2025-05-19",
+   "model": 3.3,
+   "neso": 2.987
+  },
+  {
+   "settlement_date": "2025-05-20",
+   "model": 2.168,
+   "neso": 3.802
+  },
+  {
+   "settlement_date": "2025-05-21",
+   "model": 1.636,
+   "neso": 4.724
+  },
+  {
+   "settlement_date": "2025-05-22",
+   "model": 2.048,
+   "neso": 2.809
+  },
+  {
+   "settlement_date": "2025-05-23",
+   "model": 2.949,
+   "neso": 2.414
+  },
+  {
+   "settlement_date": "2025-05-24",
+   "model": 2.093,
+   "neso": 2.494
+  },
+  {
+   "settlement_date": "2025-05-25",
+   "model": 5.314,
+   "neso": 5.464
+  },
+  {
+   "settlement_date": "2025-05-26",
+   "model": 4.872,
+   "neso": 5.439
+  },
+  {
+   "settlement_date": "2025-05-27",
+   "model": 2.44,
+   "neso": 1.855
+  },
+  {
+   "settlement_date": "2025-05-28",
+   "model": 2.675,
+   "neso": 3.116
+  },
+  {
+   "settlement_date": "2025-05-29",
+   "model": 3.895,
+   "neso": 4.376
+  },
+  {
+   "settlement_date": "2025-05-30",
+   "model": 2.379,
+   "neso": 3.873
+  },
+  {
+   "settlement_date": "2025-05-31",
+   "model": 3.415,
+   "neso": 1.85
+  },
+  {
+   "settlement_date": "2025-06-01",
+   "model": 5.58,
+   "neso": 4.516
+  },
+  {
+   "settlement_date": "2025-06-02",
+   "model": 6.24,
+   "neso": 3.334
+  },
+  {
+   "settlement_date": "2025-06-03",
+   "model": 2.961,
+   "neso": 2.704
+  },
+  {
+   "settlement_date": "2025-06-04",
+   "model": 3.825,
+   "neso": 4.961
+  },
+  {
+   "settlement_date": "2025-06-05",
+   "model": 3.728,
+   "neso": 2.386
+  },
+  {
+   "settlement_date": "2025-06-06",
+   "model": 3.235,
+   "neso": 3.903
+  },
+  {
+   "settlement_date": "2025-06-07",
+   "model": 3.081,
+   "neso": 3.177
+  },
+  {
+   "settlement_date": "2025-06-08",
+   "model": 5.951,
+   "neso": 3.599
+  },
+  {
+   "settlement_date": "2025-06-09",
+   "model": 3.357,
+   "neso": 2.119
+  },
+  {
+   "settlement_date": "2025-06-10",
+   "model": 2.486,
+   "neso": 2.869
+  },
+  {
+   "settlement_date": "2025-06-11",
+   "model": 2.506,
+   "neso": 1.817
+  },
+  {
+   "settlement_date": "2025-06-12",
+   "model": 2.022,
+   "neso": 3.537
+  },
+  {
+   "settlement_date": "2025-06-13",
+   "model": 3.958,
+   "neso": 3.052
+  },
+  {
+   "settlement_date": "2025-06-14",
+   "model": 2.563,
+   "neso": 2.911
+  },
+  {
+   "settlement_date": "2025-06-15",
+   "model": 4.128,
+   "neso": 4.278
+  },
+  {
+   "settlement_date": "2025-06-16",
+   "model": 3.603,
+   "neso": 1.794
+  },
+  {
+   "settlement_date": "2025-06-17",
+   "model": 1.961,
+   "neso": 2.468
+  },
+  {
+   "settlement_date": "2025-06-18",
+   "model": 2.576,
+   "neso": 2.086
+  },
+  {
+   "settlement_date": "2025-06-19",
+   "model": 2.572,
+   "neso": 2.466
+  },
+  {
+   "settlement_date": "2025-06-20",
+   "model": 1.397,
+   "neso": 1.663
+  },
+  {
+   "settlement_date": "2025-06-21",
+   "model": 2.017,
+   "neso": 1.835
+  },
+  {
+   "settlement_date": "2025-06-22",
+   "model": 3.127,
+   "neso": 2.046
+  },
+  {
+   "settlement_date": "2025-06-23",
+   "model": 4.333,
+   "neso": 2.109
+  },
+  {
+   "settlement_date": "2025-06-24",
+   "model": 2.66,
+   "neso": 2.049
+  },
+  {
+   "settlement_date": "2025-06-25",
+   "model": 2.511,
+   "neso": 2.13
+  },
+  {
+   "settlement_date": "2025-06-26",
+   "model": 8.953,
+   "neso": 4.799
+  },
+  {
+   "settlement_date": "2025-06-27",
+   "model": 4.225,
+   "neso": 3.417
+  },
+  {
+   "settlement_date": "2025-06-28",
+   "model": 3.936,
+   "neso": 2.965
+  },
+  {
+   "settlement_date": "2025-06-29",
+   "model": 3.5,
+   "neso": 2.801
+  },
+  {
+   "settlement_date": "2025-06-30",
+   "model": 2.526,
+   "neso": 2.484
+  },
+  {
+   "settlement_date": "2025-07-01",
+   "model": 4.208,
+   "neso": 2.209
+  },
+  {
+   "settlement_date": "2025-07-02",
+   "model": 2.449,
+   "neso": 5.542
+  },
+  {
+   "settlement_date": "2025-07-03",
+   "model": 2.602,
+   "neso": 4.577
+  },
+  {
+   "settlement_date": "2025-07-04",
+   "model": 3.128,
+   "neso": 3.329
+  },
+  {
+   "settlement_date": "2025-07-05",
+   "model": 5.52,
+   "neso": 3.736
+  },
+  {
+   "settlement_date": "2025-07-06",
+   "model": 2.669,
+   "neso": 2.076
+  },
+  {
+   "settlement_date": "2025-07-07",
+   "model": 3.402,
+   "neso": 2.933
+  },
+  {
+   "settlement_date": "2025-07-08",
+   "model": 3.005,
+   "neso": 2.081
+  },
+  {
+   "settlement_date": "2025-07-09",
+   "model": 1.898,
+   "neso": 2.575
+  },
+  {
+   "settlement_date": "2025-07-10",
+   "model": 3.302,
+   "neso": 1.279
+  },
+  {
+   "settlement_date": "2025-07-11",
+   "model": 2.914,
+   "neso": 1.093
+  },
+  {
+   "settlement_date": "2025-07-12",
+   "model": 3.23,
+   "neso": 3.67
+  },
+  {
+   "settlement_date": "2025-07-13",
+   "model": 3.698,
+   "neso": 3.657
+  },
+  {
+   "settlement_date": "2025-07-14",
+   "model": 3.324,
+   "neso": 3.414
+  },
+  {
+   "settlement_date": "2025-07-15",
+   "model": 3.376,
+   "neso": 3.76
+  },
+  {
+   "settlement_date": "2025-07-16",
+   "model": 1.162,
+   "neso": 1.72
+  },
+  {
+   "settlement_date": "2025-07-17",
+   "model": 2.279,
+   "neso": 1.497
+  },
+  {
+   "settlement_date": "2025-07-18",
+   "model": 2.174,
+   "neso": 1.628
+  },
+  {
+   "settlement_date": "2025-07-19",
+   "model": 2.308,
+   "neso": 2.079
+  },
+  {
+   "settlement_date": "2025-07-20",
+   "model": 4.158,
+   "neso": 2.804
+  },
+  {
+   "settlement_date": "2025-07-21",
+   "model": 1.794,
+   "neso": 2.228
+  },
+  {
+   "settlement_date": "2025-07-22",
+   "model": 1.898,
+   "neso": 1.464
+  },
+  {
+   "settlement_date": "2025-07-23",
+   "model": 2.904,
+   "neso": 1.711
+  },
+  {
+   "settlement_date": "2025-07-24",
+   "model": 2.907,
+   "neso": 1.826
+  },
+  {
+   "settlement_date": "2025-07-25",
+   "model": 3.59,
+   "neso": 3.708
+  },
+  {
+   "settlement_date": "2025-07-26",
+   "model": 1.918,
+   "neso": 1.849
+  },
+  {
+   "settlement_date": "2025-07-27",
+   "model": 4.492,
+   "neso": 2.063
+  },
+  {
+   "settlement_date": "2025-07-28",
+   "model": 1.892,
+   "neso": 2.789
+  },
+  {
+   "settlement_date": "2025-07-29",
+   "model": 1.381,
+   "neso": 2.52
+  },
+  {
+   "settlement_date": "2025-07-30",
+   "model": 2.722,
+   "neso": 2.844
+  },
+  {
+   "settlement_date": "2025-07-31",
+   "model": 2.358,
+   "neso": 2.4
+  },
+  {
+   "settlement_date": "2025-08-01",
+   "model": 2.254,
+   "neso": 2.423
+  },
+  {
+   "settlement_date": "2025-08-02",
+   "model": 3.945,
+   "neso": 2.511
+  },
+  {
+   "settlement_date": "2025-08-03",
+   "model": 3.698,
+   "neso": 5.439
+  },
+  {
+   "settlement_date": "2025-08-04",
+   "model": 2.557,
+   "neso": 2.628
+  },
+  {
+   "settlement_date": "2025-08-05",
+   "model": 3.678,
+   "neso": 4.058
+  },
+  {
+   "settlement_date": "2025-08-06",
+   "model": 3.818,
+   "neso": 2.124
+  },
+  {
+   "settlement_date": "2025-08-07",
+   "model": 3.222,
+   "neso": 1.593
+  },
+  {
+   "settlement_date": "2025-08-08",
+   "model": 2.562,
+   "neso": 2.852
+  },
+  {
+   "settlement_date": "2025-08-09",
+   "model": 3.035,
+   "neso": 2.836
+  },
+  {
+   "settlement_date": "2025-08-10",
+   "model": 3.038,
+   "neso": 2.505
+  },
+  {
+   "settlement_date": "2025-08-11",
+   "model": 1.963,
+   "neso": 2.594
+  },
+  {
+   "settlement_date": "2025-08-12",
+   "model": 2.412,
+   "neso": 1.94
+  },
+  {
+   "settlement_date": "2025-08-13",
+   "model": 3.35,
+   "neso": 2.38
+  },
+  {
+   "settlement_date": "2025-08-14",
+   "model": 2.383,
+   "neso": 2.197
+  },
+  {
+   "settlement_date": "2025-08-15",
+   "model": 2.286,
+   "neso": 2.373
+  },
+  {
+   "settlement_date": "2025-08-16",
+   "model": 2.851,
+   "neso": 2.521
+  },
+  {
+   "settlement_date": "2025-08-17",
+   "model": 1.867,
+   "neso": 3.645
+  },
+  {
+   "settlement_date": "2025-08-18",
+   "model": 5.626,
+   "neso": 2.795
+  },
+  {
+   "settlement_date": "2025-08-19",
+   "model": 2.344,
+   "neso": 1.476
+  },
+  {
+   "settlement_date": "2025-08-20",
+   "model": 5.095,
+   "neso": 4.87
+  },
+  {
+   "settlement_date": "2025-08-21",
+   "model": 3.356,
+   "neso": 2.756
+  },
+  {
+   "settlement_date": "2025-08-22",
+   "model": 4.376,
+   "neso": 2.104
+  },
+  {
+   "settlement_date": "2025-08-23",
+   "model": 1.989,
+   "neso": 2.338
+  },
+  {
+   "settlement_date": "2025-08-24",
+   "model": 2.388,
+   "neso": 1.736
+  },
+  {
+   "settlement_date": "2025-08-25",
+   "model": 3.701,
+   "neso": 2.593
+  },
+  {
+   "settlement_date": "2025-08-26",
+   "model": 3.95,
+   "neso": 1.69
+  },
+  {
+   "settlement_date": "2025-08-27",
+   "model": 3.025,
+   "neso": 1.438
+  },
+  {
+   "settlement_date": "2025-08-28",
+   "model": 2.654,
+   "neso": 2.71
+  },
+  {
+   "settlement_date": "2025-08-29",
+   "model": 2.209,
+   "neso": 2.804
+  },
+  {
+   "settlement_date": "2025-08-30",
+   "model": 2.307,
+   "neso": 3.15
+  },
+  {
+   "settlement_date": "2025-08-31",
+   "model": 5.358,
+   "neso": 4.365
+  },
+  {
+   "settlement_date": "2025-09-01",
+   "model": 4.203,
+   "neso": 2.383
+  },
+  {
+   "settlement_date": "2025-09-02",
+   "model": 2.667,
+   "neso": 2.272
+  },
+  {
+   "settlement_date": "2025-09-03",
+   "model": 5.268,
+   "neso": 3.153
+  },
+  {
+   "settlement_date": "2025-09-04",
+   "model": 3.545,
+   "neso": 2.957
+  },
+  {
+   "settlement_date": "2025-09-05",
+   "model": 3.679,
+   "neso": 2.538
+  },
+  {
+   "settlement_date": "2025-09-06",
+   "model": 3.331,
+   "neso": 3.167
+  },
+  {
+   "settlement_date": "2025-09-07",
+   "model": 5.077,
+   "neso": 5.037
+  },
+  {
+   "settlement_date": "2025-09-08",
+   "model": 4.122,
+   "neso": 3.07
+  },
+  {
+   "settlement_date": "2025-09-09",
+   "model": 2.669,
+   "neso": 2.598
+  },
+  {
+   "settlement_date": "2025-09-10",
+   "model": 2.707,
+   "neso": 2.077
+  },
+  {
+   "settlement_date": "2025-09-11",
+   "model": 2.428,
+   "neso": 3.636
+  },
+  {
+   "settlement_date": "2025-09-12",
+   "model": 4.585,
+   "neso": 4.391
+  },
+  {
+   "settlement_date": "2025-09-13",
+   "model": 3.866,
+   "neso": 1.935
+  },
+  {
+   "settlement_date": "2025-09-14",
+   "model": 3.986,
+   "neso": 3.131
+  },
+  {
+   "settlement_date": "2025-09-15",
+   "model": 5.359,
+   "neso": 3.984
+  },
+  {
+   "settlement_date": "2025-09-16",
+   "model": 2.604,
+   "neso": 2.253
+  },
+  {
+   "settlement_date": "2025-09-17",
+   "model": 1.503,
+   "neso": 2.006
+  },
+  {
+   "settlement_date": "2025-09-18",
+   "model": 1.454,
+   "neso": 3.425
+  },
+  {
+   "settlement_date": "2025-09-19",
+   "model": 2.059,
+   "neso": 2.238
+  },
+  {
+   "settlement_date": "2025-09-20",
+   "model": 2.705,
+   "neso": 2.185
+  },
+  {
+   "settlement_date": "2025-09-21",
+   "model": 4.18,
+   "neso": 4.598
+  },
+  {
+   "settlement_date": "2025-09-22",
+   "model": 2.573,
+   "neso": 4.355
+  },
+  {
+   "settlement_date": "2025-09-23",
+   "model": 3.155,
+   "neso": 3.249
+  },
+  {
+   "settlement_date": "2025-09-24",
+   "model": 1.751,
+   "neso": 2.035
+  },
+  {
+   "settlement_date": "2025-09-25",
+   "model": 2.181,
+   "neso": 2.968
+  },
+  {
+   "settlement_date": "2025-09-26",
+   "model": 3.124,
+   "neso": 2.576
+  },
+  {
+   "settlement_date": "2025-09-27",
+   "model": 2.368,
+   "neso": 2.968
+  },
+  {
+   "settlement_date": "2025-09-28",
+   "model": 2.887,
+   "neso": 3.604
+  },
+  {
+   "settlement_date": "2025-09-29",
+   "model": 1.865,
+   "neso": 3.178
+  },
+  {
+   "settlement_date": "2025-09-30",
+   "model": 3.395,
+   "neso": 2.591
+  },
+  {
+   "settlement_date": "2025-10-01",
+   "model": 1.972,
+   "neso": 2.133
+  },
+  {
+   "settlement_date": "2025-10-02",
+   "model": 1.506,
+   "neso": 3.263
+  },
+  {
+   "settlement_date": "2025-10-03",
+   "model": 3.0,
+   "neso": 2.977
+  },
+  {
+   "settlement_date": "2025-10-04",
+   "model": 3.755,
+   "neso": 5.667
+  },
+  {
+   "settlement_date": "2025-10-05",
+   "model": 2.405,
+   "neso": 2.177
+  },
+  {
+   "settlement_date": "2025-10-06",
+   "model": 6.399,
+   "neso": 3.897
+  },
+  {
+   "settlement_date": "2025-10-07",
+   "model": 2.571,
+   "neso": 2.755
+  },
+  {
+   "settlement_date": "2025-10-08",
+   "model": 1.492,
+   "neso": 2.186
+  },
+  {
+   "settlement_date": "2025-10-09",
+   "model": 2.28,
+   "neso": 2.513
+  },
+  {
+   "settlement_date": "2025-10-10",
+   "model": 2.118,
+   "neso": 3.535
+  },
+  {
+   "settlement_date": "2025-10-11",
+   "model": 1.659,
+   "neso": 1.588
+  },
+  {
+   "settlement_date": "2025-10-12",
+   "model": 4.203,
+   "neso": 4.755
+  },
+  {
+   "settlement_date": "2025-10-13",
+   "model": 2.05,
+   "neso": 1.765
+  },
+  {
+   "settlement_date": "2025-10-14",
+   "model": 3.652,
+   "neso": 1.728
+  },
+  {
+   "settlement_date": "2025-10-15",
+   "model": 4.09,
+   "neso": 2.812
+  },
+  {
+   "settlement_date": "2025-10-16",
+   "model": 3.226,
+   "neso": 1.988
+  },
+  {
+   "settlement_date": "2025-10-17",
+   "model": 3.589,
+   "neso": 1.569
+  },
+  {
+   "settlement_date": "2025-10-18",
+   "model": 2.378,
+   "neso": 3.505
+  },
+  {
+   "settlement_date": "2025-10-19",
+   "model": 2.427,
+   "neso": 3.174
+  },
+  {
+   "settlement_date": "2025-10-20",
+   "model": 1.713,
+   "neso": 2.45
+  },
+  {
+   "settlement_date": "2025-10-21",
+   "model": 1.904,
+   "neso": 1.428
+  },
+  {
+   "settlement_date": "2025-10-22",
+   "model": 1.474,
+   "neso": 2.337
+  },
+  {
+   "settlement_date": "2025-10-23",
+   "model": 2.831,
+   "neso": 1.455
+  },
+  {
+   "settlement_date": "2025-10-24",
+   "model": 5.01,
+   "neso": 4.083
+  },
+  {
+   "settlement_date": "2025-10-25",
+   "model": 3.521,
+   "neso": 3.41
+  },
+  {
+   "settlement_date": "2025-10-26",
+   "model": 2.875,
+   "neso": 3.151
+  },
+  {
+   "settlement_date": "2025-10-27",
+   "model": 3.046,
+   "neso": 2.462
+  },
+  {
+   "settlement_date": "2025-10-28",
+   "model": 3.72,
+   "neso": 3.024
+  },
+  {
+   "settlement_date": "2025-10-29",
+   "model": 2.866,
+   "neso": 1.879
+  },
+  {
+   "settlement_date": "2025-10-30",
+   "model": 2.831,
+   "neso": 1.717
+  },
+  {
+   "settlement_date": "2025-10-31",
+   "model": 3.496,
+   "neso": 2.774
+  },
+  {
+   "settlement_date": "2025-11-01",
+   "model": 4.361,
+   "neso": 2.717
+  },
+  {
+   "settlement_date": "2025-11-02",
+   "model": 3.608,
+   "neso": 3.553
+  },
+  {
+   "settlement_date": "2025-11-03",
+   "model": 1.652,
+   "neso": 2.266
+  },
+  {
+   "settlement_date": "2025-11-04",
+   "model": 4.168,
+   "neso": 2.041
+  },
+  {
+   "settlement_date": "2025-11-05",
+   "model": 3.239,
+   "neso": 2.003
+  },
+  {
+   "settlement_date": "2025-11-06",
+   "model": 4.052,
+   "neso": 1.45
+  },
+  {
+   "settlement_date": "2025-11-07",
+   "model": 2.36,
+   "neso": 2.086
+  },
+  {
+   "settlement_date": "2025-11-08",
+   "model": 2.201,
+   "neso": 1.669
+  },
+  {
+   "settlement_date": "2025-11-09",
+   "model": 2.053,
+   "neso": 1.685
+  },
+  {
+   "settlement_date": "2025-11-10",
+   "model": 2.718,
+   "neso": 1.827
+  },
+  {
+   "settlement_date": "2025-11-11",
+   "model": 1.285,
+   "neso": 2.389
+  },
+  {
+   "settlement_date": "2025-11-12",
+   "model": 1.632,
+   "neso": 1.932
+  },
+  {
+   "settlement_date": "2025-11-13",
+   "model": 3.639,
+   "neso": 2.767
+  },
+  {
+   "settlement_date": "2025-11-14",
+   "model": 3.046,
+   "neso": 1.452
+  },
+  {
+   "settlement_date": "2025-11-15",
+   "model": 5.982,
+   "neso": 2.788
+  },
+  {
+   "settlement_date": "2025-11-16",
+   "model": 1.564,
+   "neso": 1.376
+  },
+  {
+   "settlement_date": "2025-11-17",
+   "model": 3.106,
+   "neso": 2.218
+  },
+  {
+   "settlement_date": "2025-11-18",
+   "model": 1.753,
+   "neso": 1.65
+  },
+  {
+   "settlement_date": "2025-11-19",
+   "model": 1.874,
+   "neso": 1.682
+  },
+  {
+   "settlement_date": "2025-11-20",
+   "model": 2.425,
+   "neso": 2.093
+  },
+  {
+   "settlement_date": "2025-11-21",
+   "model": 2.538,
+   "neso": 1.968
+  },
+  {
+   "settlement_date": "2025-11-22",
+   "model": 1.49,
+   "neso": 1.679
+  },
+  {
+   "settlement_date": "2025-11-23",
+   "model": 3.35,
+   "neso": 1.792
+  },
+  {
+   "settlement_date": "2025-11-24",
+   "model": 2.343,
+   "neso": 1.431
+  },
+  {
+   "settlement_date": "2025-11-25",
+   "model": 1.98,
+   "neso": 2.014
+  },
+  {
+   "settlement_date": "2025-11-26",
+   "model": 2.032,
+   "neso": 2.324
+  },
+  {
+   "settlement_date": "2025-11-27",
+   "model": 2.157,
+   "neso": 3.207
+  },
+  {
+   "settlement_date": "2025-11-28",
+   "model": 3.438,
+   "neso": 2.506
+  },
+  {
+   "settlement_date": "2025-11-29",
+   "model": 1.487,
+   "neso": 2.13
+  },
+  {
+   "settlement_date": "2025-11-30",
+   "model": 1.968,
+   "neso": 2.569
+  },
+  {
+   "settlement_date": "2025-12-01",
+   "model": 1.649,
+   "neso": 1.696
+  },
+  {
+   "settlement_date": "2025-12-02",
+   "model": 2.408,
+   "neso": 1.141
+  },
+  {
+   "settlement_date": "2025-12-03",
+   "model": 1.991,
+   "neso": 1.263
+  },
+  {
+   "settlement_date": "2025-12-04",
+   "model": 3.499,
+   "neso": 1.328
+  },
+  {
+   "settlement_date": "2025-12-05",
+   "model": 1.794,
+   "neso": 1.808
+  },
+  {
+   "settlement_date": "2025-12-06",
+   "model": 2.173,
+   "neso": 2.066
+  },
+  {
+   "settlement_date": "2025-12-07",
+   "model": 2.467,
+   "neso": 2.266
+  },
+  {
+   "settlement_date": "2025-12-08",
+   "model": 2.231,
+   "neso": 2.438
+  },
+  {
+   "settlement_date": "2025-12-09",
+   "model": 1.84,
+   "neso": 1.424
+  },
+  {
+   "settlement_date": "2025-12-10",
+   "model": 2.533,
+   "neso": 1.812
+  },
+  {
+   "settlement_date": "2025-12-11",
+   "model": 1.365,
+   "neso": 1.249
+  },
+  {
+   "settlement_date": "2025-12-12",
+   "model": 2.933,
+   "neso": 4.171
+  },
+  {
+   "settlement_date": "2025-12-13",
+   "model": 1.627,
+   "neso": 2.885
+  },
+  {
+   "settlement_date": "2025-12-14",
+   "model": 1.567,
+   "neso": 2.139
+  },
+  {
+   "settlement_date": "2025-12-15",
+   "model": 1.756,
+   "neso": 0.961
+  },
+  {
+   "settlement_date": "2025-12-16",
+   "model": 2.424,
+   "neso": 1.508
+  },
+  {
+   "settlement_date": "2025-12-17",
+   "model": 1.802,
+   "neso": 1.424
+  },
+  {
+   "settlement_date": "2025-12-18",
+   "model": 1.509,
+   "neso": 3.416
+  },
+  {
+   "settlement_date": "2025-12-19",
+   "model": 1.932,
+   "neso": 1.777
+  },
+  {
+   "settlement_date": "2025-12-20",
+   "model": 1.053,
+   "neso": 1.323
+  },
+  {
+   "settlement_date": "2025-12-21",
+   "model": 2.264,
+   "neso": 1.833
+  },
+  {
+   "settlement_date": "2025-12-22",
+   "model": 4.374,
+   "neso": 2.223
+  },
+  {
+   "settlement_date": "2025-12-23",
+   "model": 3.327,
+   "neso": 2.225
+  },
+  {
+   "settlement_date": "2025-12-24",
+   "model": 4.666,
+   "neso": 2.33
+  },
+  {
+   "settlement_date": "2025-12-25",
+   "model": 8.302,
+   "neso": 2.131
+  },
+  {
+   "settlement_date": "2025-12-26",
+   "model": 4.161,
+   "neso": 2.065
+  },
+  {
+   "settlement_date": "2025-12-27",
+   "model": 4.127,
+   "neso": 5.446
+  },
+  {
+   "settlement_date": "2025-12-28",
+   "model": 3.303,
+   "neso": 3.246
+  },
+  {
+   "settlement_date": "2025-12-29",
+   "model": 1.905,
+   "neso": 1.771
+  },
+  {
+   "settlement_date": "2025-12-30",
+   "model": 1.293,
+   "neso": 1.234
+  },
+  {
+   "settlement_date": "2025-12-31",
+   "model": 2.319,
+   "neso": 3.678
+  },
+  {
+   "settlement_date": "2026-01-01",
+   "model": 1.858,
+   "neso": 3.127
+  },
+  {
+   "settlement_date": "2026-01-02",
+   "model": 2.342,
+   "neso": 3.758
+  },
+  {
+   "settlement_date": "2026-01-03",
+   "model": 2.025,
+   "neso": 3.566
+  },
+  {
+   "settlement_date": "2026-01-04",
+   "model": 2.941,
+   "neso": 2.196
+  },
+  {
+   "settlement_date": "2026-01-05",
+   "model": 4.381,
+   "neso": 1.139
+  },
+  {
+   "settlement_date": "2026-01-06",
+   "model": 4.877,
+   "neso": 2.123
+  },
+  {
+   "settlement_date": "2026-01-07",
+   "model": 2.309,
+   "neso": 1.664
+  },
+  {
+   "settlement_date": "2026-01-08",
+   "model": 2.904,
+   "neso": 3.352
+  },
+  {
+   "settlement_date": "2026-01-09",
+   "model": 3.19,
+   "neso": 1.422
+  },
+  {
+   "settlement_date": "2026-01-10",
+   "model": 2.44,
+   "neso": 2.358
+  },
+  {
+   "settlement_date": "2026-01-11",
+   "model": 1.916,
+   "neso": 1.846
+  },
+  {
+   "settlement_date": "2026-01-12",
+   "model": 2.102,
+   "neso": 2.175
+  },
+  {
+   "settlement_date": "2026-01-13",
+   "model": 2.33,
+   "neso": 1.883
+  },
+  {
+   "settlement_date": "2026-01-14",
+   "model": 1.646,
+   "neso": 1.816
+  },
+  {
+   "settlement_date": "2026-01-15",
+   "model": 0.805,
+   "neso": 1.272
+  },
+  {
+   "settlement_date": "2026-01-16",
+   "model": 2.327,
+   "neso": 2.056
+  },
+  {
+   "settlement_date": "2026-01-17",
+   "model": 3.009,
+   "neso": 2.433
+  },
+  {
+   "settlement_date": "2026-01-18",
+   "model": 3.111,
+   "neso": 1.067
+  },
+  {
+   "settlement_date": "2026-01-19",
+   "model": 1.299,
+   "neso": 1.074
+  },
+  {
+   "settlement_date": "2026-01-20",
+   "model": 1.51,
+   "neso": 2.561
+  },
+  {
+   "settlement_date": "2026-01-21",
+   "model": 1.549,
+   "neso": 3.349
+  },
+  {
+   "settlement_date": "2026-01-22",
+   "model": 1.57,
+   "neso": 2.168
+  },
+  {
+   "settlement_date": "2026-01-23",
+   "model": 1.434,
+   "neso": 1.848
+  },
+  {
+   "settlement_date": "2026-01-24",
+   "model": 1.872,
+   "neso": 1.589
+  },
+  {
+   "settlement_date": "2026-01-25",
+   "model": 1.869,
+   "neso": 1.734
+  },
+  {
+   "settlement_date": "2026-01-26",
+   "model": 1.549,
+   "neso": 1.469
+  },
+  {
+   "settlement_date": "2026-01-27",
+   "model": 2.481,
+   "neso": 2.163
+  },
+  {
+   "settlement_date": "2026-01-28",
+   "model": 1.293,
+   "neso": 1.055
+  },
+  {
+   "settlement_date": "2026-01-29",
+   "model": 1.156,
+   "neso": 2.282
+  },
+  {
+   "settlement_date": "2026-01-30",
+   "model": 1.962,
+   "neso": 2.672
+  },
+  {
+   "settlement_date": "2026-01-31",
+   "model": 1.885,
+   "neso": 1.669
+  },
+  {
+   "settlement_date": "2026-02-01",
+   "model": 2.172,
+   "neso": 1.583
+  },
+  {
+   "settlement_date": "2026-02-02",
+   "model": 2.489,
+   "neso": 2.943
+  },
+  {
+   "settlement_date": "2026-02-03",
+   "model": 3.503,
+   "neso": 3.246
+  },
+  {
+   "settlement_date": "2026-02-04",
+   "model": 2.389,
+   "neso": 2.108
+  },
+  {
+   "settlement_date": "2026-02-05",
+   "model": 2.251,
+   "neso": 2.17
+  },
+  {
+   "settlement_date": "2026-02-06",
+   "model": 1.961,
+   "neso": 1.212
+  },
+  {
+   "settlement_date": "2026-02-07",
+   "model": 2.806,
+   "neso": 2.38
+  },
+  {
+   "settlement_date": "2026-02-08",
+   "model": 2.601,
+   "neso": 1.519
+  },
+  {
+   "settlement_date": "2026-02-09",
+   "model": 2.028,
+   "neso": 1.407
+  },
+  {
+   "settlement_date": "2026-02-10",
+   "model": 1.573,
+   "neso": 1.191
+  },
+  {
+   "settlement_date": "2026-02-11",
+   "model": 1.879,
+   "neso": 2.009
+  },
+  {
+   "settlement_date": "2026-02-12",
+   "model": 1.393,
+   "neso": 1.735
+  },
+  {
+   "settlement_date": "2026-02-13",
+   "model": 1.913,
+   "neso": 1.393
+  },
+  {
+   "settlement_date": "2026-02-14",
+   "model": 2.027,
+   "neso": 3.384
+  },
+  {
+   "settlement_date": "2026-02-15",
+   "model": 2.826,
+   "neso": 3.965
+  },
+  {
+   "settlement_date": "2026-02-16",
+   "model": 1.368,
+   "neso": 2.197
+  },
+  {
+   "settlement_date": "2026-02-17",
+   "model": 1.435,
+   "neso": 2.205
+  },
+  {
+   "settlement_date": "2026-02-18",
+   "model": 1.97,
+   "neso": 1.735
+  },
+  {
+   "settlement_date": "2026-02-19",
+   "model": 2.249,
+   "neso": 1.983
+  },
+  {
+   "settlement_date": "2026-02-20",
+   "model": 1.758,
+   "neso": 1.549
+  },
+  {
+   "settlement_date": "2026-02-21",
+   "model": 2.335,
+   "neso": 1.94
+  },
+  {
+   "settlement_date": "2026-02-22",
+   "model": 3.057,
+   "neso": 2.619
+  },
+  {
+   "settlement_date": "2026-02-23",
+   "model": 2.36,
+   "neso": 3.052
+  },
+  {
+   "settlement_date": "2026-02-24",
+   "model": 2.397,
+   "neso": 3.371
+  },
+  {
+   "settlement_date": "2026-02-25",
+   "model": 2.534,
+   "neso": 3.149
+  },
+  {
+   "settlement_date": "2026-02-26",
+   "model": 3.217,
+   "neso": 4.554
+  },
+  {
+   "settlement_date": "2026-02-27",
+   "model": 1.941,
+   "neso": 3.358
+  },
+  {
+   "settlement_date": "2026-02-28",
+   "model": 3.146,
+   "neso": 2.856
+  },
+  {
+   "settlement_date": "2026-03-01",
+   "model": 2.454,
+   "neso": 1.765
+  },
+  {
+   "settlement_date": "2026-03-02",
+   "model": 2.742,
+   "neso": 3.016
+  },
+  {
+   "settlement_date": "2026-03-03",
+   "model": 2.376,
+   "neso": 2.512
+  },
+  {
+   "settlement_date": "2026-03-04",
+   "model": 3.369,
+   "neso": 1.686
+  },
+  {
+   "settlement_date": "2026-03-05",
+   "model": 3.475,
+   "neso": 3.389
+  },
+  {
+   "settlement_date": "2026-03-06",
+   "model": 3.804,
+   "neso": 4.603
+  },
+  {
+   "settlement_date": "2026-03-07",
+   "model": 6.367,
+   "neso": 4.443
+  },
+  {
+   "settlement_date": "2026-03-08",
+   "model": 3.639,
+   "neso": 4.404
+  },
+  {
+   "settlement_date": "2026-03-09",
+   "model": 4.396,
+   "neso": 2.793
+  },
+  {
+   "settlement_date": "2026-03-10",
+   "model": 1.697,
+   "neso": 2.495
+  },
+  {
+   "settlement_date": "2026-03-11",
+   "model": 3.605,
+   "neso": 3.999
+  },
+  {
+   "settlement_date": "2026-03-12",
+   "model": 2.806,
+   "neso": 3.665
+  },
+  {
+   "settlement_date": "2026-03-13",
+   "model": 2.19,
+   "neso": 2.093
+  },
+  {
+   "settlement_date": "2026-03-14",
+   "model": 4.408,
+   "neso": 5.382
+  },
+  {
+   "settlement_date": "2026-03-15",
+   "model": 5.214,
+   "neso": 5.514
+  },
+  {
+   "settlement_date": "2026-03-16",
+   "model": 3.822,
+   "neso": 5.176
+  },
+  {
+   "settlement_date": "2026-03-17",
+   "model": 1.538,
+   "neso": 2.8
+  },
+  {
+   "settlement_date": "2026-03-18",
+   "model": 1.963,
+   "neso": 1.771
+  },
+  {
+   "settlement_date": "2026-03-19",
+   "model": 1.573,
+   "neso": 3.99
+  },
+  {
+   "settlement_date": "2026-03-20",
+   "model": 5.005,
+   "neso": 4.922
+  },
+  {
+   "settlement_date": "2026-03-21",
+   "model": 4.77,
+   "neso": 2.287
+  },
+  {
+   "settlement_date": "2026-03-22",
+   "model": 4.404,
+   "neso": 3.646
+  },
+  {
+   "settlement_date": "2026-03-23",
+   "model": 2.789,
+   "neso": 3.442
+  },
+  {
+   "settlement_date": "2026-03-24",
+   "model": 2.571,
+   "neso": 2.698
+  },
+  {
+   "settlement_date": "2026-03-25",
+   "model": 3.499,
+   "neso": 3.189
+  },
+  {
+   "settlement_date": "2026-03-26",
+   "model": 2.279,
+   "neso": 3.46
+  },
+  {
+   "settlement_date": "2026-03-27",
+   "model": 3.18,
+   "neso": 2.53
+  },
+  {
+   "settlement_date": "2026-03-28",
+   "model": 1.896,
+   "neso": 4.733
+  },
+  {
+   "settlement_date": "2026-03-29",
+   "model": 5.776,
+   "neso": 7.618
+  },
+  {
+   "settlement_date": "2026-03-30",
+   "model": 2.733,
+   "neso": 4.712
+  },
+  {
+   "settlement_date": "2026-03-31",
+   "model": 8.172,
+   "neso": 2.922
+  },
+  {
+   "settlement_date": "2026-04-01",
+   "model": 3.291,
+   "neso": 4.477
+  },
+  {
+   "settlement_date": "2026-04-02",
+   "model": 3.505,
+   "neso": 2.697
+  },
+  {
+   "settlement_date": "2026-04-03",
+   "model": 3.12,
+   "neso": 4.633
+  },
+  {
+   "settlement_date": "2026-04-04",
+   "model": 3.644,
+   "neso": 4.435
+  },
+  {
+   "settlement_date": "2026-04-05",
+   "model": 8.522,
+   "neso": 2.731
+  },
+  {
+   "settlement_date": "2026-04-06",
+   "model": 4.041,
+   "neso": 5.562
+  },
+  {
+   "settlement_date": "2026-04-07",
+   "model": 4.884,
+   "neso": 2.309
+  },
+  {
+   "settlement_date": "2026-04-08",
+   "model": 2.662,
+   "neso": 3.245
+  },
+  {
+   "settlement_date": "2026-04-09",
+   "model": 3.696,
+   "neso": 5.23
+  },
+  {
+   "settlement_date": "2026-04-10",
+   "model": 4.262,
+   "neso": 2.469
+  },
+  {
+   "settlement_date": "2026-04-11",
+   "model": 3.249,
+   "neso": 4.349
+  },
+  {
+   "settlement_date": "2026-04-12",
+   "model": 6.413,
+   "neso": 2.814
+  },
+  {
+   "settlement_date": "2026-04-13",
+   "model": 4.277,
+   "neso": 3.033
+  },
+  {
+   "settlement_date": "2026-04-14",
+   "model": 2.673,
+   "neso": 2.866
+  },
+  {
+   "settlement_date": "2026-04-15",
+   "model": 4.641,
+   "neso": 1.91
+  },
+  {
+   "settlement_date": "2026-04-16",
+   "model": 4.387,
+   "neso": 2.518
+  },
+  {
+   "settlement_date": "2026-04-17",
+   "model": 3.531,
+   "neso": 2.74
+  },
+  {
+   "settlement_date": "2026-04-18",
+   "model": 3.577,
+   "neso": 5.672
+  },
+  {
+   "settlement_date": "2026-04-19",
+   "model": 2.073,
+   "neso": 3.751
+  },
+  {
+   "settlement_date": "2026-04-20",
+   "model": 2.862,
+   "neso": 3.6
+  },
+  {
+   "settlement_date": "2026-04-21",
+   "model": 3.618,
+   "neso": 2.244
+  },
+  {
+   "settlement_date": "2026-04-22",
+   "model": 3.121,
+   "neso": 2.301
+  },
+  {
+   "settlement_date": "2026-04-23",
+   "model": 3.485,
+   "neso": 2.082
+  },
+  {
+   "settlement_date": "2026-04-24",
+   "model": 3.296,
+   "neso": 2.6
+  },
+  {
+   "settlement_date": "2026-04-25",
+   "model": 3.287,
+   "neso": 2.574
+  },
+  {
+   "settlement_date": "2026-04-26",
+   "model": 3.097,
+   "neso": 4.637
+  },
+  {
+   "settlement_date": "2026-04-27",
+   "model": 3.274,
+   "neso": 3.379
+  },
+  {
+   "settlement_date": "2026-04-28",
+   "model": 2.938,
+   "neso": 2.98
+  },
+  {
+   "settlement_date": "2026-04-29",
+   "model": 4.142,
+   "neso": 2.64
+  },
+  {
+   "settlement_date": "2026-04-30",
+   "model": 3.771,
+   "neso": 1.878
+  },
+  {
+   "settlement_date": "2026-05-01",
+   "model": 2.95,
+   "neso": 2.881
+  },
+  {
+   "settlement_date": "2026-05-02",
+   "model": 2.416,
+   "neso": 4.128
+  },
+  {
+   "settlement_date": "2026-05-03",
+   "model": 2.979,
+   "neso": 3.58
+  },
+  {
+   "settlement_date": "2026-05-04",
+   "model": 5.099,
+   "neso": 2.041
+  },
+  {
+   "settlement_date": "2026-05-05",
+   "model": 1.915,
+   "neso": 2.261
+  },
+  {
+   "settlement_date": "2026-05-06",
+   "model": 2.351,
+   "neso": 2.74
+  },
+  {
+   "settlement_date": "2026-05-07",
+   "model": 4.742,
+   "neso": 1.937
+  },
+  {
+   "settlement_date": "2026-05-08",
+   "model": 2.58,
+   "neso": 3.191
+  },
+  {
+   "settlement_date": "2026-05-09",
+   "model": 3.519,
+   "neso": 2.501
+  },
+  {
+   "settlement_date": "2026-05-10",
+   "model": 2.693,
+   "neso": 3.969
+  },
+  {
+   "settlement_date": "2026-05-11",
+   "model": 5.735,
+   "neso": 3.034
+  },
+  {
+   "settlement_date": "2026-05-12",
+   "model": 3.427,
+   "neso": 2.408
+  },
+  {
+   "settlement_date": "2026-05-13",
+   "model": 3.326,
+   "neso": 1.871
+  },
+  {
+   "settlement_date": "2026-05-14",
+   "model": 3.078,
+   "neso": 2.136
+  },
+  {
+   "settlement_date": "2026-05-15",
+   "model": 3.018,
+   "neso": 2.558
+  },
+  {
+   "settlement_date": "2026-05-16",
+   "model": 2.355,
+   "neso": 3.25
+  },
+  {
+   "settlement_date": "2026-05-17",
+   "model": 3.274,
+   "neso": 3.305
+  },
+  {
+   "settlement_date": "2026-05-18",
+   "model": 2.559,
+   "neso": 1.876
+  },
+  {
+   "settlement_date": "2026-05-19",
+   "model": 4.184,
+   "neso": 3.766
+  },
+  {
+   "settlement_date": "2026-05-20",
+   "model": 5.962,
+   "neso": 4.313
+  },
+  {
+   "settlement_date": "2026-05-21",
+   "model": 2.276,
+   "neso": 3.822
+  },
+  {
+   "settlement_date": "2026-05-22",
+   "model": 2.708,
+   "neso": 2.269
+  },
+  {
+   "settlement_date": "2026-05-23",
+   "model": 4.831,
+   "neso": 3.749
+  },
+  {
+   "settlement_date": "2026-05-24",
+   "model": 3.736,
+   "neso": 4.0
+  },
+  {
+   "settlement_date": "2026-05-25",
+   "model": 6.234,
+   "neso": 4.311
+  },
+  {
+   "settlement_date": "2026-05-26",
+   "model": 3.281,
+   "neso": 4.255
+  },
+  {
+   "settlement_date": "2026-05-27",
+   "model": 2.897,
+   "neso": 5.299
+  },
+  {
+   "settlement_date": "2026-05-28",
+   "model": 4.14,
+   "neso": 3.169
+  },
+  {
+   "settlement_date": "2026-05-29",
+   "model": 4.07,
+   "neso": 5.832
+  },
+  {
+   "settlement_date": "2026-05-30",
+   "model": 4.376,
+   "neso": 4.623
+  },
+  {
+   "settlement_date": "2026-05-31",
+   "model": 5.355,
+   "neso": 5.132
+  },
+  {
+   "settlement_date": "2026-06-01",
+   "model": 3.553,
+   "neso": 3.821
+  },
+  {
+   "settlement_date": "2026-06-02",
+   "model": 3.135,
+   "neso": 3.903
+  },
+  {
+   "settlement_date": "2026-06-03",
+   "model": 2.12,
+   "neso": 4.301
+  },
+  {
+   "settlement_date": "2026-06-04",
+   "model": 3.421,
+   "neso": 3.29
+  },
+  {
+   "settlement_date": "2026-06-05",
+   "model": 5.034,
+   "neso": 4.954
+  },
+  {
+   "settlement_date": "2026-06-06",
+   "model": 1.883,
+   "neso": 3.39
+  },
+  {
+   "settlement_date": "2026-06-07",
+   "model": 5.909,
+   "neso": 4.593
+  },
+  {
+   "settlement_date": "2026-06-08",
+   "model": 3.073,
+   "neso": 5.202
+  },
+  {
+   "settlement_date": "2026-06-09",
+   "model": 6.477,
+   "neso": 4.375
+  },
+  {
+   "settlement_date": "2026-06-10",
+   "model": 4.93,
+   "neso": 4.402
+  },
+  {
+   "settlement_date": "2026-06-11",
+   "model": 2.337,
+   "neso": 5.194
+  },
+  {
+   "settlement_date": "2026-06-12",
+   "model": 5.151,
+   "neso": 4.51
+  },
+  {
+   "settlement_date": "2026-06-13",
+   "model": 4.803,
+   "neso": 7.382
+  },
+  {
+   "settlement_date": "2026-06-14",
+   "model": 2.769,
+   "neso": 4.927
+  },
+  {
+   "settlement_date": "2026-06-15",
+   "model": 2.77,
+   "neso": 4.946
+  },
+  {
+   "settlement_date": "2026-06-16",
+   "model": 3.032,
+   "neso": 3.379
+  },
+  {
+   "settlement_date": "2026-06-17",
+   "model": 2.489,
+   "neso": 4.045
+  },
+  {
+   "settlement_date": "2026-06-18",
+   "model": 2.555,
+   "neso": 3.76
+  },
+  {
+   "settlement_date": "2026-06-19",
+   "model": 1.632,
+   "neso": 3.43
+  },
+  {
+   "settlement_date": "2026-06-20",
+   "model": 2.697,
+   "neso": 2.256
+  },
+  {
+   "settlement_date": "2026-06-21",
+   "model": 2.106,
+   "neso": 2.416
+  },
+  {
+   "settlement_date": "2026-06-22",
+   "model": 3.962,
+   "neso": 2.262
+  },
+  {
+   "settlement_date": "2026-06-23",
+   "model": 5.135,
+   "neso": 2.866
+  },
+  {
+   "settlement_date": "2026-06-24",
+   "model": 7.398,
+   "neso": 4.601
+  },
+  {
+   "settlement_date": "2026-06-25",
+   "model": 5.358,
+   "neso": 2.927
+  },
+  {
+   "settlement_date": "2026-06-26",
+   "model": 5.157,
+   "neso": 1.868
+  },
+  {
+   "settlement_date": "2026-06-27",
+   "model": 1.94,
+   "neso": 8.525
+  },
+  {
+   "settlement_date": "2026-06-28",
+   "model": 9.306,
+   "neso": 7.951
+  },
+  {
+   "settlement_date": "2026-06-29",
+   "model": 7.072,
+   "neso": 3.636
+  },
+  {
+   "settlement_date": "2026-06-30",
+   "model": 7.19,
+   "neso": 5.335
+  },
+  {
+   "settlement_date": "2026-07-01",
+   "model": 8.067,
+   "neso": 5.67
+  },
+  {
+   "settlement_date": "2026-07-02",
+   "model": 9.253,
+   "neso": 3.657
+  },
+  {
+   "settlement_date": "2026-07-03",
+   "model": 8.645,
+   "neso": 3.272
+  },
+  {
+   "settlement_date": "2026-07-04",
+   "model": 4.977,
+   "neso": 2.816
+  },
+  {
+   "settlement_date": "2026-07-05",
+   "model": 3.752,
+   "neso": 6.478
+  },
+  {
+   "settlement_date": "2026-07-06",
+   "model": 3.96,
+   "neso": 4.439
+  },
+  {
+   "settlement_date": "2026-07-07",
+   "model": 3.085,
+   "neso": 2.115
+  },
+  {
+   "settlement_date": "2026-07-08",
+   "model": 4.091,
+   "neso": 3.509
+  },
+  {
+   "settlement_date": "2026-07-09",
+   "model": 3.401,
+   "neso": 1.942
+  },
+  {
+   "settlement_date": "2026-07-10",
+   "model": 2.862,
+   "neso": 1.962
+  },
+  {
+   "settlement_date": "2026-07-11",
+   "model": 4.024,
+   "neso": 3.669
+  },
+  {
+   "settlement_date": "2026-07-12",
+   "model": 2.294,
+   "neso": 6.945
+  },
+  {
+   "settlement_date": "2026-07-13",
+   "model": 3.269,
+   "neso": 3.083
+  },
+  {
+   "settlement_date": "2026-07-14",
+   "model": 3.388,
+   "neso": 3.95
+  },
+  {
+   "settlement_date": "2026-07-15",
+   "model": 4.573,
+   "neso": 4.012
+  },
+  {
+   "settlement_date": "2026-07-16",
+   "model": 2.954,
+   "neso": 2.064
+  },
+  {
+   "settlement_date": "2026-07-17",
+   "model": 3.88,
+   "neso": 2.968
+  },
+  {
+   "settlement_date": "2026-07-18",
+   "model": 3.468,
+   "neso": 1.662
+  },
+  {
+   "settlement_date": "2026-07-19",
+   "model": 5.669,
+   "neso": 4.892
+  },
+  {
+   "settlement_date": "2026-07-20",
+   "model": 7.613,
+   "neso": 4.947
+  },
+  {
+   "settlement_date": "2026-07-21",
+   "model": 1.736,
+   "neso": 3.495
+  },
+  {
+   "settlement_date": "2026-07-22",
+   "model": 3.154,
+   "neso": 7.749
+  },
+  {
+   "settlement_date": "2026-07-23",
+   "model": 4.73,
+   "neso": 2.19
+  },
+  {
+   "settlement_date": "2026-07-24",
+   "model": 7.161,
+   "neso": 3.874
+  },
+  {
+   "settlement_date": "2026-07-25",
+   "model": 6.285,
+   "neso": 6.691
+  },
+  {
+   "settlement_date": "2026-07-26",
+   "model": 4.186,
+   "neso": 2.801
+  },
+  {
+   "settlement_date": "2026-07-27",
+   "model": 4.418,
+   "neso": 3.138
+  },
+  {
+   "settlement_date": "2026-07-28",
+   "model": 3.269,
+   "neso": 2.912
+  },
+  {
+   "settlement_date": "2026-07-29",
+   "model": 4.016,
+   "neso": 3.885
+  },
+  {
+   "settlement_date": "2026-07-30",
+   "model": 4.299,
+   "neso": 3.18
+  },
+  {
+   "settlement_date": "2026-07-31",
+   "model": 4.816,
+   "neso": 5.26
+  },
+  {
+   "settlement_date": "2026-08-01",
+   "model": 5.926,
+   "neso": 6.143
+  },
+  {
+   "settlement_date": "2026-08-02",
+   "model": 3.259,
+   "neso": 2.215
+  },
+  {
+   "settlement_date": "2026-08-03",
+   "model": 2.104,
+   "neso": 2.358
+  },
+  {
+   "settlement_date": "2026-08-04",
+   "model": 2.24,
+   "neso": 3.615
+  },
+  {
+   "settlement_date": "2026-08-05",
+   "model": 6.66,
+   "neso": 3.13
+  },
+  {
+   "settlement_date": "2026-08-06",
+   "model": 3.832,
+   "neso": 1.75
+  },
+  {
+   "settlement_date": "2026-08-07",
+   "model": 10.706,
+   "neso": 6.829
+  },
+  {
+   "settlement_date": "2026-08-08",
+   "model": 2.508,
+   "neso": 2.246
+  },
+  {
+   "settlement_date": "2026-08-09",
+   "model": 2.383,
+   "neso": 1.549
+  },
+  {
+   "settlement_date": "2026-08-10",
+   "model": 3.001,
+   "neso": 4.406
+  },
+  {
+   "settlement_date": "2026-08-11",
+   "model": 3.742,
+   "neso": 3.049
+  },
+  {
+   "settlement_date": "2026-08-12",
+   "model": 3.033,
+   "neso": 3.616
+  },
+  {
+   "settlement_date": "2026-08-13",
+   "model": 5.527,
+   "neso": 1.678
+  },
+  {
+   "settlement_date": "2026-08-14",
+   "model": 3.244,
+   "neso": 3.418
+  },
+  {
+   "settlement_date": "2026-08-15",
+   "model": 5.28,
+   "neso": 1.898
+  },
+  {
+   "settlement_date": "2026-08-16",
+   "model": 3.693,
+   "neso": 1.843
+  },
+  {
+   "settlement_date": "2026-08-17",
+   "model": 2.815,
+   "neso": 1.631
+  },
+  {
+   "settlement_date": "2026-08-18",
+   "model": 2.064,
+   "neso": 1.826
+  },
+  {
+   "settlement_date": "2026-08-19",
+   "model": 3.751,
+   "neso": 2.975
+  },
+  {
+   "settlement_date": "2026-08-20",
+   "model": 4.711,
+   "neso": 2.473
+  },
+  {
+   "settlement_date": "2026-08-21",
+   "model": 5.849,
+   "neso": 2.475
+  },
+  {
+   "settlement_date": "2026-08-22",
+   "model": 3.969,
+   "neso": 2.581
+  },
+  {
+   "settlement_date": "2026-08-23",
+   "model": 3.849,
+   "neso": 3.769
+  },
+  {
+   "settlement_date": "2026-08-24",
+   "model": 3.202,
+   "neso": 4.318
+  },
+  {
+   "settlement_date": "2026-08-25",
+   "model": 2.168,
+   "neso": 3.319
+  },
+  {
+   "settlement_date": "2026-08-26",
+   "model": 3.015,
+   "neso": 1.514
+  },
+  {
+   "settlement_date": "2026-08-27",
+   "model": 2.617,
+   "neso": 5.052
+  },
+  {
+   "settlement_date": "2026-08-28",
+   "model": 3.796,
+   "neso": 2.957
+  },
+  {
+   "settlement_date": "2026-08-29",
+   "model": 2.685,
+   "neso": 3.471
+  },
+  {
+   "settlement_date": "2026-08-30",
+   "model": 2.456,
+   "neso": 3.235
+  },
+  {
+   "settlement_date": "2026-08-31",
+   "model": 2.31,
+   "neso": 3.985
+  },
+  {
+   "settlement_date": "2026-09-01",
+   "model": 4.643,
+   "neso": 6.07
+  },
+  {
+   "settlement_date": "2026-09-02",
+   "model": 3.591,
+   "neso": 3.94
+  },
+  {
+   "settlement_date": "2026-09-03",
+   "model": 2.617,
+   "neso": 2.053
+  },
+  {
+   "settlement_date": "2026-09-04",
+   "model": 1.689,
+   "neso": 1.753
+  },
+  {
+   "settlement_date": "2026-09-05",
+   "model": 6.01,
+   "neso": 4.274
+  },
+  {
+   "settlement_date": "2026-09-06",
+   "model": 5.932,
+   "neso": 2.474
+  },
+  {
+   "settlement_date": "2026-09-07",
+   "model": 2.491,
+   "neso": 2.745
+  },
+  {
+   "settlement_date": "2026-09-08",
+   "model": 3.538,
+   "neso": 5.164
+  },
+  {
+   "settlement_date": "2026-09-09",
+   "model": 2.553,
+   "neso": 2.275
+  },
+  {
+   "settlement_date": "2026-09-10",
+   "model": 6.644,
+   "neso": 2.819
+  },
+  {
+   "settlement_date": "2026-09-11",
+   "model": 2.672,
+   "neso": 2.457
+  },
+  {
+   "settlement_date": "2026-09-12",
+   "model": 4.147,
+   "neso": 3.078
+  },
+  {
+   "settlement_date": "2026-09-13",
+   "model": 2.461,
+   "neso": 1.978
+  },
+  {
+   "settlement_date": "2026-09-14",
+   "model": 2.406,
+   "neso": 1.979
+  },
+  {
+   "settlement_date": "2026-09-15",
+   "model": 6.284,
+   "neso": 5.603
+  },
+  {
+   "settlement_date": "2026-09-16",
+   "model": 4.682,
+   "neso": 3.576
+  },
+  {
+   "settlement_date": "2026-09-17",
+   "model": 5.15,
+   "neso": 5.396
+  },
+  {
+   "settlement_date": "2026-09-18",
+   "model": 2.933,
+   "neso": 2.669
+  },
+  {
+   "settlement_date": "2026-09-19",
+   "model": 3.854,
+   "neso": 1.929
+  },
+  {
+   "settlement_date": "2026-09-20",
+   "model": 5.193,
+   "neso": 5.832
+  },
+  {
+   "settlement_date": "2026-09-21",
+   "model": 3.523,
+   "neso": 1.933
+  },
+  {
+   "settlement_date": "2026-09-22",
+   "model": 6.761,
+   "neso": 3.751
+  },
+  {
+   "settlement_date": "2026-09-23",
+   "model": 4.305,
+   "neso": 4.148
+  },
+  {
+   "settlement_date": "2026-09-24",
+   "model": 1.883,
+   "neso": 2.753
+  },
+  {
+   "settlement_date": "2026-09-25",
+   "model": 2.647,
+   "neso": 2.232
+  },
+  {
+   "settlement_date": "2026-09-26",
+   "model": 3.252,
+   "neso": 2.784
+  },
+  {
+   "settlement_date": "2026-09-27",
+   "model": 2.427,
+   "neso": 2.725
+  },
+  {
+   "settlement_date": "2026-09-28",
+   "model": 2.377,
+   "neso": 1.333
+  },
+  {
+   "settlement_date": "2026-09-29",
+   "model": 2.735,
+   "neso": 2.929
+  },
+  {
+   "settlement_date": "2026-09-30",
+   "model": 2.95,
+   "neso": 2.895
+  },
+  {
+   "settlement_date": "2026-10-01",
+   "model": 0.106,
+   "neso": 1.296
+  }
+ ],
+ "monthly": [
+  {
+   "month": "2025-01",
+   "model": 2.425,
+   "neso": 2.191,
+   "naive": 11.118
+  },
+  {
+   "month": "2025-02",
+   "model": 2.404,
+   "neso": 2.406,
+   "naive": 8.571
+  },
+  {
+   "month": "2025-03",
+   "model": 2.631,
+   "neso": 3.255,
+   "naive": 11.496
+  },
+  {
+   "month": "2025-04",
+   "model": 2.946,
+   "neso": 2.979,
+   "naive": 8.1
+  },
+  {
+   "month": "2025-05",
+   "model": 3.832,
+   "neso": 3.279,
+   "naive": 7.743
+  },
+  {
+   "month": "2025-06",
+   "model": 3.517,
+   "neso": 2.876,
+   "naive": 7.762
+  },
+  {
+   "month": "2025-07",
+   "model": 2.86,
+   "neso": 2.615,
+   "naive": 7.482
+  },
+  {
+   "month": "2025-08",
+   "model": 3.139,
+   "neso": 2.692,
+   "naive": 8.46
+  },
+  {
+   "month": "2025-09",
+   "model": 3.177,
+   "neso": 3.019,
+   "naive": 7.601
+  },
+  {
+   "month": "2025-10",
+   "model": 2.905,
+   "neso": 2.715,
+   "naive": 7.628
+  },
+  {
+   "month": "2025-11",
+   "model": 2.65,
+   "neso": 2.109,
+   "naive": 7.848
+  },
+  {
+   "month": "2025-12",
+   "model": 2.6,
+   "neso": 2.138,
+   "naive": 7.648
+  },
+  {
+   "month": "2026-01",
+   "model": 2.192,
+   "neso": 2.093,
+   "naive": 9.194
+  },
+  {
+   "month": "2026-02",
+   "model": 2.271,
+   "neso": 2.386,
+   "naive": 7.305
+  },
+  {
+   "month": "2026-03",
+   "model": 3.491,
+   "neso": 3.597,
+   "naive": 8.239
+  },
+  {
+   "month": "2026-04",
+   "model": 3.778,
+   "neso": 3.279,
+   "naive": 11.571
+  },
+  {
+   "month": "2026-05",
+   "model": 3.615,
+   "neso": 3.361,
+   "naive": 8.629
+  },
+  {
+   "month": "2026-06",
+   "model": 4.146,
+   "neso": 4.282,
+   "naive": 8.964
+  },
+  {
+   "month": "2026-07",
+   "model": 4.558,
+   "neso": 3.846,
+   "naive": 8.234
+  },
+  {
+   "month": "2026-08",
+   "model": 3.755,
+   "neso": 3.075,
+   "naive": 7.932
+  },
+  {
+   "month": "2026-09",
+   "model": 3.745,
+   "neso": 3.185,
+   "naive": 7.517
+  },
+  {
+   "month": "2026-10",
+   "model": 0.106,
+   "neso": 1.296,
+   "naive": 0.355
+  }
+ ],
+ "days_compared": 639,
+ "days_model_better": 275,
+ "week": [
+  {
+   "t": "2026-09-24T23:00:00+00:00",
+   "actual": 21961.0,
+   "p10": 21294,
+   "p50": 21677,
+   "p90": 22395,
+   "neso": 21480
+  },
+  {
+   "t": "2026-09-24T23:30:00+00:00",
+   "actual": 21755.0,
+   "p10": 21285,
+   "p50": 21525,
+   "p90": 22395,
+   "neso": 21290
+  },
+  {
+   "t": "2026-09-25T00:00:00+00:00",
+   "actual": 22073.0,
+   "p10": 21133,
+   "p50": 21533,
+   "p90": 22336,
+   "neso": 21293
+  },
+  {
+   "t": "2026-09-25T00:30:00+00:00",
+   "actual": 22268.0,
+   "p10": 21197,
+   "p50": 21468,
+   "p90": 22384,
+   "neso": 21540
+  },
+  {
+   "t": "2026-09-25T01:00:00+00:00",
+   "actual": 21992.0,
+   "p10": 20911,
+   "p50": 21178,
+   "p90": 22279,
+   "neso": 21144
+  },
+  {
+   "t": "2026-09-25T01:30:00+00:00",
+   "actual": 21014.0,
+   "p10": 20278,
+   "p50": 20622,
+   "p90": 21618,
+   "neso": 20781
+  },
+  {
+   "t": "2026-09-25T02:00:00+00:00",
+   "actual": 20463.0,
+   "p10": 19608,
+   "p50": 20074,
+   "p90": 20996,
+   "neso": 20553
+  },
+  {
+   "t": "2026-09-25T02:30:00+00:00",
+   "actual": 19814.0,
+   "p10": 19540,
+   "p50": 19935,
+   "p90": 20849,
+   "neso": 20448
+  },
+  {
+   "t": "2026-09-25T03:00:00+00:00",
+   "actual": 19838.0,
+   "p10": 19291,
+   "p50": 19576,
+   "p90": 20496,
+   "neso": 20006
+  },
+  {
+   "t": "2026-09-25T03:30:00+00:00",
+   "actual": 19490.0,
+   "p10": 19459,
+   "p50": 19878,
+   "p90": 20726,
+   "neso": 19750
+  },
+  {
+   "t": "2026-09-25T04:00:00+00:00",
+   "actual": 19943.0,
+   "p10": 20087,
+   "p50": 20383,
+   "p90": 21146,
+   "neso": 19751
+  },
+  {
+   "t": "2026-09-25T04:30:00+00:00",
+   "actual": 20423.0,
+   "p10": 20394,
+   "p50": 20857,
+   "p90": 21587,
+   "neso": 20744
+  },
+  {
+   "t": "2026-09-25T05:00:00+00:00",
+   "actual": 22276.0,
+   "p10": 22127,
+   "p50": 22384,
+   "p90": 23543,
+   "neso": 22965
+  },
+  {
+   "t": "2026-09-25T05:30:00+00:00",
+   "actual": 24091.0,
+   "p10": 23511,
+   "p50": 24094,
+   "p90": 25231,
+   "neso": 24514
+  },
+  {
+   "t": "2026-09-25T06:00:00+00:00",
+   "actual": 26177.0,
+   "p10": 25921,
+   "p50": 26536,
+   "p90": 27501,
+   "neso": 26951
+  },
+  {
+   "t": "2026-09-25T06:30:00+00:00",
+   "actual": 27469.0,
+   "p10": 26900,
+   "p50": 27313,
+   "p90": 28350,
+   "neso": 27790
+  },
+  {
+   "t": "2026-09-25T07:00:00+00:00",
+   "actual": 28374.0,
+   "p10": 27432,
+   "p50": 28397,
+   "p90": 28779,
+   "neso": 28460
+  },
+  {
+   "t": "2026-09-25T07:30:00+00:00",
+   "actual": 27871.0,
+   "p10": 26412,
+   "p50": 27292,
+   "p90": 27810,
+   "neso": 28397
+  },
+  {
+   "t": "2026-09-25T08:00:00+00:00",
+   "actual": 27914.0,
+   "p10": 26048,
+   "p50": 27014,
+   "p90": 27716,
+   "neso": 28359
+  },
+  {
+   "t": "2026-09-25T08:30:00+00:00",
+   "actual": 26927.0,
+   "p10": 24708,
+   "p50": 25701,
+   "p90": 26212,
+   "neso": 27610
+  },
+  {
+   "t": "2026-09-25T09:00:00+00:00",
+   "actual": 25987.0,
+   "p10": 23411,
+   "p50": 24458,
+   "p90": 24914,
+   "neso": 26949
+  },
+  {
+   "t": "2026-09-25T09:30:00+00:00",
+   "actual": 24916.0,
+   "p10": 22805,
+   "p50": 23965,
+   "p90": 24461,
+   "neso": 26211
+  },
+  {
+   "t": "2026-09-25T10:00:00+00:00",
+   "actual": 23996.0,
+   "p10": 21549,
+   "p50": 22850,
+   "p90": 23354,
+   "neso": 25566
+  },
+  {
+   "t": "2026-09-25T10:30:00+00:00",
+   "actual": 24055.0,
+   "p10": 21431,
+   "p50": 22572,
+   "p90": 23149,
+   "neso": 24969
+  },
+  {
+   "t": "2026-09-25T11:00:00+00:00",
+   "actual": 24037.0,
+   "p10": 21517,
+   "p50": 22517,
+   "p90": 23130,
+   "neso": 24270
+  },
+  {
+   "t": "2026-09-25T11:30:00+00:00",
+   "actual": 23515.0,
+   "p10": 21396,
+   "p50": 22471,
+   "p90": 23091,
+   "neso": 24049
+  },
+  {
+   "t": "2026-09-25T12:00:00+00:00",
+   "actual": 23117.0,
+   "p10": 21338,
+   "p50": 22514,
+   "p90": 23292,
+   "neso": 23882
+  },
+  {
+   "t": "2026-09-25T12:30:00+00:00",
+   "actual": 23003.0,
+   "p10": 21554,
+   "p50": 22609,
+   "p90": 23377,
+   "neso": 23710
+  },
+  {
+   "t": "2026-09-25T13:00:00+00:00",
+   "actual": 23235.0,
+   "p10": 20677,
+   "p50": 21712,
+   "p90": 22545,
+   "neso": 23680
+  },
+  {
+   "t": "2026-09-25T13:30:00+00:00",
+   "actual": 23423.0,
+   "p10": 20618,
+   "p50": 21731,
+   "p90": 22654,
+   "neso": 24038
+  },
+  {
+   "t": "2026-09-25T14:00:00+00:00",
+   "actual": 24262.0,
+   "p10": 21024,
+   "p50": 22177,
+   "p90": 23033,
+   "neso": 24146
+  },
+  {
+   "t": "2026-09-25T14:30:00+00:00",
+   "actual": 25761.0,
+   "p10": 22566,
+   "p50": 23423,
+   "p90": 24354,
+   "neso": 25161
+  },
+  {
+   "t": "2026-09-25T15:00:00+00:00",
+   "actual": 27113.0,
+   "p10": 24641,
+   "p50": 25268,
+   "p90": 26254,
+   "neso": 25701
+  },
+  {
+   "t": "2026-09-25T15:30:00+00:00",
+   "actual": 28398.0,
+   "p10": 26418,
+   "p50": 27107,
+   "p90": 27990,
+   "neso": 27239
+  },
+  {
+   "t": "2026-09-25T16:00:00+00:00",
+   "actual": 29056.0,
+   "p10": 28491,
+   "p50": 29249,
+   "p90": 30080,
+   "neso": 28550
+  },
+  {
+   "t": "2026-09-25T16:30:00+00:00",
+   "actual": 30033.0,
+   "p10": 29541,
+   "p50": 30202,
+   "p90": 31215,
+   "neso": 29257
+  },
+  {
+   "t": "2026-09-25T17:00:00+00:00",
+   "actual": 30350.0,
+   "p10": 30364,
+   "p50": 30898,
+   "p90": 32012,
+   "neso": 30020
+  },
+  {
+   "t": "2026-09-25T17:30:00+00:00",
+   "actual": 30325.0,
+   "p10": 30224,
+   "p50": 30841,
+   "p90": 31860,
+   "neso": 30790
+  },
+  {
+   "t": "2026-09-25T18:00:00+00:00",
+   "actual": 30978.0,
+   "p10": 30387,
+   "p50": 31158,
+   "p90": 31962,
+   "neso": 30400
+  },
+  {
+   "t": "2026-09-25T18:30:00+00:00",
+   "actual": 30631.0,
+   "p10": 30294,
+   "p50": 30838,
+   "p90": 31834,
+   "neso": 30094
+  },
+  {
+   "t": "2026-09-25T19:00:00+00:00",
+   "actual": 29828.0,
+   "p10": 29572,
+   "p50": 30035,
+   "p90": 31150,
+   "neso": 30673
+  },
+  {
+   "t": "2026-09-25T19:30:00+00:00",
+   "actual": 28880.0,
+   "p10": 28601,
+   "p50": 29052,
+   "p90": 30041,
+   "neso": 29502
+  },
+  {
+   "t": "2026-09-25T20:00:00+00:00",
+   "actual": 27804.0,
+   "p10": 27841,
+   "p50": 28128,
+   "p90": 29143,
+   "neso": 27664
+  },
+  {
+   "t": "2026-09-25T20:30:00+00:00",
+   "actual": 26807.0,
+   "p10": 26462,
+   "p50": 26739,
+   "p90": 27666,
+   "neso": 26493
+  },
+  {
+   "t": "2026-09-25T21:00:00+00:00",
+   "actual": 25530.0,
+   "p10": 24928,
+   "p50": 25450,
+   "p90": 26346,
+   "neso": 25204
+  },
+  {
+   "t": "2026-09-25T21:30:00+00:00",
+   "actual": 24190.0,
+   "p10": 23794,
+   "p50": 24142,
+   "p90": 25370,
+   "neso": 23933
+  },
+  {
+   "t": "2026-09-25T22:00:00+00:00",
+   "actual": 22731.0,
+   "p10": 22743,
+   "p50": 23024,
+   "p90": 24183,
+   "neso": 22680
+  },
+  {
+   "t": "2026-09-25T22:30:00+00:00",
+   "actual": 22315.0,
+   "p10": 21767,
+   "p50": 22028,
+   "p90": 23138,
+   "neso": 21840
+  },
+  {
+   "t": "2026-09-25T23:00:00+00:00",
+   "actual": 21896.0,
+   "p10": 21308,
+   "p50": 21862,
+   "p90": 22900,
+   "neso": 21360
+  },
+  {
+   "t": "2026-09-25T23:30:00+00:00",
+   "actual": 21309.0,
+   "p10": 20991,
+   "p50": 21425,
+   "p90": 22403,
+   "neso": 20841
+  },
+  {
+   "t": "2026-09-26T00:00:00+00:00",
+   "actual": 21039.0,
+   "p10": 20438,
+   "p50": 20694,
+   "p90": 21762,
+   "neso": 20600
+  },
+  {
+   "t": "2026-09-26T00:30:00+00:00",
+   "actual": 20558.0,
+   "p10": 20109,
+   "p50": 20523,
+   "p90": 21420,
+   "neso": 20570
+  },
+  {
+   "t": "2026-09-26T01:00:00+00:00",
+   "actual": 20624.0,
+   "p10": 19588,
+   "p50": 19902,
+   "p90": 20898,
+   "neso": 19990
+  },
+  {
+   "t": "2026-09-26T01:30:00+00:00",
+   "actual": 19833.0,
+   "p10": 19119,
+   "p50": 19489,
+   "p90": 20495,
+   "neso": 19694
+  },
+  {
+   "t": "2026-09-26T02:00:00+00:00",
+   "actual": 19501.0,
+   "p10": 18760,
+   "p50": 19043,
+   "p90": 20048,
+   "neso": 18998
+  },
+  {
+   "t": "2026-09-26T02:30:00+00:00",
+   "actual": 19208.0,
+   "p10": 18564,
+   "p50": 18808,
+   "p90": 19714,
+   "neso": 18380
+  },
+  {
+   "t": "2026-09-26T03:00:00+00:00",
+   "actual": 18665.0,
+   "p10": 18387,
+   "p50": 18665,
+   "p90": 19451,
+   "neso": 17950
+  },
+  {
+   "t": "2026-09-26T03:30:00+00:00",
+   "actual": 18497.0,
+   "p10": 18167,
+   "p50": 18541,
+   "p90": 19354,
+   "neso": 18025
+  },
+  {
+   "t": "2026-09-26T04:00:00+00:00",
+   "actual": 18244.0,
+   "p10": 18353,
+   "p50": 18815,
+   "p90": 19483,
+   "neso": 17974
+  },
+  {
+   "t": "2026-09-26T04:30:00+00:00",
+   "actual": 18263.0,
+   "p10": 18730,
+   "p50": 19062,
+   "p90": 19812,
+   "neso": 18470
+  },
+  {
+   "t": "2026-09-26T05:00:00+00:00",
+   "actual": 19044.0,
+   "p10": 19309,
+   "p50": 19862,
+   "p90": 20572,
+   "neso": 19512
+  },
+  {
+   "t": "2026-09-26T05:30:00+00:00",
+   "actual": 19652.0,
+   "p10": 20005,
+   "p50": 20399,
+   "p90": 21395,
+   "neso": 19988
+  },
+  {
+   "t": "2026-09-26T06:00:00+00:00",
+   "actual": 20996.0,
+   "p10": 20863,
+   "p50": 21409,
+   "p90": 22260,
+   "neso": 21098
+  },
+  {
+   "t": "2026-09-26T06:30:00+00:00",
+   "actual": 21583.0,
+   "p10": 21231,
+   "p50": 22037,
+   "p90": 23063,
+   "neso": 21600
+  },
+  {
+   "t": "2026-09-26T07:00:00+00:00",
+   "actual": 22455.0,
+   "p10": 22307,
+   "p50": 22761,
+   "p90": 23911,
+   "neso": 22094
+  },
+  {
+   "t": "2026-09-26T07:30:00+00:00",
+   "actual": 22031.0,
+   "p10": 21039,
+   "p50": 22239,
+   "p90": 23138,
+   "neso": 22210
+  },
+  {
+   "t": "2026-09-26T08:00:00+00:00",
+   "actual": 21431.0,
+   "p10": 20600,
+   "p50": 21354,
+   "p90": 22316,
+   "neso": 22204
+  },
+  {
+   "t": "2026-09-26T08:30:00+00:00",
+   "actual": 20292.0,
+   "p10": 20285,
+   "p50": 21006,
+   "p90": 22025,
+   "neso": 21345
+  },
+  {
+   "t": "2026-09-26T09:00:00+00:00",
+   "actual": 19340.0,
+   "p10": 18271,
+   "p50": 19384,
+   "p90": 20212,
+   "neso": 20399
+  },
+  {
+   "t": "2026-09-26T09:30:00+00:00",
+   "actual": 18439.0,
+   "p10": 16914,
+   "p50": 17836,
+   "p90": 18784,
+   "neso": 19551
+  },
+  {
+   "t": "2026-09-26T10:00:00+00:00",
+   "actual": 17665.0,
+   "p10": 16363,
+   "p50": 16986,
+   "p90": 18504,
+   "neso": 18247
+  },
+  {
+   "t": "2026-09-26T10:30:00+00:00",
+   "actual": 17241.0,
+   "p10": 15935,
+   "p50": 16489,
+   "p90": 17947,
+   "neso": 17668
+  },
+  {
+   "t": "2026-09-26T11:00:00+00:00",
+   "actual": 16816.0,
+   "p10": 15571,
+   "p50": 16510,
+   "p90": 17582,
+   "neso": 17080
+  },
+  {
+   "t": "2026-09-26T11:30:00+00:00",
+   "actual": 16281.0,
+   "p10": 16168,
+   "p50": 16772,
+   "p90": 18296,
+   "neso": 16948
+  },
+  {
+   "t": "2026-09-26T12:00:00+00:00",
+   "actual": 15826.0,
+   "p10": 16819,
+   "p50": 17524,
+   "p90": 18875,
+   "neso": 17048
+  },
+  {
+   "t": "2026-09-26T12:30:00+00:00",
+   "actual": 15726.0,
+   "p10": 16394,
+   "p50": 16910,
+   "p90": 18731,
+   "neso": 16823
+  },
+  {
+   "t": "2026-09-26T13:00:00+00:00",
+   "actual": 15279.0,
+   "p10": 15784,
+   "p50": 16495,
+   "p90": 17899,
+   "neso": 16700
+  },
+  {
+   "t": "2026-09-26T13:30:00+00:00",
+   "actual": 15549.0,
+   "p10": 16802,
+   "p50": 17528,
+   "p90": 18731,
+   "neso": 17003
+  },
+  {
+   "t": "2026-09-26T14:00:00+00:00",
+   "actual": 16536.0,
+   "p10": 17588,
+   "p50": 18175,
+   "p90": 19675,
+   "neso": 17140
+  },
+  {
+   "t": "2026-09-26T14:30:00+00:00",
+   "actual": 17628.0,
+   "p10": 18863,
+   "p50": 19325,
+   "p90": 21047,
+   "neso": 17648
+  },
+  {
+   "t": "2026-09-26T15:00:00+00:00",
+   "actual": 19402.0,
+   "p10": 19754,
+   "p50": 20418,
+   "p90": 21916,
+   "neso": 19087
+  },
+  {
+   "t": "2026-09-26T15:30:00+00:00",
+   "actual": 21795.0,
+   "p10": 21973,
+   "p50": 22947,
+   "p90": 24073,
+   "neso": 20416
+  },
+  {
+   "t": "2026-09-26T16:00:00+00:00",
+   "actual": 24119.0,
+   "p10": 24506,
+   "p50": 25271,
+   "p90": 26601,
+   "neso": 22595
+  },
+  {
+   "t": "2026-09-26T16:30:00+00:00",
+   "actual": 25518.0,
+   "p10": 25908,
+   "p50": 26673,
+   "p90": 27734,
+   "neso": 24551
+  },
+  {
+   "t": "2026-09-26T17:00:00+00:00",
+   "actual": 26597.0,
+   "p10": 26718,
+   "p50": 27450,
+   "p90": 28748,
+   "neso": 26240
+  },
+  {
+   "t": "2026-09-26T17:30:00+00:00",
+   "actual": 27040.0,
+   "p10": 27117,
+   "p50": 28134,
+   "p90": 29302,
+   "neso": 27010
+  },
+  {
+   "t": "2026-09-26T18:00:00+00:00",
+   "actual": 27733.0,
+   "p10": 27376,
+   "p50": 28330,
+   "p90": 29353,
+   "neso": 27608
+  },
+  {
+   "t": "2026-09-26T18:30:00+00:00",
+   "actual": 27681.0,
+   "p10": 27342,
+   "p50": 28202,
+   "p90": 29526,
+   "neso": 27830
+  },
+  {
+   "t": "2026-09-26T19:00:00+00:00",
+   "actual": 27174.0,
+   "p10": 27000,
+   "p50": 27817,
+   "p90": 29106,
+   "neso": 27451
+  },
+  {
+   "t": "2026-09-26T19:30:00+00:00",
+   "actual": 26641.0,
+   "p10": 26218,
+   "p50": 26699,
+   "p90": 27963,
+   "neso": 26727
+  },
+  {
+   "t": "2026-09-26T20:00:00+00:00",
+   "actual": 25476.0,
+   "p10": 24966,
+   "p50": 25544,
+   "p90": 27037,
+   "neso": 26028
+  },
+  {
+   "t": "2026-09-26T20:30:00+00:00",
+   "actual": 24509.0,
+   "p10": 24482,
+   "p50": 25278,
+   "p90": 26366,
+   "neso": 24715
+  },
+  {
+   "t": "2026-09-26T21:00:00+00:00",
+   "actual": 23511.0,
+   "p10": 23650,
+   "p50": 24038,
+   "p90": 25300,
+   "neso": 23579
+  },
+  {
+   "t": "2026-09-26T21:30:00+00:00",
+   "actual": 22284.0,
+   "p10": 22448,
+   "p50": 22867,
+   "p90": 24139,
+   "neso": 22688
+  },
+  {
+   "t": "2026-09-26T22:00:00+00:00",
+   "actual": 21754.0,
+   "p10": 21609,
+   "p50": 21912,
+   "p90": 23059,
+   "neso": 21235
+  },
+  {
+   "t": "2026-09-26T22:30:00+00:00",
+   "actual": 21145.0,
+   "p10": 20967,
+   "p50": 21304,
+   "p90": 22371,
+   "neso": 20620
+  },
+  {
+   "t": "2026-09-26T23:00:00+00:00",
+   "actual": 20949.0,
+   "p10": 20808,
+   "p50": 21285,
+   "p90": 21982,
+   "neso": 20660
+  },
+  {
+   "t": "2026-09-26T23:30:00+00:00",
+   "actual": 20406.0,
+   "p10": 20247,
+   "p50": 20681,
+   "p90": 21708,
+   "neso": 20205
+  },
+  {
+   "t": "2026-09-27T00:00:00+00:00",
+   "actual": 19964.0,
+   "p10": 19958,
+   "p50": 20302,
+   "p90": 21377,
+   "neso": 20130
+  },
+  {
+   "t": "2026-09-27T00:30:00+00:00",
+   "actual": 19736.0,
+   "p10": 19734,
+   "p50": 20011,
+   "p90": 20993,
+   "neso": 19960
+  },
+  {
+   "t": "2026-09-27T01:00:00+00:00",
+   "actual": 19348.0,
+   "p10": 19406,
+   "p50": 19801,
+   "p90": 20722,
+   "neso": 19494
+  },
+  {
+   "t": "2026-09-27T01:30:00+00:00",
+   "actual": 18884.0,
+   "p10": 18679,
+   "p50": 18928,
+   "p90": 19769,
+   "neso": 19030
+  },
+  {
+   "t": "2026-09-27T02:00:00+00:00",
+   "actual": 18515.0,
+   "p10": 18396,
+   "p50": 18793,
+   "p90": 19393,
+   "neso": 18370
+  },
+  {
+   "t": "2026-09-27T02:30:00+00:00",
+   "actual": 18174.0,
+   "p10": 17938,
+   "p50": 18177,
+   "p90": 18982,
+   "neso": 17966
+  },
+  {
+   "t": "2026-09-27T03:00:00+00:00",
+   "actual": 17996.0,
+   "p10": 17688,
+   "p50": 18015,
+   "p90": 18603,
+   "neso": 17509
+  },
+  {
+   "t": "2026-09-27T03:30:00+00:00",
+   "actual": 17789.0,
+   "p10": 17386,
+   "p50": 17694,
+   "p90": 18075,
+   "neso": 17150
+  },
+  {
+   "t": "2026-09-27T04:00:00+00:00",
+   "actual": 17470.0,
+   "p10": 17391,
+   "p50": 17755,
+   "p90": 18035,
+   "neso": 17455
+  },
+  {
+   "t": "2026-09-27T04:30:00+00:00",
+   "actual": 17240.0,
+   "p10": 17151,
+   "p50": 17579,
+   "p90": 17838,
+   "neso": 17493
+  },
+  {
+   "t": "2026-09-27T05:00:00+00:00",
+   "actual": 17707.0,
+   "p10": 17828,
+   "p50": 18088,
+   "p90": 18683,
+   "neso": 18102
+  },
+  {
+   "t": "2026-09-27T05:30:00+00:00",
+   "actual": 18038.0,
+   "p10": 17966,
+   "p50": 18240,
+   "p90": 19119,
+   "neso": 18371
+  },
+  {
+   "t": "2026-09-27T06:00:00+00:00",
+   "actual": 18933.0,
+   "p10": 18701,
+   "p50": 19072,
+   "p90": 19830,
+   "neso": 19123
+  },
+  {
+   "t": "2026-09-27T06:30:00+00:00",
+   "actual": 19592.0,
+   "p10": 19022,
+   "p50": 19541,
+   "p90": 20523,
+   "neso": 19410
+  },
+  {
+   "t": "2026-09-27T07:00:00+00:00",
+   "actual": 20604.0,
+   "p10": 20174,
+   "p50": 20531,
+   "p90": 21800,
+   "neso": 20291
+  },
+  {
+   "t": "2026-09-27T07:30:00+00:00",
+   "actual": 20877.0,
+   "p10": 20780,
+   "p50": 21410,
+   "p90": 22685,
+   "neso": 20586
+  },
+  {
+   "t": "2026-09-27T08:00:00+00:00",
+   "actual": 21511.0,
+   "p10": 21559,
+   "p50": 22066,
+   "p90": 23011,
+   "neso": 20820
+  },
+  {
+   "t": "2026-09-27T08:30:00+00:00",
+   "actual": 21483.0,
+   "p10": 21470,
+   "p50": 21813,
+   "p90": 23217,
+   "neso": 20731
+  },
+  {
+   "t": "2026-09-27T09:00:00+00:00",
+   "actual": 21446.0,
+   "p10": 21554,
+   "p50": 22109,
+   "p90": 23101,
+   "neso": 20899
+  },
+  {
+   "t": "2026-09-27T09:30:00+00:00",
+   "actual": 21535.0,
+   "p10": 21407,
+   "p50": 22092,
+   "p90": 23055,
+   "neso": 21012
+  },
+  {
+   "t": "2026-09-27T10:00:00+00:00",
+   "actual": 22022.0,
+   "p10": 21004,
+   "p50": 21544,
+   "p90": 22435,
+   "neso": 21177
+  },
+  {
+   "t": "2026-09-27T10:30:00+00:00",
+   "actual": 22094.0,
+   "p10": 21387,
+   "p50": 22253,
+   "p90": 23129,
+   "neso": 21230
+  },
+  {
+   "t": "2026-09-27T11:00:00+00:00",
+   "actual": 22904.0,
+   "p10": 22914,
+   "p50": 23634,
+   "p90": 24767,
+   "neso": 21190
+  },
+  {
+   "t": "2026-09-27T11:30:00+00:00",
+   "actual": 23088.0,
+   "p10": 22751,
+   "p50": 23642,
+   "p90": 24770,
+   "neso": 21141
+  },
+  {
+   "t": "2026-09-27T12:00:00+00:00",
+   "actual": 23384.0,
+   "p10": 22402,
+   "p50": 23312,
+   "p90": 24444,
+   "neso": 21024
+  },
+  {
+   "t": "2026-09-27T12:30:00+00:00",
+   "actual": 23359.0,
+   "p10": 21230,
+   "p50": 22349,
+   "p90": 23179,
+   "neso": 20950
+  },
+  {
+   "t": "2026-09-27T13:00:00+00:00",
+   "actual": 23504.0,
+   "p10": 19926,
+   "p50": 21043,
+   "p90": 21890,
+   "neso": 21461
+  },
+  {
+   "t": "2026-09-27T13:30:00+00:00",
+   "actual": 24025.0,
+   "p10": 21136,
+   "p50": 22157,
+   "p90": 23003,
+   "neso": 22290
+  },
+  {
+   "t": "2026-09-27T14:00:00+00:00",
+   "actual": 24752.0,
+   "p10": 21772,
+   "p50": 22814,
+   "p90": 23641,
+   "neso": 23106
+  },
+  {
+   "t": "2026-09-27T14:30:00+00:00",
+   "actual": 25140.0,
+   "p10": 22635,
+   "p50": 23866,
+   "p90": 24586,
+   "neso": 24067
+  },
+  {
+   "t": "2026-09-27T15:00:00+00:00",
+   "actual": 25685.0,
+   "p10": 23509,
+   "p50": 24644,
+   "p90": 25503,
+   "neso": 25185
+  },
+  {
+   "t": "2026-09-27T15:30:00+00:00",
+   "actual": 26900.0,
+   "p10": 24488,
+   "p50": 25855,
+   "p90": 26407,
+   "neso": 26586
+  },
+  {
+   "t": "2026-09-27T16:00:00+00:00",
+   "actual": 27943.0,
+   "p10": 25689,
+   "p50": 27077,
+   "p90": 27656,
+   "neso": 27249
+  },
+  {
+   "t": "2026-09-27T16:30:00+00:00",
+   "actual": 28381.0,
+   "p10": 26790,
+   "p50": 28116,
+   "p90": 28600,
+   "neso": 27809
+  },
+  {
+   "t": "2026-09-27T17:00:00+00:00",
+   "actual": 28715.0,
+   "p10": 26992,
+   "p50": 28228,
+   "p90": 28889,
+   "neso": 27970
+  },
+  {
+   "t": "2026-09-27T17:30:00+00:00",
+   "actual": 29001.0,
+   "p10": 27272,
+   "p50": 28717,
+   "p90": 29339,
+   "neso": 28820
+  },
+  {
+   "t": "2026-09-27T18:00:00+00:00",
+   "actual": 29476.0,
+   "p10": 27736,
+   "p50": 28752,
+   "p90": 29678,
+   "neso": 28747
+  },
+  {
+   "t": "2026-09-27T18:30:00+00:00",
+   "actual": 29131.0,
+   "p10": 27377,
+   "p50": 28347,
+   "p90": 29306,
+   "neso": 28880
+  },
+  {
+   "t": "2026-09-27T19:00:00+00:00",
+   "actual": 28449.0,
+   "p10": 26560,
+   "p50": 27552,
+   "p90": 28554,
+   "neso": 28707
+  },
+  {
+   "t": "2026-09-27T19:30:00+00:00",
+   "actual": 27754.0,
+   "p10": 26055,
+   "p50": 26671,
+   "p90": 28081,
+   "neso": 27857
+  },
+  {
+   "t": "2026-09-27T20:00:00+00:00",
+   "actual": 26790.0,
+   "p10": 25068,
+   "p50": 25884,
+   "p90": 27111,
+   "neso": 26257
+  },
+  {
+   "t": "2026-09-27T20:30:00+00:00",
+   "actual": 25488.0,
+   "p10": 23997,
+   "p50": 24789,
+   "p90": 25906,
+   "neso": 25481
+  },
+  {
+   "t": "2026-09-27T21:00:00+00:00",
+   "actual": 24361.0,
+   "p10": 23309,
+   "p50": 23904,
+   "p90": 25141,
+   "neso": 24394
+  },
+  {
+   "t": "2026-09-27T21:30:00+00:00",
+   "actual": 22891.0,
+   "p10": 22252,
+   "p50": 22718,
+   "p90": 23974,
+   "neso": 23357
+  },
+  {
+   "t": "2026-09-27T22:00:00+00:00",
+   "actual": 22068.0,
+   "p10": 20918,
+   "p50": 21464,
+   "p90": 22660,
+   "neso": 21820
+  },
+  {
+   "t": "2026-09-27T22:30:00+00:00",
+   "actual": 21831.0,
+   "p10": 20825,
+   "p50": 21303,
+   "p90": 22303,
+   "neso": 21340
+  },
+  {
+   "t": "2026-09-27T23:00:00+00:00",
+   "actual": 21840.0,
+   "p10": 20801,
+   "p50": 21680,
+   "p90": 22594,
+   "neso": 21150
+  },
+  {
+   "t": "2026-09-27T23:30:00+00:00",
+   "actual": 21470.0,
+   "p10": 20688,
+   "p50": 21291,
+   "p90": 22468,
+   "neso": 21157
+  },
+  {
+   "t": "2026-09-28T00:00:00+00:00",
+   "actual": 21021.0,
+   "p10": 20719,
+   "p50": 21074,
+   "p90": 22091,
+   "neso": 20910
+  },
+  {
+   "t": "2026-09-28T00:30:00+00:00",
+   "actual": 21339.0,
+   "p10": 20763,
+   "p50": 21076,
+   "p90": 22118,
+   "neso": 20880
+  },
+  {
+   "t": "2026-09-28T01:00:00+00:00",
+   "actual": 21260.0,
+   "p10": 20651,
+   "p50": 21120,
+   "p90": 21953,
+   "neso": 20806
+  },
+  {
+   "t": "2026-09-28T01:30:00+00:00",
+   "actual": 20663.0,
+   "p10": 20096,
+   "p50": 20458,
+   "p90": 21256,
+   "neso": 20622
+  },
+  {
+   "t": "2026-09-28T02:00:00+00:00",
+   "actual": 20284.0,
+   "p10": 19730,
+   "p50": 19992,
+   "p90": 20776,
+   "neso": 19921
+  },
+  {
+   "t": "2026-09-28T02:30:00+00:00",
+   "actual": 19776.0,
+   "p10": 19607,
+   "p50": 19858,
+   "p90": 20635,
+   "neso": 19598
+  },
+  {
+   "t": "2026-09-28T03:00:00+00:00",
+   "actual": 19535.0,
+   "p10": 19427,
+   "p50": 19855,
+   "p90": 20416,
+   "neso": 19538
+  },
+  {
+   "t": "2026-09-28T03:30:00+00:00",
+   "actual": 19256.0,
+   "p10": 19399,
+   "p50": 19804,
+   "p90": 20375,
+   "neso": 19420
+  },
+  {
+   "t": "2026-09-28T04:00:00+00:00",
+   "actual": 19460.0,
+   "p10": 19447,
+   "p50": 19976,
+   "p90": 20537,
+   "neso": 19604
+  },
+  {
+   "t": "2026-09-28T04:30:00+00:00",
+   "actual": 20377.0,
+   "p10": 20518,
+   "p50": 20848,
+   "p90": 21667,
+   "neso": 20227
+  },
+  {
+   "t": "2026-09-28T05:00:00+00:00",
+   "actual": 22559.0,
+   "p10": 22441,
+   "p50": 23277,
+   "p90": 24379,
+   "neso": 22958
+  },
+  {
+   "t": "2026-09-28T05:30:00+00:00",
+   "actual": 24594.0,
+   "p10": 23550,
+   "p50": 24627,
+   "p90": 25800,
+   "neso": 24757
+  },
+  {
+   "t": "2026-09-28T06:00:00+00:00",
+   "actual": 27434.0,
+   "p10": 26018,
+   "p50": 27615,
+   "p90": 28464,
+   "neso": 26627
+  },
+  {
+   "t": "2026-09-28T06:30:00+00:00",
+   "actual": 28396.0,
+   "p10": 27219,
+   "p50": 28382,
+   "p90": 29513,
+   "neso": 27990
+  },
+  {
+   "t": "2026-09-28T07:00:00+00:00",
+   "actual": 28960.0,
+   "p10": 28576,
+   "p50": 29479,
+   "p90": 30147,
+   "neso": 28870
+  },
+  {
+   "t": "2026-09-28T07:30:00+00:00",
+   "actual": 28584.0,
+   "p10": 27395,
+   "p50": 28504,
+   "p90": 29291,
+   "neso": 28520
+  },
+  {
+   "t": "2026-09-28T08:00:00+00:00",
+   "actual": 28356.0,
+   "p10": 27315,
+   "p50": 28518,
+   "p90": 29514,
+   "neso": 28081
+  },
+  {
+   "t": "2026-09-28T08:30:00+00:00",
+   "actual": 27555.0,
+   "p10": 26454,
+   "p50": 27503,
+   "p90": 28238,
+   "neso": 26691
+  },
+  {
+   "t": "2026-09-28T09:00:00+00:00",
+   "actual": 26259.0,
+   "p10": 25742,
+   "p50": 26971,
+   "p90": 27679,
+   "neso": 25393
+  },
+  {
+   "t": "2026-09-28T09:30:00+00:00",
+   "actual": 25188.0,
+   "p10": 25381,
+   "p50": 26454,
+   "p90": 27286,
+   "neso": 24832
+  },
+  {
+   "t": "2026-09-28T10:00:00+00:00",
+   "actual": 24341.0,
+   "p10": 24236,
+   "p50": 25291,
+   "p90": 26183,
+   "neso": 23643
+  },
+  {
+   "t": "2026-09-28T10:30:00+00:00",
+   "actual": 23461.0,
+   "p10": 23535,
+   "p50": 24554,
+   "p90": 25485,
+   "neso": 23313
+  },
+  {
+   "t": "2026-09-28T11:00:00+00:00",
+   "actual": 23616.0,
+   "p10": 23564,
+   "p50": 24692,
+   "p90": 25577,
+   "neso": 23420
+  },
+  {
+   "t": "2026-09-28T11:30:00+00:00",
+   "actual": 23287.0,
+   "p10": 23302,
+   "p50": 24422,
+   "p90": 25313,
+   "neso": 23218
+  },
+  {
+   "t": "2026-09-28T12:00:00+00:00",
+   "actual": 22948.0,
+   "p10": 22956,
+   "p50": 24112,
+   "p90": 25132,
+   "neso": 23090
+  },
+  {
+   "t": "2026-09-28T12:30:00+00:00",
+   "actual": 22678.0,
+   "p10": 23113,
+   "p50": 24060,
+   "p90": 25018,
+   "neso": 23110
+  },
+  {
+   "t": "2026-09-28T13:00:00+00:00",
+   "actual": 22812.0,
+   "p10": 22845,
+   "p50": 23695,
+   "p90": 24799,
+   "neso": 23153
+  },
+  {
+   "t": "2026-09-28T13:30:00+00:00",
+   "actual": 23261.0,
+   "p10": 22727,
+   "p50": 23712,
+   "p90": 25089,
+   "neso": 23337
+  },
+  {
+   "t": "2026-09-28T14:00:00+00:00",
+   "actual": 23939.0,
+   "p10": 23854,
+   "p50": 24732,
+   "p90": 26109,
+   "neso": 23793
+  },
+  {
+   "t": "2026-09-28T14:30:00+00:00",
+   "actual": 25392.0,
+   "p10": 24912,
+   "p50": 25922,
+   "p90": 27226,
+   "neso": 24492
+  },
+  {
+   "t": "2026-09-28T15:00:00+00:00",
+   "actual": 26436.0,
+   "p10": 26158,
+   "p50": 27062,
+   "p90": 28301,
+   "neso": 26527
+  },
+  {
+   "t": "2026-09-28T15:30:00+00:00",
+   "actual": 28010.0,
+   "p10": 28043,
+   "p50": 29022,
+   "p90": 30042,
+   "neso": 27956
+  },
+  {
+   "t": "2026-09-28T16:00:00+00:00",
+   "actual": 29184.0,
+   "p10": 29632,
+   "p50": 30648,
+   "p90": 31495,
+   "neso": 29616
+  },
+  {
+   "t": "2026-09-28T16:30:00+00:00",
+   "actual": 30116.0,
+   "p10": 30832,
+   "p50": 31654,
+   "p90": 32647,
+   "neso": 30677
+  },
+  {
+   "t": "2026-09-28T17:00:00+00:00",
+   "actual": 30460.0,
+   "p10": 31231,
+   "p50": 32219,
+   "p90": 33250,
+   "neso": 30940
+  },
+  {
+   "t": "2026-09-28T17:30:00+00:00",
+   "actual": 31116.0,
+   "p10": 31420,
+   "p50": 32771,
+   "p90": 33625,
+   "neso": 31402
+  },
+  {
+   "t": "2026-09-28T18:00:00+00:00",
+   "actual": 32974.0,
+   "p10": 31720,
+   "p50": 32561,
+   "p90": 33389,
+   "neso": 32250
+  },
+  {
+   "t": "2026-09-28T18:30:00+00:00",
+   "actual": 32184.0,
+   "p10": 31878,
+   "p50": 32574,
+   "p90": 33413,
+   "neso": 31795
+  },
+  {
+   "t": "2026-09-28T19:00:00+00:00",
+   "actual": 31394.0,
+   "p10": 30986,
+   "p50": 31616,
+   "p90": 32930,
+   "neso": 30867
+  },
+  {
+   "t": "2026-09-28T19:30:00+00:00",
+   "actual": 30110.0,
+   "p10": 30025,
+   "p50": 30648,
+   "p90": 31686,
+   "neso": 30234
+  },
+  {
+   "t": "2026-09-28T20:00:00+00:00",
+   "actual": 28534.0,
+   "p10": 28296,
+   "p50": 29264,
+   "p90": 30069,
+   "neso": 28857
+  },
+  {
+   "t": "2026-09-28T20:30:00+00:00",
+   "actual": 27036.0,
+   "p10": 27192,
+   "p50": 27658,
+   "p90": 29009,
+   "neso": 27608
+  },
+  {
+   "t": "2026-09-28T21:00:00+00:00",
+   "actual": 26083.0,
+   "p10": 25534,
+   "p50": 25876,
+   "p90": 27084,
+   "neso": 26385
+  },
+  {
+   "t": "2026-09-28T21:30:00+00:00",
+   "actual": 24402.0,
+   "p10": 24222,
+   "p50": 24702,
+   "p90": 26146,
+   "neso": 24763
+  },
+  {
+   "t": "2026-09-28T22:00:00+00:00",
+   "actual": 22792.0,
+   "p10": 22983,
+   "p50": 23369,
+   "p90": 24465,
+   "neso": 23127
+  },
+  {
+   "t": "2026-09-28T22:30:00+00:00",
+   "actual": 22137.0,
+   "p10": 22131,
+   "p50": 22648,
+   "p90": 23693,
+   "neso": 22280
+  },
+  {
+   "t": "2026-09-28T23:00:00+00:00",
+   "actual": 22258.0,
+   "p10": 22285,
+   "p50": 22772,
+   "p90": 23619,
+   "neso": 22180
+  },
+  {
+   "t": "2026-09-28T23:30:00+00:00",
+   "actual": 22077.0,
+   "p10": 22232,
+   "p50": 22512,
+   "p90": 23335,
+   "neso": 21851
+  },
+  {
+   "t": "2026-09-29T00:00:00+00:00",
+   "actual": 22198.0,
+   "p10": 21647,
+   "p50": 22089,
+   "p90": 23009,
+   "neso": 21620
+  },
+  {
+   "t": "2026-09-29T00:30:00+00:00",
+   "actual": 21739.0,
+   "p10": 21804,
+   "p50": 22152,
+   "p90": 23015,
+   "neso": 21490
+  },
+  {
+   "t": "2026-09-29T01:00:00+00:00",
+   "actual": 21599.0,
+   "p10": 21301,
+   "p50": 21650,
+   "p90": 22468,
+   "neso": 20660
+  },
+  {
+   "t": "2026-09-29T01:30:00+00:00",
+   "actual": 20972.0,
+   "p10": 20683,
+   "p50": 20959,
+   "p90": 22028,
+   "neso": 20081
+  },
+  {
+   "t": "2026-09-29T02:00:00+00:00",
+   "actual": 20545.0,
+   "p10": 20218,
+   "p50": 20507,
+   "p90": 21371,
+   "neso": 19850
+  },
+  {
+   "t": "2026-09-29T02:30:00+00:00",
+   "actual": 20431.0,
+   "p10": 20273,
+   "p50": 20549,
+   "p90": 21366,
+   "neso": 19517
+  },
+  {
+   "t": "2026-09-29T03:00:00+00:00",
+   "actual": 20055.0,
+   "p10": 20056,
+   "p50": 20356,
+   "p90": 21236,
+   "neso": 19400
+  },
+  {
+   "t": "2026-09-29T03:30:00+00:00",
+   "actual": 19843.0,
+   "p10": 19774,
+   "p50": 20025,
+   "p90": 20874,
+   "neso": 19434
+  },
+  {
+   "t": "2026-09-29T04:00:00+00:00",
+   "actual": 20132.0,
+   "p10": 19839,
+   "p50": 20211,
+   "p90": 21140,
+   "neso": 19602
+  },
+  {
+   "t": "2026-09-29T04:30:00+00:00",
+   "actual": 20754.0,
+   "p10": 20555,
+   "p50": 20951,
+   "p90": 21790,
+   "neso": 20498
+  },
+  {
+   "t": "2026-09-29T05:00:00+00:00",
+   "actual": 22531.0,
+   "p10": 22113,
+   "p50": 22965,
+   "p90": 24292,
+   "neso": 22471
+  },
+  {
+   "t": "2026-09-29T05:30:00+00:00",
+   "actual": 24158.0,
+   "p10": 23026,
+   "p50": 24853,
+   "p90": 25974,
+   "neso": 24082
+  },
+  {
+   "t": "2026-09-29T06:00:00+00:00",
+   "actual": 26531.0,
+   "p10": 25763,
+   "p50": 27029,
+   "p90": 28293,
+   "neso": 25880
+  },
+  {
+   "t": "2026-09-29T06:30:00+00:00",
+   "actual": 27909.0,
+   "p10": 27088,
+   "p50": 28258,
+   "p90": 29197,
+   "neso": 26670
+  },
+  {
+   "t": "2026-09-29T07:00:00+00:00",
+   "actual": 29253.0,
+   "p10": 28604,
+   "p50": 29497,
+   "p90": 30684,
+   "neso": 28760
+  },
+  {
+   "t": "2026-09-29T07:30:00+00:00",
+   "actual": 29058.0,
+   "p10": 28891,
+   "p50": 29534,
+   "p90": 30588,
+   "neso": 28870
+  },
+  {
+   "t": "2026-09-29T08:00:00+00:00",
+   "actual": 28999.0,
+   "p10": 29305,
+   "p50": 29680,
+   "p90": 30698,
+   "neso": 28838
+  },
+  {
+   "t": "2026-09-29T08:30:00+00:00",
+   "actual": 28071.0,
+   "p10": 28248,
+   "p50": 28732,
+   "p90": 30024,
+   "neso": 28241
+  },
+  {
+   "t": "2026-09-29T09:00:00+00:00",
+   "actual": 27024.0,
+   "p10": 27177,
+   "p50": 27775,
+   "p90": 28795,
+   "neso": 27653
+  },
+  {
+   "t": "2026-09-29T09:30:00+00:00",
+   "actual": 26351.0,
+   "p10": 26437,
+   "p50": 27483,
+   "p90": 28100,
+   "neso": 26780
+  },
+  {
+   "t": "2026-09-29T10:00:00+00:00",
+   "actual": 25428.0,
+   "p10": 26138,
+   "p50": 27182,
+   "p90": 27976,
+   "neso": 25904
+  },
+  {
+   "t": "2026-09-29T10:30:00+00:00",
+   "actual": 24467.0,
+   "p10": 25245,
+   "p50": 26310,
+   "p90": 27155,
+   "neso": 25346
+  },
+  {
+   "t": "2026-09-29T11:00:00+00:00",
+   "actual": 24836.0,
+   "p10": 24058,
+   "p50": 25248,
+   "p90": 25844,
+   "neso": 25010
+  },
+  {
+   "t": "2026-09-29T11:30:00+00:00",
+   "actual": 24654.0,
+   "p10": 23813,
+   "p50": 24955,
+   "p90": 25765,
+   "neso": 24195
+  },
+  {
+   "t": "2026-09-29T12:00:00+00:00",
+   "actual": 24646.0,
+   "p10": 23573,
+   "p50": 24685,
+   "p90": 25665,
+   "neso": 23735
+  },
+  {
+   "t": "2026-09-29T12:30:00+00:00",
+   "actual": 24651.0,
+   "p10": 22441,
+   "p50": 23275,
+   "p90": 24396,
+   "neso": 23050
+  },
+  {
+   "t": "2026-09-29T13:00:00+00:00",
+   "actual": 24770.0,
+   "p10": 22023,
+   "p50": 22782,
+   "p90": 23836,
+   "neso": 23107
+  },
+  {
+   "t": "2026-09-29T13:30:00+00:00",
+   "actual": 24897.0,
+   "p10": 22320,
+   "p50": 23106,
+   "p90": 24236,
+   "neso": 23246
+  },
+  {
+   "t": "2026-09-29T14:00:00+00:00",
+   "actual": 25336.0,
+   "p10": 23347,
+   "p50": 23943,
+   "p90": 25168,
+   "neso": 23503
+  },
+  {
+   "t": "2026-09-29T14:30:00+00:00",
+   "actual": 26324.0,
+   "p10": 23665,
+   "p50": 24368,
+   "p90": 25630,
+   "neso": 24644
+  },
+  {
+   "t": "2026-09-29T15:00:00+00:00",
+   "actual": 26826.0,
+   "p10": 25019,
+   "p50": 25393,
+   "p90": 26569,
+   "neso": 25660
+  },
+  {
+   "t": "2026-09-29T15:30:00+00:00",
+   "actual": 27890.0,
+   "p10": 26907,
+   "p50": 27626,
+   "p90": 28614,
+   "neso": 26951
+  },
+  {
+   "t": "2026-09-29T16:00:00+00:00",
+   "actual": 28903.0,
+   "p10": 28575,
+   "p50": 29571,
+   "p90": 30547,
+   "neso": 28010
+  },
+  {
+   "t": "2026-09-29T16:30:00+00:00",
+   "actual": 29823.0,
+   "p10": 29865,
+   "p50": 30832,
+   "p90": 31592,
+   "neso": 29412
+  },
+  {
+   "t": "2026-09-29T17:00:00+00:00",
+   "actual": 30442.0,
+   "p10": 30050,
+   "p50": 30752,
+   "p90": 31963,
+   "neso": 29740
+  },
+  {
+   "t": "2026-09-29T17:30:00+00:00",
+   "actual": 30997.0,
+   "p10": 30026,
+   "p50": 30965,
+   "p90": 31638,
+   "neso": 29960
+  },
+  {
+   "t": "2026-09-29T18:00:00+00:00",
+   "actual": 31828.0,
+   "p10": 29860,
+   "p50": 30852,
+   "p90": 31736,
+   "neso": 30680
+  },
+  {
+   "t": "2026-09-29T18:30:00+00:00",
+   "actual": 31153.0,
+   "p10": 29796,
+   "p50": 30444,
+   "p90": 31378,
+   "neso": 30519
+  },
+  {
+   "t": "2026-09-29T19:00:00+00:00",
+   "actual": 29909.0,
+   "p10": 28794,
+   "p50": 29669,
+   "p90": 30391,
+   "neso": 29651
+  },
+  {
+   "t": "2026-09-29T19:30:00+00:00",
+   "actual": 29052.0,
+   "p10": 27456,
+   "p50": 28803,
+   "p90": 29213,
+   "neso": 28783
+  },
+  {
+   "t": "2026-09-29T20:00:00+00:00",
+   "actual": 27794.0,
+   "p10": 26185,
+   "p50": 26846,
+   "p90": 27591,
+   "neso": 27480
+  },
+  {
+   "t": "2026-09-29T20:30:00+00:00",
+   "actual": 26543.0,
+   "p10": 24969,
+   "p50": 25746,
+   "p90": 26276,
+   "neso": 25797
+  },
+  {
+   "t": "2026-09-29T21:00:00+00:00",
+   "actual": 25295.0,
+   "p10": 23278,
+   "p50": 23950,
+   "p90": 24621,
+   "neso": 24385
+  },
+  {
+   "t": "2026-09-29T21:30:00+00:00",
+   "actual": 23672.0,
+   "p10": 22257,
+   "p50": 22567,
+   "p90": 23432,
+   "neso": 22941
+  },
+  {
+   "t": "2026-09-29T22:00:00+00:00",
+   "actual": 22769.0,
+   "p10": 21195,
+   "p50": 21670,
+   "p90": 22216,
+   "neso": 21419
+  },
+  {
+   "t": "2026-09-29T22:30:00+00:00",
+   "actual": 21897.0,
+   "p10": 20413,
+   "p50": 20715,
+   "p90": 21073,
+   "neso": 20550
+  },
+  {
+   "t": "2026-09-29T23:00:00+00:00",
+   "actual": 22015.0,
+   "p10": 19806,
+   "p50": 20148,
+   "p90": 20973,
+   "neso": 21050
+  },
+  {
+   "t": "2026-09-29T23:30:00+00:00",
+   "actual": 21547.0,
+   "p10": 19692,
+   "p50": 20261,
+   "p90": 20995,
+   "neso": 20950
+  },
+  {
+   "t": "2026-09-30T00:00:00+00:00",
+   "actual": 21247.0,
+   "p10": 19545,
+   "p50": 20104,
+   "p90": 20749,
+   "neso": 20710
+  },
+  {
+   "t": "2026-09-30T00:30:00+00:00",
+   "actual": 20865.0,
+   "p10": 19708,
+   "p50": 20207,
+   "p90": 20855,
+   "neso": 20700
+  },
+  {
+   "t": "2026-09-30T01:00:00+00:00",
+   "actual": 20437.0,
+   "p10": 19474,
+   "p50": 20057,
+   "p90": 20617,
+   "neso": 19550
+  },
+  {
+   "t": "2026-09-30T01:30:00+00:00",
+   "actual": 19814.0,
+   "p10": 18869,
+   "p50": 19501,
+   "p90": 20260,
+   "neso": 19524
+  },
+  {
+   "t": "2026-09-30T02:00:00+00:00",
+   "actual": 19551.0,
+   "p10": 18323,
+   "p50": 18764,
+   "p90": 19543,
+   "neso": 19961
+  },
+  {
+   "t": "2026-09-30T02:30:00+00:00",
+   "actual": 18922.0,
+   "p10": 18122,
+   "p50": 18680,
+   "p90": 19384,
+   "neso": 19046
+  },
+  {
+   "t": "2026-09-30T03:00:00+00:00",
+   "actual": 18678.0,
+   "p10": 18069,
+   "p50": 18547,
+   "p90": 19377,
+   "neso": 18740
+  },
+  {
+   "t": "2026-09-30T03:30:00+00:00",
+   "actual": 18527.0,
+   "p10": 18117,
+   "p50": 18655,
+   "p90": 19347,
+   "neso": 18917
+  },
+  {
+   "t": "2026-09-30T04:00:00+00:00",
+   "actual": 18683.0,
+   "p10": 18469,
+   "p50": 19153,
+   "p90": 19749,
+   "neso": 19461
+  },
+  {
+   "t": "2026-09-30T04:30:00+00:00",
+   "actual": 19367.0,
+   "p10": 19266,
+   "p50": 19808,
+   "p90": 20271,
+   "neso": 19737
+  },
+  {
+   "t": "2026-09-30T05:00:00+00:00",
+   "actual": 21534.0,
+   "p10": 21191,
+   "p50": 21708,
+   "p90": 22432,
+   "neso": 22062
+  },
+  {
+   "t": "2026-09-30T05:30:00+00:00",
+   "actual": 24182.0,
+   "p10": 22260,
+   "p50": 23150,
+   "p90": 24054,
+   "neso": 23584
+  },
+  {
+   "t": "2026-09-30T06:00:00+00:00",
+   "actual": 27237.0,
+   "p10": 24620,
+   "p50": 25552,
+   "p90": 26485,
+   "neso": 26080
+  },
+  {
+   "t": "2026-09-30T06:30:00+00:00",
+   "actual": 28549.0,
+   "p10": 26212,
+   "p50": 27465,
+   "p90": 28302,
+   "neso": 27150
+  },
+  {
+   "t": "2026-09-30T07:00:00+00:00",
+   "actual": 28631.0,
+   "p10": 28076,
+   "p50": 29167,
+   "p90": 29933,
+   "neso": 27949
+  },
+  {
+   "t": "2026-09-30T07:30:00+00:00",
+   "actual": 28272.0,
+   "p10": 27678,
+   "p50": 28810,
+   "p90": 29880,
+   "neso": 27970
+  },
+  {
+   "t": "2026-09-30T08:00:00+00:00",
+   "actual": 28303.0,
+   "p10": 28244,
+   "p50": 29311,
+   "p90": 30349,
+   "neso": 27959
+  },
+  {
+   "t": "2026-09-30T08:30:00+00:00",
+   "actual": 27814.0,
+   "p10": 26928,
+   "p50": 28077,
+   "p90": 29179,
+   "neso": 26772
+  },
+  {
+   "t": "2026-09-30T09:00:00+00:00",
+   "actual": 26950.0,
+   "p10": 25651,
+   "p50": 26904,
+   "p90": 28017,
+   "neso": 25449
+  },
+  {
+   "t": "2026-09-30T09:30:00+00:00",
+   "actual": 25238.0,
+   "p10": 24564,
+   "p50": 25665,
+   "p90": 26594,
+   "neso": 24873
+  },
+  {
+   "t": "2026-09-30T10:00:00+00:00",
+   "actual": 24185.0,
+   "p10": 22397,
+   "p50": 23450,
+   "p90": 24387,
+   "neso": 23692
+  },
+  {
+   "t": "2026-09-30T10:30:00+00:00",
+   "actual": 23826.0,
+   "p10": 21709,
+   "p50": 22603,
+   "p90": 23817,
+   "neso": 23170
+  },
+  {
+   "t": "2026-09-30T11:00:00+00:00",
+   "actual": 22547.0,
+   "p10": 21359,
+   "p50": 22211,
+   "p90": 23443,
+   "neso": 23330
+  },
+  {
+   "t": "2026-09-30T11:30:00+00:00",
+   "actual": 21887.0,
+   "p10": 20916,
+   "p50": 21878,
+   "p90": 23055,
+   "neso": 23227
+  },
+  {
+   "t": "2026-09-30T12:00:00+00:00",
+   "actual": 21581.0,
+   "p10": 20660,
+   "p50": 21841,
+   "p90": 23235,
+   "neso": 22015
+  },
+  {
+   "t": "2026-09-30T12:30:00+00:00",
+   "actual": 21245.0,
+   "p10": 20116,
+   "p50": 21047,
+   "p90": 22612,
+   "neso": 22337
+  },
+  {
+   "t": "2026-09-30T13:00:00+00:00",
+   "actual": 20666.0,
+   "p10": 19586,
+   "p50": 20623,
+   "p90": 21872,
+   "neso": 22284
+  },
+  {
+   "t": "2026-09-30T13:30:00+00:00",
+   "actual": 20642.0,
+   "p10": 20608,
+   "p50": 21767,
+   "p90": 22926,
+   "neso": 21930
+  },
+  {
+   "t": "2026-09-30T14:00:00+00:00",
+   "actual": 21006.0,
+   "p10": 22158,
+   "p50": 23150,
+   "p90": 24338,
+   "neso": 22014
+  },
+  {
+   "t": "2026-09-30T14:30:00+00:00",
+   "actual": 22330.0,
+   "p10": 23121,
+   "p50": 24148,
+   "p90": 25361,
+   "neso": 23163
+  },
+  {
+   "t": "2026-09-30T15:00:00+00:00",
+   "actual": 24041.0,
+   "p10": 24488,
+   "p50": 25172,
+   "p90": 26250,
+   "neso": 24641
+  },
+  {
+   "t": "2026-09-30T15:30:00+00:00",
+   "actual": 25803.0,
+   "p10": 26540,
+   "p50": 27187,
+   "p90": 28366,
+   "neso": 26424
+  },
+  {
+   "t": "2026-09-30T16:00:00+00:00",
+   "actual": 27870.0,
+   "p10": 28053,
+   "p50": 28774,
+   "p90": 29659,
+   "neso": 28139
+  },
+  {
+   "t": "2026-09-30T16:30:00+00:00",
+   "actual": 29687.0,
+   "p10": 28889,
+   "p50": 29754,
+   "p90": 30625,
+   "neso": 29194
+  },
+  {
+   "t": "2026-09-30T17:00:00+00:00",
+   "actual": 30676.0,
+   "p10": 29463,
+   "p50": 30445,
+   "p90": 31563,
+   "neso": 30070
+  },
+  {
+   "t": "2026-09-30T17:30:00+00:00",
+   "actual": 31120.0,
+   "p10": 29549,
+   "p50": 30681,
+   "p90": 31613,
+   "neso": 30564
+  },
+  {
+   "t": "2026-09-30T18:00:00+00:00",
+   "actual": 31694.0,
+   "p10": 30475,
+   "p50": 31500,
+   "p90": 32537,
+   "neso": 30893
+  },
+  {
+   "t": "2026-09-30T18:30:00+00:00",
+   "actual": 31510.0,
+   "p10": 30024,
+   "p50": 31137,
+   "p90": 32372,
+   "neso": 31400
+  },
+  {
+   "t": "2026-09-30T19:00:00+00:00",
+   "actual": 30782.0,
+   "p10": 29201,
+   "p50": 30132,
+   "p90": 31335,
+   "neso": 30717
+  },
+  {
+   "t": "2026-09-30T19:30:00+00:00",
+   "actual": 29984.0,
+   "p10": 28160,
+   "p50": 28982,
+   "p90": 29933,
+   "neso": 29708
+  },
+  {
+   "t": "2026-09-30T20:00:00+00:00",
+   "actual": 29045.0,
+   "p10": 27083,
+   "p50": 28086,
+   "p90": 28899,
+   "neso": 28389
+  },
+  {
+   "t": "2026-09-30T20:30:00+00:00",
+   "actual": 27480.0,
+   "p10": 26235,
+   "p50": 26740,
+   "p90": 27848,
+   "neso": 27111
+  },
+  {
+   "t": "2026-09-30T21:00:00+00:00",
+   "actual": 26266.0,
+   "p10": 25203,
+   "p50": 25655,
+   "p90": 26660,
+   "neso": 25537
+  },
+  {
+   "t": "2026-09-30T21:30:00+00:00",
+   "actual": 25153.0,
+   "p10": 23963,
+   "p50": 24454,
+   "p90": 25486,
+   "neso": 23842
+  },
+  {
+   "t": "2026-09-30T22:00:00+00:00",
+   "actual": 24440.0,
+   "p10": 22749,
+   "p50": 23475,
+   "p90": 24609,
+   "neso": 22672
+  },
+  {
+   "t": "2026-09-30T22:30:00+00:00",
+   "actual": 23230.0,
+   "p10": 21982,
+   "p50": 22277,
+   "p90": 23412,
+   "neso": 22440
+  },
+  {
+   "t": "2026-09-30T23:00:00+00:00",
+   "actual": 22992.0,
+   "p10": 22377,
+   "p50": 23036,
+   "p90": 24037,
+   "neso": 22670
+  },
+  {
+   "t": "2026-09-30T23:30:00+00:00",
+   "actual": 22754.0,
+   "p10": 22003,
+   "p50": 22748,
+   "p90": 24028,
+   "neso": 22488
+  }
+ ],
+ "importance": [
+  {
+   "feature": "lag_7d_ratio",
+   "gain": 525541.1744,
+   "share": 0.3614
+  },
+  {
+   "feature": "lag_14d_ratio",
+   "gain": 160565.8548,
+   "share": 0.1104
+  },
+  {
+   "feature": "lag_2d_ratio",
+   "gain": 87609.8909,
+   "share": 0.0603
+  },
+  {
+   "feature": "temperature_24h",
+   "gain": 57731.8519,
+   "share": 0.0397
+  },
+  {
+   "feature": "settlement_period",
+   "gain": 54567.5283,
+   "share": 0.0375
+  },
+  {
+   "feature": "doy_sin",
+   "gain": 53922.4071,
+   "share": 0.0371
+  },
+  {
+   "feature": "temperature_change_7d",
+   "gain": 46674.3059,
+   "share": 0.0321
+  },
+  {
+   "feature": "level_7d",
+   "gain": 42393.5335,
+   "share": 0.0292
+  },
+  {
+   "feature": "day_of_week",
+   "gain": 41404.7859,
+   "share": 0.0285
+  },
+  {
+   "feature": "doy_cos",
+   "gain": 36543.6501,
+   "share": 0.0251
+  },
+  {
+   "feature": "daily_mean_2d_ratio",
+   "gain": 36198.1149,
+   "share": 0.0249
+  },
+  {
+   "feature": "night_1d_ratio",
+   "gain": 34642.3094,
+   "share": 0.0238
+  }
+ ],
+ "track": [
+  {
+   "date": "2026-10-22",
+   "model": 1.7034537698665044,
+   "neso": 1.6720461069445882
+  },
+  {
+   "date": "2026-10-23",
+   "model": 2.969856339058909,
+   "neso": 1.8994741581836807
+  },
+  {
+   "date": "2026-10-24",
+   "model": 6.014492442982065,
+   "neso": 2.8412845263799285
+  },
+  {
+   "date": "2026-10-25",
+   "model": 6.0341524543081855,
+   "neso": 1.8921195752762914
+  },
+  {
+   "date": "2026-10-26",
+   "model": 2.1427064179994497,
+   "neso": 3.1368282293102436
+  },
+  {
+   "date": "2026-10-27",
+   "model": 2.2962233429714205,
+   "neso": 3.73607503763982
+  },
+  {
+   "date": "2026-10-28",
+   "model": 1.6111373646821125,
+   "neso": 3.291144239613041
+  },
+  {
+   "date": "2026-10-29",
+   "model": 2.519878458645236,
+   "neso": 2.5116911301823275
+  },
+  {
+   "date": "2026-10-30",
+   "model": 2.3099169802521478,
+   "neso": 3.2570003687474585
+  },
+  {
+   "date": "2026-10-31",
+   "model": 3.120258812637437,
+   "neso": 2.947462723009159
+  },
+  {
+   "date": "2026-11-01",
+   "model": 3.1564718541404164,
+   "neso": 2.889167272849452
+  },
+  {
+   "date": "2026-11-02",
+   "model": 1.294496626333659,
+   "neso": 1.6272989377040883
+  },
+  {
+   "date": "2026-11-03",
+   "model": 1.8688540751357896,
+   "neso": 1.5420737590117495
+  },
+  {
+   "date": "2026-11-04",
+   "model": 2.5257250770387207,
+   "neso": 2.498153834606175
+  },
+  {
+   "date": "2026-11-05",
+   "model": 3.7255062043900855,
+   "neso": 3.060098344973276
+  },
+  {
+   "date": "2026-11-06",
+   "model": 1.7751289889775392,
+   "neso": 1.812812064051766
+  },
+  {
+   "date": "2026-11-07",
+   "model": 1.4072254815180116,
+   "neso": 1.0393880814066752
+  },
+  {
+   "date": "2026-11-08",
+   "model": 4.864966824688109,
+   "neso": 1.3550426945990817
+  },
+  {
+   "date": "2026-11-09",
+   "model": 2.7897257910836966,
+   "neso": 1.7153848609258524
+  },
+  {
+   "date": "2026-11-10",
+   "model": 1.6365347820942158,
+   "neso": 1.8954439322225163
+  },
+  {
+   "date": "2026-11-11",
+   "model": 1.5858079816708368,
+   "neso": 1.3125038166612586
+  },
+  {
+   "date": "2026-11-12",
+   "model": 1.9568175920733604,
+   "neso": 3.510277767988356
+  },
+  {
+   "date": "2026-11-13",
+   "model": 4.331262766159187,
+   "neso": 2.670971464672945
+  },
+  {
+   "date": "2026-11-14",
+   "model": 2.3296278553749614,
+   "neso": 1.8405350149464637
+  },
+  {
+   "date": "2026-11-15",
+   "model": 2.1568311807276808,
+   "neso": 5.584778566218624
+  },
+  {
+   "date": "2026-11-16",
+   "model": 1.8690067106550887,
+   "neso": 2.727509315464545
+  },
+  {
+   "date": "2026-11-17",
+   "model": 2.1596824796434597,
+   "neso": 1.5049948497486676
+  },
+  {
+   "date": "2026-11-18",
+   "model": 2.3196983812315,
+   "neso": 2.165194995605066
+  },
+  {
+   "date": "2026-11-19",
+   "model": 2.0603928763782675,
+   "neso": 2.1628565555077004
+  },
+  {
+   "date": "2026-11-20",
+   "model": 2.453276133971664
+  }
+ ]
+}

@@ -1,0 +1,61 @@
+{
+  "trained_at": "2026-11-21T08:25+00:00",
+  "trained_until": "2026-10-01",
+  "features": [
+    "settlement_period",
+    "day_of_week",
+    "is_weekend",
+    "is_holiday",
+    "is_christmas",
+    "doy_sin",
+    "doy_cos",
+    "years_since_2018",
+    "temperature",
+    "temperature_24h",
+    "heating_degrees",
+    "temperature_change_2d",
+    "temperature_change_7d",
+    "radiation",
+    "cloud_cover",
+    "wind_speed",
+    "solar_est",
+    "wind_est",
+    "level_7d",
+    "lag_2d_ratio",
+    "lag_7d_ratio",
+    "lag_14d_ratio",
+    "daily_mean_2d_ratio",
+    "daily_peak_2d_ratio",
+    "night_1d_ratio",
+    "night_1d_vs_2d"
+  ],
+  "params": {
+    "learning_rate": 0.05,
+    "num_leaves": 63,
+    "min_data_in_leaf": 50,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "verbose": -1
+  },
+  "trees": {
+    "0.1": 470,
+    "0.5": 1995,
+    "0.9": 1154
+  },
+  "interval_width": 0.012133548843721517,
+  "backtest": {
+    "test_start": "2025-01-01",
+    "test_end": "2026-10-01",
+    "test_half_hours": 30618,
+    "model_mape": 3.193751511839074,
+    "model_mae_mw": 789.4077567575279,
+    "naive_mape": 8.511632557616888,
+    "interval_coverage": 67.45705140766869,
+    "compared_half_hours": 30618,
+    "model_mape_vs_outturn": 3.1780247322905124,
+    "neso_mape": 2.92542442659425,
+    "test_weather": "day-ahead"
+  }
+}
